@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="denys.diomaxius.newzealandguide" />
+                  <option name="mobileSdkAppId" value="1:1428447377:android:2ad0475e54df064f941f30" />
+                  <option name="projectId" value="new-zealand-guide" />
+                  <option name="projectNumber" value="1428447377" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
