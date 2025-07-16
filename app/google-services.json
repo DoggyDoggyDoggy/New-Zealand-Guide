@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1428447377",
+    "project_id": "new-zealand-guide",
+    "storage_bucket": "new-zealand-guide.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1428447377:android:2ad0475e54df064f941f30",
+        "android_client_info": {
+          "package_name": "denys.diomaxius.newzealandguide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVZyjYXA6lWwn9gGFqSDja6TVwqWrh-58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
