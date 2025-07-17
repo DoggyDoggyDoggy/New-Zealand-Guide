@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.allcities
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,22 +16,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.UiState
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 
 @Composable
 fun AllCitiesScreen(
-    viewModel: AllCitiesScreenViewModel = hiltViewModel()
+    viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
     val cities by viewModel.cities.collectAsState()
+    val navHostController = LocalNavController.current
 
-    when(cities) {
+    when (cities) {
         is UiState.Loading -> {
             Text(text = "Loading")
         }
-        is UiState.Success -> Content((cities as UiState.Success<List<City>>).data)
+
+        is UiState.Success -> {
+            Content(
+                cities = (cities as UiState.Success<List<City>>).data,
+                navHostController = navHostController
+            )
+        }
+
         is UiState.Error -> {
             Text(text = "Error")
         }
@@ -38,22 +50,38 @@ fun AllCitiesScreen(
 }
 
 @Composable
-fun Content(cities: List<City>) {
+fun Content(
+    cities: List<City>,
+    navHostController: NavHostController
+) {
     LazyColumn {
-        items(cities) {
-            CityCard(it)
+        items(cities) {city ->
+            CityCard(
+                city = city,
+                navigateToCity= {
+                    navHostController.navigate(
+                        NavScreen.CityPlaces.createRoute(city.id)
+                    ) {
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
 fun CityCard(
-    city: City
+    city: City,
+    navigateToCity: () -> Unit,
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
+            .clickable {
+                navigateToCity()
+            }
     ) {
         Box(
             contentAlignment = Alignment.BottomStart

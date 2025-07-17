@@ -14,8 +14,12 @@ hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 coilCompose = "3.2.0"
 okhttp = "4.12.0"
+navigationCompose = "2.9.0"
 
 [libraries]
+#Navigation
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
 #OkHttp
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 

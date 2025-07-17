@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CityPlacesViewModel @Inject constructor(
+class CityPlacesScreenViewModel @Inject constructor(
     private val getPlacesByCityIdUseCase: GetPlacesByCityIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
