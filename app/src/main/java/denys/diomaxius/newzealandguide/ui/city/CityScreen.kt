@@ -89,7 +89,11 @@ fun Content(
                 modifier = Modifier.weight(1f),
                 cardText = "City History",
                 onClick = {
-                    TODO()
+                    navHostController.navigate(
+                        NavScreen.CityHistory.createRoute(city.id)
+                    ) {
+                        launchSingleTop = true
+                    }
                 }
             )
 
