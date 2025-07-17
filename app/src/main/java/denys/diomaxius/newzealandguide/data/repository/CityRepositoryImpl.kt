@@ -28,6 +28,19 @@ class CityRepositoryImpl(
         return entities.map { it.toDomain() }
     }
 
+    override suspend fun getCityById(cityId: String): City {
+        val snap = firestore
+            .collection("cities")
+            .document(cityId)
+            .get()
+            .await()
+
+        return snap.toObject(CityEntity::class.java)
+            ?.copy(id = snap.id)
+            ?.toDomain()
+            ?: throw Exception("City not found")
+    }
+
     override suspend fun getPlacesByCityId(cityId: String): List<CityPlaceTopic> {
         val snap  = firestore
             .collection("cities")
@@ -40,18 +53,5 @@ class CityRepositoryImpl(
             doc.toObject(CityPlaceTopicEntity::class.java)
                 ?.toDomain()
         }
-    }
-
-    override suspend fun getCityById(cityId: String): City {
-        val snap = firestore
-            .collection("cities")
-            .document(cityId)
-            .get()
-            .await()
-
-        return snap.toObject(CityEntity::class.java)
-            ?.copy(id = snap.id)
-            ?.toDomain()
-            ?: throw Exception("City not found")
     }
 }
