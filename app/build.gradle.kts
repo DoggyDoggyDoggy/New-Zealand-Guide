@@ -43,6 +43,13 @@ android {
 }
 
 dependencies {
+    //OkHttp
+    implementation(libs.okhttp)
+
+    //Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
