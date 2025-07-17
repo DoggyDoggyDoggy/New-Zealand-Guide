@@ -4,7 +4,6 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import javax.inject.Inject
 
-
 class GetAllCitiesUseCase @Inject constructor(
     private val cityRepository: CityRepository
 ) {
