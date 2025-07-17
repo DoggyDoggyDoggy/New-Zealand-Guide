@@ -61,7 +61,7 @@ fun Content(
         CityPhotoSlider(
             modifier = Modifier
                 .shadow(12.dp),
-            city = city
+            photos = city.photos
         )
 
         Row(
