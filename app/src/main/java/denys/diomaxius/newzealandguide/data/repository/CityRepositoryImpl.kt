@@ -48,7 +48,9 @@ class CityRepositoryImpl(
             .document(cityId)
             .get()
             .await()
+
         return snap.toObject(CityEntity::class.java)
+            ?.copy(id = snap.id)
             ?.toDomain()
             ?: throw Exception("City not found")
     }

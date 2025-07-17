@@ -1,28 +1,45 @@
 package denys.diomaxius.newzealandguide.ui.city
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.UiState
 
 @Composable
 fun CityScreen(
-    viewModel: CityScreenViewModel = hiltViewModel()
+    viewModel: CityScreenViewModel = hiltViewModel(),
 ) {
     val city by viewModel.city.collectAsState()
     val navHostController = LocalNavController.current
 
-    when(city) {
+    when (city) {
         is UiState.Loading -> {
             Text(text = "Loading")
         }
+
         is UiState.Success -> Content(
-          city = (city as UiState.Success<City>).data
+            city = (city as UiState.Success<City>).data,
+            navHostController = navHostController
         )
+
         is UiState.Error -> {
             Text(text = "Error")
         }
@@ -30,6 +47,47 @@ fun CityScreen(
 }
 
 @Composable
-fun Content(city: City) {
-    Text(text = city.name)
+fun Content(
+    city: City,
+    navHostController: NavHostController,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+        ) {
+            InfoCard(
+                modifier = Modifier.weight(1f),
+                cardText = "Top Things to Do in ${city.name} City",
+                onClick = {
+                    navHostController.navigate(
+                        NavScreen.CityPlaces.createRoute(city.id)
+                    ) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+
+            Spacer(
+                modifier = Modifier.width(12.dp)
+            )
+
+            InfoCard(
+                modifier = Modifier.weight(1f),
+                cardText = "City History",
+                onClick = {
+                    TODO()
+                }
+            )
+
+            Spacer(
+                modifier = Modifier.height(165.dp)
+            )
+        }
+    }
 }

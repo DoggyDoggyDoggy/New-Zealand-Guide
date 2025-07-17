@@ -22,7 +22,7 @@ fun CityPlacesScreen(
         }
         is UiState.Success -> Content((cityPlaces as UiState.Success<List<CityPlaceTopic>>).data)
         is UiState.Error -> {
-            Text(text = "Error")
+            Text(text = "Error: ${(cityPlaces as UiState.Error).error}")
         }
     }
 }
