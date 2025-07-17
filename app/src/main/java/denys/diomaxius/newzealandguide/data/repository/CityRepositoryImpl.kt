@@ -28,7 +28,7 @@ class CityRepositoryImpl(
         return entities.map { it.toDomain() }
     }
 
-    override suspend fun getPlacesByCityId(cityId: Int): List<CityPlaceTopic> {
+    override suspend fun getPlacesByCityId(cityId: String): List<CityPlaceTopic> {
         val snap  = firestore
             .collection("cities")
             .document(cityId.toString())
@@ -42,7 +42,7 @@ class CityRepositoryImpl(
         }
     }
 
-    override fun getCityById(id: Int): City {
+    override fun getCityById(id: String): City {
         TODO("Not yet implemented")
     }
 }

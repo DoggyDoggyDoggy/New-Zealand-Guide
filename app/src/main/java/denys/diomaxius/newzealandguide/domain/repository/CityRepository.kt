@@ -5,6 +5,6 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
 
 interface CityRepository {
     suspend fun getAllCities(): List<City>
-    suspend fun getPlacesByCityId(cityId: Int): List<CityPlaceTopic>
-    fun getCityById(id: Int): City
+    suspend fun getPlacesByCityId(cityId: String): List<CityPlaceTopic>
+    fun getCityById(id: String): City
 }
