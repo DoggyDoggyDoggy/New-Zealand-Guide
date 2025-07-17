@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
+import denys.diomaxius.newzealandguide.ui.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
 
 @AndroidEntryPoint
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NewZealandGuideTheme {
-
+                AllCitiesScreen()
             }
         }
     }
