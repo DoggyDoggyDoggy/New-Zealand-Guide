@@ -5,8 +5,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.model.CityEntity
+import denys.diomaxius.newzealandguide.data.model.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.model.CityPlaceTopicEntity
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import kotlinx.coroutines.tasks.await
@@ -53,5 +55,19 @@ class CityRepositoryImpl(
             doc.toObject(CityPlaceTopicEntity::class.java)
                 ?.toDomain()
         }
+    }
+
+    override suspend fun getCityHistoryById(cityId: String): CityHistory {
+        val snap  = firestore
+            .collection("cities")
+            .document(cityId)
+            .collection("history")
+            .get()
+            .await()
+
+        return snap.documents.first()
+            .toObject(CityHistoryEntity::class.java)
+            ?.toDomain()
+            ?: throw Exception("City not found")
     }
 }
