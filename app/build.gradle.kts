@@ -43,6 +43,9 @@ android {
 }
 
 dependencies {
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+
     //OkHttp
     implementation(libs.okhttp)
 
