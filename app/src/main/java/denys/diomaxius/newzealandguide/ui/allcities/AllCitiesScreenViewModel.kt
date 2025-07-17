@@ -25,7 +25,6 @@ class AllCitiesScreenViewModel @Inject constructor(
 
     private fun loadCities() {
         viewModelScope.launch {
-            _cities.value = UiState.Loading
             _cities.value = try {
                 UiState.Success(getAllCitiesUseCase())
             } catch (e: Exception) {
