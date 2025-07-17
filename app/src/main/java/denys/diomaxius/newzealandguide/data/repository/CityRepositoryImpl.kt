@@ -5,7 +5,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.model.CityEntity
+import denys.diomaxius.newzealandguide.data.model.CityPlaceTopicEntity
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import kotlinx.coroutines.tasks.await
 
@@ -24,6 +26,20 @@ class CityRepositoryImpl(
         }
 
         return entities.map { it.toDomain() }
+    }
+
+    override suspend fun getPlacesByCityId(cityId: Int): List<CityPlaceTopic> {
+        val snap  = firestore
+            .collection("cities")
+            .document(cityId.toString())
+            .collection("places")
+            .get()
+            .await()
+
+        return snap.documents.mapNotNull { doc ->
+            doc.toObject(CityPlaceTopicEntity::class.java)
+                ?.toDomain()
+        }
     }
 
     override fun getCityById(id: Int): City {
