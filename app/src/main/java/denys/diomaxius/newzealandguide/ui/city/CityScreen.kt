@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -22,6 +23,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.UiState
+import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 
 @Composable
 fun CityScreen(
@@ -56,6 +58,12 @@ fun Content(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        CityPhotoSlider(
+            modifier = Modifier
+                .shadow(12.dp),
+            city = city
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
