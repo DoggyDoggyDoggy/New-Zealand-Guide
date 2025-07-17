@@ -7,24 +7,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil3.compose.AsyncImage
-import denys.diomaxius.newzealandguide.domain.model.city.City
 
 @Composable
 fun CityPhotoSlider(
     modifier: Modifier = Modifier,
-    city: City
+    photos: List<String>
 ) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.BottomStart
     ) {
         AutoScrollPager(
-            items = city.photos,
-            modifier = Modifier
-                .fillMaxWidth()
+            items = photos,
+            modifier = Modifier.fillMaxWidth()
         ) { url ->
             AsyncImage(
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 model = url,
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
