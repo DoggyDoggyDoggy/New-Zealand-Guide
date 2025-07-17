@@ -60,7 +60,7 @@ fun Content(
                 city = city,
                 navigateToCity= {
                     navHostController.navigate(
-                        NavScreen.CityPlaces.createRoute(city.id)
+                        NavScreen.City.createRoute(city.id)
                     ) {
                         launchSingleTop = true
                     }
