@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,32 +23,52 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
+import kotlinx.coroutines.launch
 
 @Composable
 fun AllCitiesScreen(
     viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
-    val cities by viewModel.cities.collectAsState()
+    val citiesUiState by viewModel.citiesUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(cities) {
-        Content(
-            cities = it,
-            navHostController = navHostController
-        )
+    UiStateHandler(citiesUiState) { cities ->
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = "City Guide",
+                    navigationButton = {
+                        MenuButton {
+                            // TODO()
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                navHostController = navHostController,
+                cities = cities
+            )
+        }
     }
 }
 
 @Composable
 fun Content(
+    modifier: Modifier = Modifier,
     cities: List<City>,
-    navHostController: NavHostController
+    navHostController: NavHostController,
 ) {
-    LazyColumn {
-        items(cities) {city ->
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(cities) { city ->
             CityCard(
                 city = city,
-                navigateToCity= {
+                navigateToCity = {
                     navHostController.navigate(
                         NavScreen.City.createRoute(city.id)
                     ) {
