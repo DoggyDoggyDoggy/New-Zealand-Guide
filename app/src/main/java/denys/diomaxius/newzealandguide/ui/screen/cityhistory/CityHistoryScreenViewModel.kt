@@ -17,8 +17,8 @@ class CityHistoryScreenViewModel @Inject constructor(
     private val getCityHistoryByIdUseCase: GetCityHistoryByIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _cityHistory = MutableStateFlow<UiState<CityHistory>>(UiState.Loading)
-    val cityHistory = _cityHistory.asStateFlow()
+    private val _cityHistoryUiState = MutableStateFlow<UiState<CityHistory>>(UiState.Loading)
+    val cityHistoryUiState = _cityHistoryUiState.asStateFlow()
 
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
@@ -28,9 +28,9 @@ class CityHistoryScreenViewModel @Inject constructor(
 
     private fun getCityHistory() = viewModelScope.launch {
         try {
-            _cityHistory.value = UiState.Success(getCityHistoryByIdUseCase(cityId))
+            _cityHistoryUiState.value = UiState.Success(getCityHistoryByIdUseCase(cityId))
         } catch (e: Exception) {
-            _cityHistory.value = UiState.Error(e)
+            _cityHistoryUiState.value = UiState.Error(e)
         }
     }
 }
