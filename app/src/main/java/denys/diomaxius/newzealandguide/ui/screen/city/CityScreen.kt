@@ -83,7 +83,7 @@ fun Content(
                 cardText = "Top Things to Do in ${city.name} City",
                 onClick = {
                     navHostController.navigate(
-                        NavScreen.CityPlaces.createRoute(city.id)
+                        NavScreen.CityPlaces.createRoute(city.id, city.name)
                     ) {
                         launchSingleTop = true
                     }
@@ -99,7 +99,7 @@ fun Content(
                 cardText = "City History",
                 onClick = {
                     navHostController.navigate(
-                        NavScreen.CityHistory.createRoute(city.id)
+                        NavScreen.CityHistory.createRoute(city.id, city.name)
                     ) {
                         launchSingleTop = true
                     }

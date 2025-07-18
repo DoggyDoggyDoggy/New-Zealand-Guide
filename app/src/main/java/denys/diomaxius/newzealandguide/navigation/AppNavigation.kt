@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
@@ -18,7 +20,7 @@ val LocalNavController = compositionLocalOf<NavHostController> {
 
 @Composable
 fun AppNavigation(
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
 ) {
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
@@ -33,12 +35,32 @@ fun AppNavigation(
                 CityScreen()
             }
 
-            composable(NavScreen.CityPlaces.route) {
-                CityPlacesScreen()
+            composable(
+                route = NavScreen.CityPlaces.route,
+                arguments = listOf(
+                    navArgument("cityId") { type = NavType.StringType },
+                    navArgument("cityName") { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                val cityName = backStackEntry.arguments!!.getString("cityName")!!
+
+                CityPlacesScreen(
+                    cityName = cityName
+                )
             }
 
-            composable(NavScreen.CityHistory.route) {
-                CityHistoryScreen()
+            composable(
+                route = NavScreen.CityHistory.route,
+                arguments = listOf(
+                    navArgument("cityId") { type = NavType.StringType },
+                    navArgument("cityName") { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                val cityName = backStackEntry.arguments!!.getString("cityName")!!
+
+                CityHistoryScreen(
+                    cityName = cityName
+                )
             }
         }
     }
