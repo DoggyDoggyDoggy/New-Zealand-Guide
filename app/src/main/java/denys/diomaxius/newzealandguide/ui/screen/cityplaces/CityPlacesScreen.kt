@@ -34,6 +34,7 @@ import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 @Composable
 fun CityPlacesScreen(
     viewModel: CityPlacesScreenViewModel = hiltViewModel(),
+    cityName: String,
 ) {
     val cityPlacesUiState by viewModel.placesUiState.collectAsState()
     val navHostController = LocalNavController.current
@@ -42,7 +43,7 @@ fun CityPlacesScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "Top Things to Do in cityName",
+                    text = "Top Things to Do in $cityName",
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()

@@ -23,6 +23,7 @@ import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 @Composable
 fun CityHistoryScreen(
     viewModel: CityHistoryScreenViewModel = hiltViewModel(),
+    cityName: String,
 ) {
     val cityHistoryUiState by viewModel.cityHistoryUiState.collectAsState()
     val navHostController = LocalNavController.current
@@ -31,7 +32,7 @@ fun CityHistoryScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "History",
+                    text = "History of $cityName",
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()
