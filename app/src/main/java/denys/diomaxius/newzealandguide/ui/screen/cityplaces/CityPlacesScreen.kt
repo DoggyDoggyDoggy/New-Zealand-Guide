@@ -2,6 +2,7 @@ package denys.diomaxius.newzealandguide.ui.screen.cityplaces
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -65,6 +66,8 @@ fun Content(
 ) {
     LazyColumn(
         modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
     ) {
         items(cityPlacesTopics) { topic ->
             CityPlace(topic)
