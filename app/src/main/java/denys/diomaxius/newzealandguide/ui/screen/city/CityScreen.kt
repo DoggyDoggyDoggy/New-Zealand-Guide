@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.city
+package denys.diomaxius.newzealandguide.ui.screen.city
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

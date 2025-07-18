@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.cityhistory
+package denys.diomaxius.newzealandguide.ui.screen.cityhistory
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.allcities
+package denys.diomaxius.newzealandguide.ui.screen.allcities
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

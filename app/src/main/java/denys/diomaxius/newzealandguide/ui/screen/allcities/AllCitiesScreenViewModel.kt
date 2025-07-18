@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.allcities
+package denys.diomaxius.newzealandguide.ui.screen.allcities
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

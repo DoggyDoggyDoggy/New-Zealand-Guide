@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.city
+package denys.diomaxius.newzealandguide.ui.screen.city
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
