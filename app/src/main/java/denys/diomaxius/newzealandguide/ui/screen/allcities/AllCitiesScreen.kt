@@ -25,7 +25,6 @@ import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
-import kotlinx.coroutines.launch
 
 @Composable
 fun AllCitiesScreen(
