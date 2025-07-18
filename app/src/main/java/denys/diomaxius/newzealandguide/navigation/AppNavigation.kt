@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import denys.diomaxius.newzealandguide.ui.allcities.AllCitiesScreen
-import denys.diomaxius.newzealandguide.ui.cityplaces.CityPlacesScreen
-import denys.diomaxius.newzealandguide.ui.city.CityScreen
-import denys.diomaxius.newzealandguide.ui.cityhistory.CityHistoryScreen
+import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
+import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
+import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
+import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not initialized")

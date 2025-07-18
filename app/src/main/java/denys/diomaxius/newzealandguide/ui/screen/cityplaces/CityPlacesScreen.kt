@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.cityplaces
+package denys.diomaxius.newzealandguide.ui.screen.cityplaces
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
