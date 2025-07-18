@@ -8,24 +8,26 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
 import denys.diomaxius.newzealandguide.domain.usecase.GetPlacesByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CityPlacesScreenViewModel @Inject constructor(
     private val getPlacesByCityIdUseCase: GetPlacesByCityIdUseCase,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _places = MutableStateFlow<UiState<List<CityPlaceTopic>>>(UiState.Loading)
-    val places: StateFlow<UiState<List<CityPlaceTopic>>> = _places
+    private val _placesUiState = MutableStateFlow<UiState<List<CityPlaceTopic>>>(UiState.Loading)
+    val placesUiState = _placesUiState.asStateFlow()
 
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
-    init { loadPlaces() }
+    init {
+        loadPlaces()
+    }
 
     private fun loadPlaces() = viewModelScope.launch {
-        _places.value = try {
+        _placesUiState.value = try {
             UiState.Success(getPlacesByCityIdUseCase(cityId))
         } catch (e: Exception) {
             UiState.Error(e)
