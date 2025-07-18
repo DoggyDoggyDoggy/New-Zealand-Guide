@@ -8,7 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
-import denys.diomaxius.newzealandguide.ui.common.UiState
+import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 
 @Composable
 fun CityPlacesScreen(
@@ -16,14 +16,8 @@ fun CityPlacesScreen(
 ) {
     val cityPlaces by viewModel.places.collectAsState()
 
-    when(cityPlaces) {
-        is UiState.Loading -> {
-            Text(text = "Loading")
-        }
-        is UiState.Success -> Content((cityPlaces as UiState.Success<List<CityPlaceTopic>>).data)
-        is UiState.Error -> {
-            Text(text = "Error: ${(cityPlaces as UiState.Error).error}")
-        }
+    UiStateHandler(cityPlaces) {
+        Content(it)
     }
 }
 

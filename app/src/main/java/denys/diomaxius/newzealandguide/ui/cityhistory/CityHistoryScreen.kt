@@ -14,7 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
-import denys.diomaxius.newzealandguide.ui.common.UiState
+import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 
 @Composable
 fun CityHistoryScreen(
@@ -22,18 +22,9 @@ fun CityHistoryScreen(
 ) {
     val cityHistory by viewModel.cityHistory.collectAsState()
 
-    when (cityHistory) {
-        is UiState.Loading -> {
-            Text(text = "Loading")
-        }
-        is UiState.Success -> Content(
-            cityHistory = (cityHistory as UiState.Success<CityHistory>).data
-        )
-        is UiState.Error -> {
-            Text(text = "Error")
-        }
+    UiStateHandler(cityHistory) {
+        Content(it)
     }
-
 }
 
 @Composable
