@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,8 +20,8 @@ import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.common.UiState
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
+import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 
 @Composable
 fun AllCitiesScreen(
@@ -31,21 +30,11 @@ fun AllCitiesScreen(
     val cities by viewModel.cities.collectAsState()
     val navHostController = LocalNavController.current
 
-    when (cities) {
-        is UiState.Loading -> {
-            Text(text = "Loading")
-        }
-
-        is UiState.Success -> {
-            Content(
-                cities = (cities as UiState.Success<List<City>>).data,
-                navHostController = navHostController
-            )
-        }
-
-        is UiState.Error -> {
-            Text(text = "Error")
-        }
+    UiStateHandler(cities) {
+        Content(
+            cities = it,
+            navHostController = navHostController
+        )
     }
 }
 

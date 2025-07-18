@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,7 +21,7 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.common.UiState
+import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 
 @Composable
@@ -32,19 +31,11 @@ fun CityScreen(
     val city by viewModel.city.collectAsState()
     val navHostController = LocalNavController.current
 
-    when (city) {
-        is UiState.Loading -> {
-            Text(text = "Loading")
-        }
-
-        is UiState.Success -> Content(
-            city = (city as UiState.Success<City>).data,
+    UiStateHandler(city) {
+        Content(
+            city = it,
             navHostController = navHostController
         )
-
-        is UiState.Error -> {
-            Text(text = "Error")
-        }
     }
 }
 
