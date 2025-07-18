@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,6 +24,8 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 
 @Composable
 fun CityScreen(
@@ -31,21 +34,36 @@ fun CityScreen(
     val cityUiState by viewModel.cityUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(cityUiState) {
-        Content(
-            city = it,
-            navHostController = navHostController
-        )
+    UiStateHandler(cityUiState) { city->
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = city.name,
+                    navigationButton = {
+                        PopBackArrowButton {
+                            navHostController.popBackStack()
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                city = city,
+                navHostController = navHostController
+            )
+        }
     }
 }
 
 @Composable
 fun Content(
+    modifier: Modifier = Modifier,
     city: City,
     navHostController: NavHostController,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
