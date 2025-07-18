@@ -16,8 +16,8 @@ import javax.inject.Inject
 class AllCitiesScreenViewModel @Inject constructor(
     private val getAllCitiesUseCase: GetAllCitiesUseCase
 ) : ViewModel() {
-    private val _cities = MutableStateFlow<UiState<List<City>>>(UiState.Loading)
-    val cities: StateFlow<UiState<List<City>>> = _cities.asStateFlow()
+    private val _citiesUiState = MutableStateFlow<UiState<List<City>>>(UiState.Loading)
+    val citiesUiState: StateFlow<UiState<List<City>>> = _citiesUiState.asStateFlow()
 
     init {
         loadCities()
@@ -25,7 +25,7 @@ class AllCitiesScreenViewModel @Inject constructor(
 
     private fun loadCities() {
         viewModelScope.launch {
-            _cities.value = try {
+            _citiesUiState.value = try {
                 UiState.Success(getAllCitiesUseCase())
             } catch (e: Exception) {
                 UiState.Error(e)
