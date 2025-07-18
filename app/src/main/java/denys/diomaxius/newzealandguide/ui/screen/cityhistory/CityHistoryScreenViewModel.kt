@@ -27,10 +27,10 @@ class CityHistoryScreenViewModel @Inject constructor(
     }
 
     private fun getCityHistory() = viewModelScope.launch {
-        try {
-            _cityHistoryUiState.value = UiState.Success(getCityHistoryByIdUseCase(cityId))
+        _cityHistoryUiState.value = try {
+            UiState.Success(getCityHistoryByIdUseCase(cityId))
         } catch (e: Exception) {
-            _cityHistoryUiState.value = UiState.Error(e)
+            UiState.Error(e)
         }
     }
 }
