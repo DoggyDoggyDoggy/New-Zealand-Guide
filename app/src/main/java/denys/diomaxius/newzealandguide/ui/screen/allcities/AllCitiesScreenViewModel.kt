@@ -7,7 +7,6 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.usecase.GetAllCitiesUseCase
 import denys.diomaxius.newzealandguide.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +16,7 @@ class AllCitiesScreenViewModel @Inject constructor(
     private val getAllCitiesUseCase: GetAllCitiesUseCase
 ) : ViewModel() {
     private val _citiesUiState = MutableStateFlow<UiState<List<City>>>(UiState.Loading)
-    val citiesUiState: StateFlow<UiState<List<City>>> = _citiesUiState.asStateFlow()
+    val citiesUiState = _citiesUiState.asStateFlow()
 
     init {
         loadCities()
