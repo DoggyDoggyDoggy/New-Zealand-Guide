@@ -18,8 +18,8 @@ class CityScreenViewModel @Inject constructor(
     private val getCityByIdUseCase: GetCityByIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _city = MutableStateFlow<UiState<City>>(UiState.Loading)
-    val city: StateFlow<UiState<City>> = _city.asStateFlow()
+    private val _cityUiState = MutableStateFlow<UiState<City>>(UiState.Loading)
+    val cityUiState: StateFlow<UiState<City>> = _cityUiState.asStateFlow()
 
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
@@ -28,7 +28,7 @@ class CityScreenViewModel @Inject constructor(
     }
 
     private fun loadCity() = viewModelScope.launch {
-        _city.value = try {
+        _cityUiState.value = try {
             UiState.Success(getCityByIdUseCase(cityId))
         } catch (e: Exception) {
             UiState.Error(e)

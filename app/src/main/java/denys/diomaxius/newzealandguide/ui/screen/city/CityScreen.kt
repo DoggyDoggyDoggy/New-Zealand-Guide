@@ -28,10 +28,10 @@ import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.City
 fun CityScreen(
     viewModel: CityScreenViewModel = hiltViewModel(),
 ) {
-    val city by viewModel.city.collectAsState()
+    val cityUiState by viewModel.cityUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(city) {
+    UiStateHandler(cityUiState) {
         Content(
             city = it,
             navHostController = navHostController
