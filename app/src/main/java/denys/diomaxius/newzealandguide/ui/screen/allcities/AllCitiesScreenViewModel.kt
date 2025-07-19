@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllCitiesScreenViewModel @Inject constructor(
-    private val getAllCitiesUseCase: GetAllCitiesUseCase
+    private val getAllCitiesUseCase: GetAllCitiesUseCase,
 ) : ViewModel() {
     private val _citiesUiState = MutableStateFlow<UiState<List<City>>>(UiState.Loading)
     val citiesUiState = _citiesUiState.asStateFlow()
@@ -22,13 +22,12 @@ class AllCitiesScreenViewModel @Inject constructor(
         loadCities()
     }
 
-    private fun loadCities() {
-        viewModelScope.launch {
-            _citiesUiState.value = try {
-                UiState.Success(getAllCitiesUseCase())
-            } catch (e: Exception) {
-                UiState.Error(e)
-            }
+    private fun loadCities() = viewModelScope.launch {
+        _citiesUiState.value = try {
+            UiState.Success(getAllCitiesUseCase())
+        } catch (e: Exception) {
+            UiState.Error(e)
         }
     }
+
 }
