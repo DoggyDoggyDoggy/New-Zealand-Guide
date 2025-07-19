@@ -26,6 +26,7 @@ import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.common.components.weather.WeatherForecastFiveDays
 
 @Composable
 fun CityScreen(
@@ -72,6 +73,8 @@ fun Content(
                 .shadow(12.dp),
             photos = city.photos
         )
+
+        WeatherForecastFiveDays()
 
         Row(
             modifier = Modifier
