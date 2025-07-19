@@ -4,7 +4,7 @@ import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import javax.inject.Inject
 
 class GetWeatherByCityIdUseCase @Inject constructor(
-   private val repository: WeatherRepository
+    private val repository: WeatherRepository
 ) {
     suspend operator fun invoke(cityId: String) = repository.getWeatherByCityId(cityId)
 }
