@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.common.components
 
+import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import denys.diomaxius.newzealandguide.ui.common.UiState
@@ -8,12 +9,15 @@ import denys.diomaxius.newzealandguide.ui.common.UiState
 fun <T> UiStateHandler(
     state: UiState<T>,
     loading: @Composable () -> Unit = { Text("Loading…") },
-    error: @Composable (throwable: Throwable?) -> Unit = { Text("Something went wrong") },
-    content: @Composable (data: T) -> Unit
+    error: @Composable (throwable: Throwable?) -> Unit = {
+        Log.i("UiStateHandler", "Error: $it")
+        Text("Something went wrong")
+    },
+    content: @Composable (data: T) -> Unit,
 ) {
     when (state) {
         is UiState.Loading -> loading()
-        is UiState.Error   -> error(state.error)
+        is UiState.Error -> error(state.error)
         is UiState.Success -> content(state.data)
     }
 }

@@ -11,7 +11,7 @@ fun WeatherEntity.toDomain(): Weather =
         description = description,
         iconUrl = iconUrl,
         dateTime = LocalDateTime.parse(
-            dtTxt,
+            dt_txt,
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         )
     )
