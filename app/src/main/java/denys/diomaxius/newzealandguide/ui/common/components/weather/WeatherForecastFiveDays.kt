@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 private const val ICON_BASE_URL = "https://openweathermap.org/img/wn/"
 
@@ -40,12 +43,11 @@ fun WeatherForecastFiveDays(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(it.dateTime.toString())
+                        Text(dateFormatter(it.dateTime))
 
                         AsyncImage(
-                            model = ICON_BASE_URL + it.iconUrl + "@2x.png",
+                            model = ICON_BASE_URL + it.icon + "@2x.png",
                             contentDescription = "Icon"
-
                         )
 
                         Text(
@@ -55,5 +57,12 @@ fun WeatherForecastFiveDays(
                 }
             }
         }
+
     }
+}
+
+fun dateFormatter(dateTime: LocalDateTime): String {
+    val formatterOut = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH)
+    val result = dateTime.format(formatterOut)
+    return result
 }
