@@ -27,33 +27,49 @@ fun WeatherForecastFiveDays(
     val weatherForecastUiState by viewModel.uiState.collectAsState()
 
     UiStateHandler(weatherForecastUiState) { weatherForecast ->
-        Row(
-            modifier = Modifier.fillMaxWidth()
+        Content(weatherForecast)
+    }
+}
+
+@Composable
+fun Content(weatherForecast: List<WeatherUiModel>) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        weatherForecast.forEach { weather ->
+            WeatherForecastCard(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(6.dp),
+                weather = weather
+            )
+        }
+    }
+}
+
+@Composable
+fun WeatherForecastCard(
+    modifier: Modifier = Modifier,
+    weather: WeatherUiModel,
+) {
+    Card(
+        modifier = modifier
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            weatherForecast.forEach {
-                Card(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(6.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(dateFormatter(it.dateTime))
+            Text(dateFormatter(weather.dateTime))
 
-                        AsyncImage(
-                            model = it.iconUrl,
-                            contentDescription = "Icon"
-                        )
+            AsyncImage(
+                model = weather.iconUrl,
+                contentDescription = "Icon"
+            )
 
-                        Text(
-                            text = "${it.temperature.toInt()} °C"
-                        )
-                    }
-                }
-            }
+            Text(
+                text = "${weather.temperature.toInt()} °C"
+            )
         }
     }
 }
