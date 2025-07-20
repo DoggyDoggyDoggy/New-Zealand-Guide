@@ -7,9 +7,9 @@ import java.time.format.DateTimeFormatter
 
 fun WeatherEntity.toDomain(): Weather =
     Weather(
-        temperature = temperature,
-        description = description,
-        iconUrl = iconUrl,
+        temperature = temp,
+        description = descr,
+        icon = icon,
         dateTime = LocalDateTime.parse(
             dt_txt,
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
