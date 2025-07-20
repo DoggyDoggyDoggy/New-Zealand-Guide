@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.model.weather.WeatherEntity
+import denys.diomaxius.newzealandguide.data.model.weather.WeatherIconEntity
 import denys.diomaxius.newzealandguide.domain.model.weather.Weather
 import denys.diomaxius.newzealandguide.domain.model.weather.WeatherIcon
 import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
@@ -15,7 +16,7 @@ class WeatherRepositoryImpl(
     private val firestore: FirebaseFirestore = Firebase.firestore,
 ) : WeatherRepository {
     private data class ForecastDocument(
-        val entries: List<WeatherEntity> = emptyList()
+        val entries: List<WeatherEntity> = emptyList(),
     )
 
     override suspend fun getWeatherByCityId(cityId: String): List<Weather> {
@@ -39,6 +40,8 @@ class WeatherRepositoryImpl(
             .get()
             .await()
 
-        return snap.toObjects(WeatherIcon::class.java)
+        return snap.documents.mapNotNull { doc ->
+            doc.toObject(WeatherIconEntity::class.java)?.toDomain()
+        }
     }
 }
