@@ -6,5 +6,9 @@ import javax.inject.Inject
 class GetWeatherIconUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    suspend operator fun invoke() = repository.getWeatherIcons()
+    suspend operator fun invoke(iconId: String) : String {
+        return repository.getWeatherIcons()
+            .first { it.iconId == iconId }
+            .iconUrl
+    }
 }
