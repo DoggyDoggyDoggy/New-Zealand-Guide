@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.weather.Weather
 import denys.diomaxius.newzealandguide.domain.usecase.GetWeatherByCityIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.GetWeatherIconUseCase
 import denys.diomaxius.newzealandguide.ui.common.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WeatherForecastFiveDaysViewModel @Inject constructor(
     private val getWeatherByCityIdUseCase: GetWeatherByCityIdUseCase,
-    savedStateHandle: SavedStateHandle,
+    private val getWeatherIconsUseCase: GetWeatherIconUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _weatherForecastUiState = MutableStateFlow<UiState<List<Weather>>>(UiState.Loading)
     val weatherForecastUiState = _weatherForecastUiState.asStateFlow()

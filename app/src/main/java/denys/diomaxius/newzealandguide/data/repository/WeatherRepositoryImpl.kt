@@ -6,6 +6,7 @@ import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.model.weather.WeatherEntity
 import denys.diomaxius.newzealandguide.domain.model.weather.Weather
+import denys.diomaxius.newzealandguide.domain.model.weather.WeatherIcon
 import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import kotlinx.coroutines.tasks.await
 
@@ -30,5 +31,14 @@ class WeatherRepositoryImpl(
             ?.entries
             ?.map(WeatherEntity::toDomain)
             ?: throw Exception("Weather not found")
+    }
+
+    override suspend fun getWeatherIcons(): List<WeatherIcon> {
+        val snap = firestore
+            .collection("weatherIcons")
+            .get()
+            .await()
+
+        return snap.toObjects(WeatherIcon::class.java)
     }
 }
