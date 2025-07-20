@@ -4,7 +4,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
-import denys.diomaxius.newzealandguide.data.model.WeatherEntity
+import denys.diomaxius.newzealandguide.data.model.weather.WeatherEntity
 import denys.diomaxius.newzealandguide.domain.model.weather.Weather
 import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import kotlinx.coroutines.tasks.await

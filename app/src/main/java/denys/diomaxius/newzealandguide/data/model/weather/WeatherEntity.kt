@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.data.model
+package denys.diomaxius.newzealandguide.data.model.weather
 
 // Maybe rename dt_txt to dtTxt
 // dt_txt in firestore

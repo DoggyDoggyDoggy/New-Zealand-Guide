@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.data.model
+package denys.diomaxius.newzealandguide.data.model.city
 
 data class CityEntity(
     val id: String = "",
