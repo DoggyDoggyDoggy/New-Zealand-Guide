@@ -4,9 +4,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.toDomain
-import denys.diomaxius.newzealandguide.data.model.CityEntity
-import denys.diomaxius.newzealandguide.data.model.CityHistoryEntity
-import denys.diomaxius.newzealandguide.data.model.CityPlaceTopicEntity
+import denys.diomaxius.newzealandguide.data.model.city.CityEntity
+import denys.diomaxius.newzealandguide.data.model.city.CityHistoryEntity
+import denys.diomaxius.newzealandguide.data.model.city.CityPlaceTopicEntity
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
