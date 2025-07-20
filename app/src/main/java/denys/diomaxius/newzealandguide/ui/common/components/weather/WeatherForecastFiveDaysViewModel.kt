@@ -9,6 +9,7 @@ import denys.diomaxius.newzealandguide.domain.usecase.GetWeatherIconUseCase
 import denys.diomaxius.newzealandguide.ui.common.UiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -41,15 +42,18 @@ class WeatherForecastFiveDaysViewModel @Inject constructor(
         _uiState.value = try {
             val raw = getWeatherByCityIdUseCase(cityId)
 
+            val iconIds = raw.map { it.icon }.distinct()
+
+            val iconsMap = coroutineScope {
+                iconIds
+                    .map { id -> async { id to getWeatherIconUseCase(id) } }
+                    .awaitAll()
+                    .toMap()
+            }
+
             val enriched = raw.map { w ->
-                async {
-                    WeatherUiModel(
-                        dateTime = w.dateTime,
-                        temperature = w.temperature,
-                        iconUrl = getWeatherIconUseCase(w.icon)
-                    )
-                }
-            }.awaitAll()
+                WeatherUiModel(w.dateTime, w.temperature, iconsMap[w.icon].orEmpty())
+            }
 
             UiState.Success(enriched)
         } catch (e: Exception) {
