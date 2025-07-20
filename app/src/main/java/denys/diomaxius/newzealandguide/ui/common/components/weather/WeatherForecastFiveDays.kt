@@ -20,13 +20,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private const val ICON_BASE_URL = "https://openweathermap.org/img/wn/"
-
 @Composable
 fun WeatherForecastFiveDays(
     viewModel: WeatherForecastFiveDaysViewModel = hiltViewModel(),
 ) {
-    val weatherForecastUiState by viewModel.weatherForecastUiState.collectAsState()
+    val weatherForecastUiState by viewModel.uiState.collectAsState()
 
     UiStateHandler(weatherForecastUiState) { weatherForecast ->
         Row(
@@ -46,7 +44,7 @@ fun WeatherForecastFiveDays(
                         Text(dateFormatter(it.dateTime))
 
                         AsyncImage(
-                            model = ICON_BASE_URL + it.icon + "@2x.png",
+                            model = it.iconUrl,
                             contentDescription = "Icon"
                         )
 
@@ -57,7 +55,6 @@ fun WeatherForecastFiveDays(
                 }
             }
         }
-
     }
 }
 
