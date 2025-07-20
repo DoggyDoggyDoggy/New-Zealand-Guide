@@ -13,20 +13,13 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import javax.inject.Inject
-
-data class WeatherUiModel(
-    val dateTime: LocalDateTime,
-    val temperature: Double,
-    val iconUrl: String
-)
 
 @HiltViewModel
 class WeatherForecastFiveDaysViewModel @Inject constructor(
     private val getWeatherByCityIdUseCase: GetWeatherByCityIdUseCase,
     private val getWeatherIconUseCase: GetWeatherIconUseCase,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState =
         MutableStateFlow<UiState<List<WeatherUiModel>>>(UiState.Loading)
@@ -38,6 +31,8 @@ class WeatherForecastFiveDaysViewModel @Inject constructor(
         loadForecastsWithIcons()
     }
 
+    // Map unique icons to reduces the number of network calls
+    // and improves the performance of loading the weather forecast
     private fun loadForecastsWithIcons() = viewModelScope.launch {
         _uiState.value = try {
             val raw = getWeatherByCityIdUseCase(cityId)
