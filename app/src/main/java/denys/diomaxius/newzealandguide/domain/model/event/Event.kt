@@ -9,7 +9,3 @@ data class Event(
     val sessions: List<Session>,
     val imageUrl: String
 )
-
-data class Session(
-    val dateTimeSummary: String
-)
