@@ -5,8 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.EventRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.WeatherRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.EventRepository
 import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import javax.inject.Singleton
 
@@ -20,4 +22,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideWeatherRepository(): WeatherRepository = WeatherRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideEventRepository(): EventRepository = EventRepositoryImpl()
 }
