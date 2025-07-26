@@ -24,6 +24,7 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
+import denys.diomaxius.newzealandguide.ui.common.components.events.EventsRow
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.common.components.weather.WeatherForecastFiveDays
@@ -75,6 +76,8 @@ fun Content(
         )
 
         WeatherForecastFiveDays()
+
+        EventsRow()
 
         Row(
             modifier = Modifier
