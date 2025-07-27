@@ -75,9 +75,21 @@ fun Content(
             photos = city.photos
         )
 
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
         WeatherForecastFiveDays()
 
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
         EventsRow()
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
 
         Row(
             modifier = Modifier
