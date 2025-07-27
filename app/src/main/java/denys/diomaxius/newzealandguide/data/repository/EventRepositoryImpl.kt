@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.event.toDomain
@@ -27,7 +28,7 @@ class EventRepositoryImpl(
                 description = doc.getString("description") ?: "",
                 address = doc.getString("address") ?: "",
                 sessions = emptyList(),
-                imageUrl = ""
+                imageUrl = doc.getImageUrl()
             ).toDomain()
         }
     }
@@ -47,4 +48,12 @@ class EventRepositoryImpl(
         TODO("Not yet implemented")
     }
 
+}
+
+fun DocumentSnapshot.getImageUrl(): String {
+    val imagesList = (get("images") as? Map<*, *>)?.get("images") as? List<*>
+    val first = imagesList?.firstOrNull() as? Map<*, *>
+    val transforms = first?.get("transforms") as? Map<*, *>
+    val tList = transforms?.get("transforms") as? List<*>
+    return (tList?.getOrNull(2) as? Map<*, *>)?.get("url") as? String ?: ""
 }
