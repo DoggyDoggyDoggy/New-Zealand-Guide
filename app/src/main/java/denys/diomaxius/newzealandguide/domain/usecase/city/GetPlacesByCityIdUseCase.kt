@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.usecase
+package denys.diomaxius.newzealandguide.domain.usecase.city
 
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlaceTopic
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
