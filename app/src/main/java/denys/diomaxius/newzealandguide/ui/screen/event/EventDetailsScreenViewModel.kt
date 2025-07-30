@@ -10,4 +10,5 @@ class EventDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val eventId: String = checkNotNull(savedStateHandle["eventId"])
+    private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 }

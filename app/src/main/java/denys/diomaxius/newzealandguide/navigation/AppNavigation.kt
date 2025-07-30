@@ -67,6 +67,7 @@ fun AppNavigation(
             composable(
                 route = NavScreen.Event.route,
                 arguments = listOf(
+                    navArgument("cityId") { type = NavType.StringType },
                     navArgument("eventId") { type = NavType.StringType }
                 )
             ) {

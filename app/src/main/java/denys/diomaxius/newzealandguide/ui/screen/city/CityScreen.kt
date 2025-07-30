@@ -36,7 +36,7 @@ fun CityScreen(
     val cityUiState by viewModel.cityUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(cityUiState) { city->
+    UiStateHandler(cityUiState) { city ->
         Scaffold(
             topBar = {
                 TopBar(
@@ -86,9 +86,10 @@ fun Content(
         )
 
         EventsRow(
-            onClick = {
+            cityId = city.id,
+            onClick = { cityId, eventId ->
                 navHostController.navigate(
-                    NavScreen.Event.createRoute(it)
+                    NavScreen.Event.createRoute(cityId, eventId)
                 ) {
                     launchSingleTop = true
                 }

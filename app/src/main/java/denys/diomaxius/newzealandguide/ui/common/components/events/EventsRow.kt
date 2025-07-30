@@ -28,13 +28,15 @@ import denys.diomaxius.newzealandguide.domain.model.event.Event
 @Composable
 fun EventsRow(
     viewModel: EventsRowViewModel = hiltViewModel(),
-    onClick: (String) -> Unit,
+    onClick: (cityId: String, eventId: String) -> Unit,
+    cityId: String,
 ) {
     val eventsUiState by viewModel.uiState.collectAsState()
     UiStateHandler(eventsUiState) { events ->
         Content(
             events = events,
-            onClick = onClick
+            onClick = onClick,
+            cityId = cityId
         )
     }
 }
@@ -42,13 +44,15 @@ fun EventsRow(
 @Composable
 fun Content(
     events: List<Event>,
-    onClick: (String) -> Unit
-    ) {
+    onClick: (cityId: String, eventId: String) -> Unit,
+    cityId: String,
+) {
     LazyRow {
         items(events) { event ->
             EventCard(
                 event = event,
-                onClick = onClick
+                onClick = onClick,
+                cityId = cityId
             )
         }
     }
@@ -57,14 +61,15 @@ fun Content(
 @Composable
 fun EventCard(
     event: Event,
-    onClick: (String) -> Unit
+    onClick: (cityId: String, eventId: String) -> Unit,
+    cityId: String,
 ) {
     Card(
         modifier = Modifier
             .padding(start = 12.dp)
             .size(175.dp)
             .clickable {
-                onClick(event.id)
+                onClick(cityId, event.id)
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
