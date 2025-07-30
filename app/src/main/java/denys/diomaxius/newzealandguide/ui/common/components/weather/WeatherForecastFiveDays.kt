@@ -15,7 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
