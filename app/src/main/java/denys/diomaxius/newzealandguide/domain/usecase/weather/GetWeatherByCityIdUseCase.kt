@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.usecase
+package denys.diomaxius.newzealandguide.domain.usecase.weather
 
 import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import javax.inject.Inject

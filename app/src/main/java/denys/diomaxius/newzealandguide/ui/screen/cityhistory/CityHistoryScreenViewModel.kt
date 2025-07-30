@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
-import denys.diomaxius.newzealandguide.domain.usecase.GetCityHistoryByIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityHistoryByIdUseCase
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

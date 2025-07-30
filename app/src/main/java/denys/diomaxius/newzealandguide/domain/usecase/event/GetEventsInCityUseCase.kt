@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.usecase
+package denys.diomaxius.newzealandguide.domain.usecase.event
 
 import denys.diomaxius.newzealandguide.domain.repository.EventRepository
 import javax.inject.Inject

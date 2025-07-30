@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import denys.diomaxius.newzealandguide.domain.usecase.GetWeatherByCityIdUseCase
-import denys.diomaxius.newzealandguide.domain.usecase.GetWeatherIconUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.weather.GetWeatherByCityIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.weather.GetWeatherIconUseCase
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
