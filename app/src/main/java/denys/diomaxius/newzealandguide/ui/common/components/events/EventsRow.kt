@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier

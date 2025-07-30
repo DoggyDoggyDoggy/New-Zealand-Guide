@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.common
+package denys.diomaxius.newzealandguide.ui.common.uistate
 
 sealed class UiState<out T> {
     object Loading : UiState<Nothing>()

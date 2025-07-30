@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
-import denys.diomaxius.newzealandguide.ui.common.components.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 

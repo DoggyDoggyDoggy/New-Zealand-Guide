@@ -1,9 +1,8 @@
-package denys.diomaxius.newzealandguide.ui.common.components
+package denys.diomaxius.newzealandguide.ui.common.uistate
 
 import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import denys.diomaxius.newzealandguide.ui.common.UiState
 
 @Composable
 fun <T> UiStateHandler(
