@@ -37,17 +37,25 @@ class EventRepositoryImpl(
         cityId: String,
         eventId: String,
     ): Event {
-        //val snap = firestore
-        //    .collection("cities")
-        //    .document(cityId)
-        //    .collection("events")
-        //    .document(eventId)
-        //    .get()
-        //    .await()
-        //return snap.toObject(Event::class.java) ?: throw Exception("Event not found")
-        TODO("Not yet implemented")
-    }
+        val snap = firestore
+            .collection("cities")
+            .document(cityId)
+            .collection("events")
+            .document(eventId)
+            .get()
+            .await()
+        if (!snap.exists()) throw Exception("Event not found")
 
+        return EventDto(
+            id = snap.id,
+            url = snap.getString("url") ?: "",
+            name = snap.getString("name") ?: "",
+            description = snap.getString("description") ?: "",
+            address = snap.getString("address") ?: "",
+            sessions = emptyList(),
+            imageUrl = snap.getImageUrl()
+        ).toDomain()
+    }
 }
 
 fun DocumentSnapshot.getImageUrl(): String {
