@@ -85,7 +85,15 @@ fun Content(
             modifier = Modifier.height(8.dp)
         )
 
-        EventsRow()
+        EventsRow(
+            onClick = {
+                navHostController.navigate(
+                    NavScreen.Event.createRoute(it)
+                ) {
+                    launchSingleTop = true
+                }
+            }
+        )
 
         Spacer(
             modifier = Modifier.height(16.dp)

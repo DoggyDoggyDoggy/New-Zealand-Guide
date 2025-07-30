@@ -28,34 +28,43 @@ import denys.diomaxius.newzealandguide.domain.model.event.Event
 @Composable
 fun EventsRow(
     viewModel: EventsRowViewModel = hiltViewModel(),
+    onClick: (String) -> Unit,
 ) {
     val eventsUiState by viewModel.uiState.collectAsState()
     UiStateHandler(eventsUiState) { events ->
         Content(
-            events
+            events = events,
+            onClick = onClick
         )
     }
 }
 
 @Composable
-fun Content(events: List<Event>) {
+fun Content(
+    events: List<Event>,
+    onClick: (String) -> Unit
+    ) {
     LazyRow {
         items(events) { event ->
             EventCard(
-                event
+                event = event,
+                onClick = onClick
             )
         }
     }
 }
 
 @Composable
-fun EventCard(event: Event) {
+fun EventCard(
+    event: Event,
+    onClick: (String) -> Unit
+) {
     Card(
         modifier = Modifier
             .padding(start = 12.dp)
             .size(175.dp)
             .clickable {
-                // TODO()
+                onClick(event.id)
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
