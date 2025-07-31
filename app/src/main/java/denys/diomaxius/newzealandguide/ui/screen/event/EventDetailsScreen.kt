@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.event
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +29,7 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.screen.event.components.BuyTicketButton
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventAddress
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
 
@@ -36,6 +39,7 @@ fun EventDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navHostController = LocalNavController.current
+    val context: Context = LocalContext.current
 
     UiStateHandler(uiState) { event ->
         Scaffold(
@@ -47,6 +51,17 @@ fun EventDetailsScreen(
                             navHostController.popBackStack()
                         }
                     }
+                )
+            },
+            bottomBar = {
+                BuyTicketButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp)
+                        .padding(vertical = 8.dp)
+                        .height(50.dp),
+                    event = event,
+                    context = context
                 )
             }
         ) { innerPadding ->
@@ -70,7 +85,6 @@ fun Content(
     ) {
         Column(
             modifier = Modifier
-                //.padding(vertical = 12.dp)
                 .padding(horizontal = 12.dp)
                 .verticalScroll(rememberScrollState())
         ) {
