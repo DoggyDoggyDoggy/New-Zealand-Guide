@@ -1,9 +1,10 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import denys.diomaxius.newzealandguide.data.mapper.event.getImageUrl
+import denys.diomaxius.newzealandguide.data.mapper.event.parseSessions
 import denys.diomaxius.newzealandguide.data.mapper.event.toDomain
 import denys.diomaxius.newzealandguide.data.model.event.EventDto
 import denys.diomaxius.newzealandguide.domain.model.event.Event
@@ -28,7 +29,7 @@ class EventRepositoryImpl(
                 description = doc.getString("description") ?: "",
                 address = doc.getString("address") ?: "",
                 sessions = emptyList(),
-                imageUrl = doc.getImageUrl()
+                imageUrl = getImageUrl(doc)
             ).toDomain()
         }
     }
@@ -52,16 +53,8 @@ class EventRepositoryImpl(
             name = snap.getString("name") ?: "",
             description = snap.getString("description") ?: "",
             address = snap.getString("address") ?: "",
-            sessions = emptyList(),
-            imageUrl = snap.getImageUrl()
+            sessions = parseSessions(snap),
+            imageUrl = getImageUrl(snap)
         ).toDomain()
     }
-}
-
-fun DocumentSnapshot.getImageUrl(): String {
-    val imagesList = (get("images") as? Map<*, *>)?.get("images") as? List<*>
-    val first = imagesList?.firstOrNull() as? Map<*, *>
-    val transforms = first?.get("transforms") as? Map<*, *>
-    val tList = transforms?.get("transforms") as? List<*>
-    return (tList?.getOrNull(2) as? Map<*, *>)?.get("url") as? String ?: ""
 }
