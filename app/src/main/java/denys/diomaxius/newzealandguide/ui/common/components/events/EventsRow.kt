@@ -32,7 +32,11 @@ fun EventsRow(
     cityId: String,
 ) {
     val eventsUiState by viewModel.uiState.collectAsState()
-    UiStateHandler(eventsUiState) { events ->
+
+    UiStateHandler(
+        eventsUiState,
+        loading = { EventsRowLoading() }
+    ) { events ->
         Content(
             events = events,
             onClick = onClick,
