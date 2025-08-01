@@ -26,7 +26,10 @@ fun WeatherForecastFiveDays(
 ) {
     val weatherForecastUiState by viewModel.uiState.collectAsState()
 
-    UiStateHandler(weatherForecastUiState) { weatherForecast ->
+    UiStateHandler(
+        weatherForecastUiState,
+        loading = { WeatherLoading() }
+    ) { weatherForecast ->
         Content(weatherForecast)
     }
 }
