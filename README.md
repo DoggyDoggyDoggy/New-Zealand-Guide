@@ -12,7 +12,7 @@ New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github
 
 ---
 
-## ✨ Features
+## Features
 
 * **City Guide**: Explore New Zealand cities with descriptions, photos, and travel tips.
 * **Weather Data**: Fresh weather updates pulled and cached via Cloud Functions.
@@ -22,7 +22,7 @@ New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 * **Android**: Kotlin, Jetpack Compose, MVVM
 * **Backend as a Service**: Firebase Firestore, Сloudinary Storage, Firebase Functions
