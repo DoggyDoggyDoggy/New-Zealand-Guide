@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.allcities
+package denys.diomaxius.newzealandguide.ui.common.components.loadingscreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoadingAllCities() {
+fun ScreenLoading() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

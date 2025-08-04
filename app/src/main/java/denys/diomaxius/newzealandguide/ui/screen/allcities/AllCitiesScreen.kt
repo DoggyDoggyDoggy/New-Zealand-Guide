@@ -22,6 +22,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
+import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -35,7 +36,7 @@ fun AllCitiesScreen(
 
     UiStateHandler(
         state = citiesUiState,
-        loading = { LoadingAllCities() }
+        loading = { ScreenLoading() }
     ) { cities ->
         Scaffold(
             topBar = {
