@@ -2,9 +2,9 @@ package denys.diomaxius.newzealandguide.ui.screen.cityhistory
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,20 +54,24 @@ fun Content(
     modifier: Modifier = Modifier,
     cityHistory: CityHistory,
 ) {
-    Column(
+    Card(
         modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp)
+            .padding(12.dp)
     ) {
-        cityHistory.paragraphs.forEach {
-            Text(
-                text = it,
-                fontSize = 18.sp
-            )
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+        ) {
+            cityHistory.paragraphs.forEach {
+                Text(
+                    text = it,
+                    fontSize = 18.sp
+                )
 
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+            }
         }
     }
 }
