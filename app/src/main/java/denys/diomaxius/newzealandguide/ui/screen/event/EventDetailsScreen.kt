@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.event.Event
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
@@ -42,7 +43,10 @@ fun EventDetailsScreen(
     val navHostController = LocalNavController.current
     val context: Context = LocalContext.current
 
-    UiStateHandler(uiState) { event ->
+    UiStateHandler(
+        state = uiState,
+        loading = { ScreenLoading() }
+    ) { event ->
         Scaffold(
             topBar = {
                 TopBar(
