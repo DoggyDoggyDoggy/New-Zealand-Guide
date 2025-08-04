@@ -26,3 +26,7 @@ New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github
 
 * **Android**: Kotlin, Jetpack Compose, MVVM
 * **Backend as a Service**: Firebase Firestore, Сloudinary Storage, Firebase Functions
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
