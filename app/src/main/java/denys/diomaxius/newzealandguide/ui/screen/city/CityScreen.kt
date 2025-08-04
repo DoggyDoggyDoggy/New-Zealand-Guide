@@ -25,6 +25,7 @@ import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.events.EventsRow
+import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.common.components.weather.WeatherForecastFiveDays
@@ -36,7 +37,10 @@ fun CityScreen(
     val cityUiState by viewModel.cityUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(cityUiState) { city ->
+    UiStateHandler(
+        state = cityUiState,
+        loading = { ScreenLoading() }
+    ) { city ->
         Scaffold(
             topBar = {
                 TopBar(
