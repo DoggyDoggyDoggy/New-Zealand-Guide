@@ -33,7 +33,10 @@ fun AllCitiesScreen(
     val citiesUiState by viewModel.citiesUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(citiesUiState) { cities ->
+    UiStateHandler(
+        state = citiesUiState,
+        loading = { LoadingAllCities() }
+    ) { cities ->
         Scaffold(
             topBar = {
                 TopBar(
