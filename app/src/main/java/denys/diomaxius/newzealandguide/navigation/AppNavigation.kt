@@ -14,6 +14,7 @@ import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
 import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
+import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not initialized")
@@ -26,8 +27,12 @@ fun AppNavigation(
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
             navController = navHostController,
-            startDestination = NavScreen.AllCities.route
+            startDestination = NavScreen.Home.route
         ) {
+            composable(NavScreen.Home.route) {
+                HomeScreen()
+            }
+
             composable(NavScreen.AllCities.route) {
                 AllCitiesScreen()
             }
