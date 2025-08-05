@@ -2,9 +2,9 @@ package denys.diomaxius.newzealandguide.ui.screen.cityhistory
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -28,7 +29,10 @@ fun CityHistoryScreen(
     val cityHistoryUiState by viewModel.cityHistoryUiState.collectAsState()
     val navHostController = LocalNavController.current
 
-    UiStateHandler(cityHistoryUiState) { cityHistory ->
+    UiStateHandler(
+        state = cityHistoryUiState,
+        loading = { ScreenLoading() }
+    ) { cityHistory ->
         Scaffold(
             topBar = {
                 TopBar(
@@ -54,20 +58,24 @@ fun Content(
     modifier: Modifier = Modifier,
     cityHistory: CityHistory,
 ) {
-    Column(
+    Card(
         modifier = modifier
-            .fillMaxSize()
-            .padding(8.dp)
+            .padding(12.dp)
     ) {
-        cityHistory.paragraphs.forEach {
-            Text(
-                text = it,
-                fontSize = 18.sp
-            )
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+        ) {
+            cityHistory.paragraphs.forEach {
+                Text(
+                    text = it,
+                    fontSize = 18.sp
+                )
 
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+            }
         }
     }
 }
