@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,12 +18,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
+import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -40,7 +44,7 @@ fun HomeScreen(
         loading = {
             ScreenLoading()
         }
-    ) {
+    ) { homeData ->
         Scaffold(
             topBar = {
                 TopBar(
@@ -53,7 +57,8 @@ fun HomeScreen(
         ) { innerPadding ->
             Content(
                 modifier = Modifier.padding(innerPadding),
-                navHostController = navHostController
+                navHostController = navHostController,
+                homeData = homeData
             )
         }
     }
@@ -62,12 +67,15 @@ fun HomeScreen(
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    homeData: Home
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
     ) {
-        HeroBlock()
+        HeroBlock(
+            photos = homeData.photos
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -102,19 +110,37 @@ fun Content(
 }
 
 @Composable
-fun HeroBlock(modifier: Modifier = Modifier) {
+fun HeroBlock(
+    modifier: Modifier = Modifier,
+    photos: List<String>
+) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Kia ora!",
-            style = MaterialTheme.typography.headlineLarge
-        )
-        Text(
-            text = "Explore New Zealand",
-            style = MaterialTheme.typography.titleMedium
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp)
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Kia ora!",
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineLarge
+            )
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Explore New Zealand",
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
+
+        CityPhotoSlider(
+            photos = photos
         )
     }
 }
