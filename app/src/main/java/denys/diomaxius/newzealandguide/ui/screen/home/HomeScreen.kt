@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 
 @Composable
@@ -30,7 +31,9 @@ fun HomeScreen() {
         topBar = {
             TopBar(
                 text = "New Zealand Guide",
-                navigationButton = {}
+                navigationButton = {
+                    MenuButton {}
+                }
             )
         }
     ) { innerPadding ->
