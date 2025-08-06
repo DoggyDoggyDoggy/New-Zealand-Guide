@@ -98,7 +98,8 @@ fun EventCard(
                         .padding(top = 4.dp),
                     text = event.name,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.Black
                 )
             }
         }
