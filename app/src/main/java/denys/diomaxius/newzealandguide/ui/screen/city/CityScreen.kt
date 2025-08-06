@@ -22,6 +22,7 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
+import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.events.EventsRow
@@ -136,10 +137,10 @@ fun Content(
                     }
                 }
             )
-
-            Spacer(
-                modifier = Modifier.height(165.dp)
-            )
         }
+        
+        Spacer(
+            modifier = Modifier.height(165.dp)
+        )
     }
 }
