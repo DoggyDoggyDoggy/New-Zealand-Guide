@@ -132,7 +132,9 @@ fun HeroBlock(
             )
 
             Text(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp),
                 text = "Explore New Zealand",
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
