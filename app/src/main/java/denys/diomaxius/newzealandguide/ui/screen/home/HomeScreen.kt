@@ -13,34 +13,49 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
+import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeScreenViewModel = hiltViewModel()
+) {
     val navHostController = LocalNavController.current
+    val uiState by viewModel.homeUiState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                text = "New Zealand Guide",
-                navigationButton = {
-                    MenuButton {}
-                }
+    UiStateHandler(
+        state = uiState,
+        loading = {
+            ScreenLoading()
+        }
+    ) {
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = "New Zealand Guide",
+                    navigationButton = {
+                        MenuButton {}
+                    }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                navHostController = navHostController
             )
         }
-    ) { innerPadding ->
-        Content(
-            modifier = Modifier.padding(innerPadding),
-            navHostController = navHostController
-        )
     }
 }
 
