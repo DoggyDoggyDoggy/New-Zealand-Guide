@@ -15,6 +15,7 @@ import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
 import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
+import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not initialized")
@@ -31,6 +32,10 @@ fun AppNavigation(
         ) {
             composable(NavScreen.Home.route) {
                 HomeScreen()
+            }
+
+            composable(NavScreen.MaoriWords.route) {
+                MaoriWordsScreen()
             }
 
             composable(NavScreen.AllCities.route) {
