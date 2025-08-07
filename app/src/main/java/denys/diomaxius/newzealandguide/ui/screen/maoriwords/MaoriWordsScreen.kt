@@ -1,11 +1,10 @@
 package denys.diomaxius.newzealandguide.ui.screen.maoriwords
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -41,7 +40,7 @@ fun MaoriWordsScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "New Zealand Guide",
+                    text = "Common Maori Words",
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()
@@ -71,7 +70,10 @@ fun Content(
     }
 
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(
             items = entries,
@@ -94,10 +96,10 @@ fun Word(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(maori, modifier = Modifier.weight(1f))
-        Spacer(Modifier.width(16.dp))
-        Text(english, modifier = Modifier.weight(1f))
+        Text(maori)
+        Text(english)
     }
 }
