@@ -102,7 +102,9 @@ fun Content(
                 modifier = Modifier.weight(1f),
                 cardText = "Maori Words",
                 onClick = {
-
+                    navHostController.navigate(NavScreen.MaoriWords.route) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }

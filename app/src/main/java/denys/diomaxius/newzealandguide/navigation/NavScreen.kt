@@ -2,7 +2,11 @@ package denys.diomaxius.newzealandguide.navigation
 
 sealed class NavScreen(val route: String) {
     object Home : NavScreen("home")
+
+    object MaoriWords : NavScreen("maoriwords")
+
     object AllCities : NavScreen("allcities")
+
     object City : NavScreen("city/{cityId}") {
         fun createRoute(cityId: String): String = "city/$cityId"
     }
