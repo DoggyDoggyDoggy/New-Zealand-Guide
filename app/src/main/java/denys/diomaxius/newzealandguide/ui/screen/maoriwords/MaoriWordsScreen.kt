@@ -1,7 +1,7 @@
 package denys.diomaxius.newzealandguide.ui.screen.maoriwords
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +23,11 @@ import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowB
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MaoriWordsScreen(
@@ -92,14 +97,32 @@ fun Word(
     maori: String,
     english: String
 ) {
-    Row(
+    Card (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+            .padding(vertical = 6.dp)
     ) {
-        Text(maori)
-        Text(english)
+        Column (
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = maori,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                fontSize = 24.sp
+            )
+
+            HorizontalDivider()
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = english,
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp
+            )
+        }
     }
 }
