@@ -1,10 +1,14 @@
 package denys.diomaxius.newzealandguide.ui.screen.event
 
 import android.content.Context
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -59,15 +63,19 @@ fun EventDetailsScreen(
                 )
             },
             bottomBar = {
-                BuyTicketButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp)
-                        .padding(vertical = 8.dp)
-                        .height(50.dp),
-                    event = event,
-                    context = context
-                )
+                Box (
+                    modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues())
+                ){
+                    BuyTicketButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp)
+                            .padding(vertical = 8.dp)
+                            .height(50.dp),
+                        event = event,
+                        context = context
+                    )
+                }
             }
         ) { innerPadding ->
             Content(
