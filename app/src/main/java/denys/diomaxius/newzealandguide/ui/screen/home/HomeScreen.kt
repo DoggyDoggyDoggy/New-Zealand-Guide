@@ -25,7 +25,7 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
+import denys.diomaxius.newzealandguide.ui.common.components.infocard.InfoCard
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
