@@ -1,13 +1,11 @@
 package denys.diomaxius.newzealandguide.ui.screen.city
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -22,10 +20,10 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.common.components.events.EventsRow
+import denys.diomaxius.newzealandguide.ui.common.components.infocard.TwoInfoCardsRow
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -105,40 +103,28 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        Row(
+        TwoInfoCardsRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-        ) {
-            InfoCard(
-                modifier = Modifier.weight(1f),
-                cardText = "Top Things to Do in ${city.name} City",
-                onClick = {
-                    navHostController.navigate(
-                        NavScreen.CityPlaces.createRoute(city.id, city.name)
-                    ) {
-                        launchSingleTop = true
-                    }
+                .padding(horizontal = 12.dp),
+            firstCardText = "Top Things to Do in ${city.name} City",
+            secondCardText = "City History",
+            firstCardOnClick = {
+                navHostController.navigate(
+                    NavScreen.CityPlaces.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
                 }
-            )
-
-            Spacer(
-                modifier = Modifier.width(12.dp)
-            )
-
-            InfoCard(
-                modifier = Modifier.weight(1f),
-                cardText = "City History",
-                onClick = {
-                    navHostController.navigate(
-                        NavScreen.CityHistory.createRoute(city.id, city.name)
-                    ) {
-                        launchSingleTop = true
-                    }
+            },
+            secondCardOnClick = {
+                navHostController.navigate(
+                    NavScreen.CityHistory.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
                 }
-            )
-        }
-        
+            }
+        )
+
         Spacer(
             modifier = Modifier.height(165.dp)
         )
