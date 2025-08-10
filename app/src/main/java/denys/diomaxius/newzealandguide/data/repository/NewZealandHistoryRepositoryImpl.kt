@@ -19,6 +19,6 @@ class NewZealandHistoryRepositoryImpl(
             .await()
         return snap.documents.first()
             .toObject(NewZealandHistoryEntity::class.java)?.toDomain()
-            ?: throw Exception("Maori words data not found")
+            ?: throw Exception("New Zealand history data not found")
     }
 }
