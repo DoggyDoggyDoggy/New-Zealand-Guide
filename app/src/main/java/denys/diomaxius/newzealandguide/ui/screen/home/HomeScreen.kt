@@ -104,14 +104,16 @@ fun Content(
             modifier = Modifier
                 .fillMaxWidth(),
             firstCardText = "History",
-            secondCardText = "",
+            secondCardText = "Facts",
             firstCardOnClick = {
                 navHostController.navigate(NavScreen.NewZealandHistory.route) {
                     launchSingleTop = true
                 }
             },
             secondCardOnClick = {
-
+                navHostController.navigate(NavScreen.NewZealandFacts.route) {
+                    launchSingleTop = true
+                }
             }
         )
     }
