@@ -5,6 +5,8 @@ sealed class NavScreen(val route: String) {
 
     object MaoriWords : NavScreen("maoriwords")
 
+    object NewZealandHistory : NavScreen("newzealandhistory")
+
     object AllCities : NavScreen("allcities")
 
     object City : NavScreen("city/{cityId}") {
