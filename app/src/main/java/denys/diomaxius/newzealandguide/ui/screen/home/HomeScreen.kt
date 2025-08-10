@@ -2,13 +2,11 @@ package denys.diomaxius.newzealandguide.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,8 +23,8 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.common.components.InfoCard
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
+import denys.diomaxius.newzealandguide.ui.common.components.infocard.TwoInfoCardsRow
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -79,35 +77,23 @@ fun Content(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Row(
+        TwoInfoCardsRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp)
-        ) {
-            InfoCard(
-                modifier = Modifier.weight(1f),
-                cardText = "New Zealand cities",
-                onClick = {
-                    navHostController.navigate(NavScreen.AllCities.route) {
-                        launchSingleTop = true
-                    }
+                .padding(horizontal = 12.dp),
+            firstCardText = "New Zealand cities",
+            secondCardText = "Maori Words",
+            firstCardOnClick = {
+                navHostController.navigate(NavScreen.AllCities.route) {
+                    launchSingleTop = true
                 }
-            )
-
-            Spacer(
-                modifier = Modifier.width(12.dp)
-            )
-
-            InfoCard(
-                modifier = Modifier.weight(1f),
-                cardText = "Maori Words",
-                onClick = {
-                    navHostController.navigate(NavScreen.MaoriWords.route) {
-                        launchSingleTop = true
-                    }
+            },
+            secondCardOnClick = {
+                navHostController.navigate(NavScreen.MaoriWords.route) {
+                    launchSingleTop = true
                 }
-            )
-        }
+            }
+        )
     }
 }
 
