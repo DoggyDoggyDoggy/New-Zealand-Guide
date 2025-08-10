@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -69,7 +71,9 @@ fun Content(
     homeData: Home
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
     ) {
         HeroBlock(
             photos = homeData.photos
@@ -79,9 +83,8 @@ fun Content(
 
         TwoInfoCardsRow(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp),
-            firstCardText = "New Zealand cities",
+                .fillMaxWidth(),
+            firstCardText = "Cities",
             secondCardText = "Maori Words",
             firstCardOnClick = {
                 navHostController.navigate(NavScreen.AllCities.route) {
@@ -92,6 +95,23 @@ fun Content(
                 navHostController.navigate(NavScreen.MaoriWords.route) {
                     launchSingleTop = true
                 }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        TwoInfoCardsRow(
+            modifier = Modifier
+                .fillMaxWidth(),
+            firstCardText = "History",
+            secondCardText = "",
+            firstCardOnClick = {
+                navHostController.navigate(NavScreen.NewZealandHistory.route) {
+                    launchSingleTop = true
+                }
+            },
+            secondCardOnClick = {
+
             }
         )
     }
