@@ -45,7 +45,8 @@ fun HomeScreen(
         }
     ) { homeData ->
         NavigationDrawer (
-            drawerState = drawerState
+            drawerState = drawerState,
+            navHostController = navHostController
         ) {
             Scaffold(
                 topBar = {

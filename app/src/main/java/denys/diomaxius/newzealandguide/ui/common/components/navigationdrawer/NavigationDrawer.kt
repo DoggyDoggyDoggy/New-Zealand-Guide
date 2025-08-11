@@ -16,25 +16,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 
 @Composable
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
     drawerState: DrawerState,
+    navHostController: NavHostController,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
-            DrawerContent()
+            DrawerContent(navHostController = navHostController)
         },
         content = content,
     )
 }
 
 @Composable
-fun DrawerContent(modifier: Modifier = Modifier) {
+fun DrawerContent(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+) {
     ModalDrawerSheet(
         modifier = modifier.width(200.dp)
     ) {
@@ -60,7 +66,9 @@ fun DrawerContent(modifier: Modifier = Modifier) {
                 },
                 selected = false,
                 onClick = {
-
+                    navHostController.navigate(NavScreen.About.route) {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
