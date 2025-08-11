@@ -2,18 +2,15 @@ package denys.diomaxius.newzealandguide.ui.screen.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.infocard.LongInfoCard
-import denys.diomaxius.newzealandguide.ui.common.components.infocard.TwoInfoCardsRow
 
 @Composable
 fun NavigationMenu(
@@ -24,10 +21,6 @@ fun NavigationMenu(
         modifier = modifier,
         navHostController = navHostController
     )
-
-    //SquareNavigationMenu(
-    //    navHostController = navHostController
-    //)
 }
 
 @Composable
@@ -48,7 +41,8 @@ fun LongCardNavigationMenu(
                 navHostController.navigate(NavScreen.AllCities.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            image = R.drawable.ic_building_outline
         )
 
         LongInfoCard(
@@ -59,7 +53,8 @@ fun LongCardNavigationMenu(
                 navHostController.navigate(NavScreen.MaoriWords.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            image = R.drawable.ic_chat_outline
         )
 
         LongInfoCard(
@@ -70,7 +65,8 @@ fun LongCardNavigationMenu(
                 navHostController.navigate(NavScreen.NewZealandHistory.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            image = R.drawable.ic_scroll_outline
         )
 
         LongInfoCard(
@@ -81,11 +77,13 @@ fun LongCardNavigationMenu(
                 navHostController.navigate(NavScreen.NewZealandFacts.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            image = R.drawable.ic_leaf_outline
         )
     }
 }
 
+/*
 @Composable
 fun SquareNavigationMenu(
     navHostController: NavHostController,
@@ -125,4 +123,4 @@ fun SquareNavigationMenu(
             }
         }
     )
-}
+}*/
