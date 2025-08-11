@@ -24,9 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
-import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
-import denys.diomaxius.newzealandguide.ui.common.components.infocard.TwoInfoCardsRow
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.MenuButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
@@ -81,40 +79,8 @@ fun Content(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        TwoInfoCardsRow(
-            modifier = Modifier
-                .fillMaxWidth(),
-            firstCardText = "Cities",
-            secondCardText = "Maori Words",
-            firstCardOnClick = {
-                navHostController.navigate(NavScreen.AllCities.route) {
-                    launchSingleTop = true
-                }
-            },
-            secondCardOnClick = {
-                navHostController.navigate(NavScreen.MaoriWords.route) {
-                    launchSingleTop = true
-                }
-            }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        TwoInfoCardsRow(
-            modifier = Modifier
-                .fillMaxWidth(),
-            firstCardText = "History",
-            secondCardText = "Facts",
-            firstCardOnClick = {
-                navHostController.navigate(NavScreen.NewZealandHistory.route) {
-                    launchSingleTop = true
-                }
-            },
-            secondCardOnClick = {
-                navHostController.navigate(NavScreen.NewZealandFacts.route) {
-                    launchSingleTop = true
-                }
-            }
+        NavigationMenu(
+            navHostController = navHostController
         )
     }
 }
