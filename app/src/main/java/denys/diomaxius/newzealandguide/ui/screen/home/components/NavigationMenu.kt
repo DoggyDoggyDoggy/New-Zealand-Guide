@@ -20,6 +20,21 @@ fun NavigationMenu(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
 ) {
+    LongCardNavigationMenu(
+        modifier = modifier,
+        navHostController = navHostController
+    )
+
+    //SquareNavigationMenu(
+    //    navHostController = navHostController
+    //)
+}
+
+@Composable
+fun LongCardNavigationMenu(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+) {
     Column(
         modifier = modifier.padding(horizontal = 6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
