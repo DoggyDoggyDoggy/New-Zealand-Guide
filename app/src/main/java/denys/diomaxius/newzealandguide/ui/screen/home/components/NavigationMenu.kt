@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.home
+package denys.diomaxius.newzealandguide.ui.screen.home.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
