@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun InfoCard(
+fun InfoCardSquare(
     modifier: Modifier = Modifier,
     cardText: String,
     onClick: () -> Unit

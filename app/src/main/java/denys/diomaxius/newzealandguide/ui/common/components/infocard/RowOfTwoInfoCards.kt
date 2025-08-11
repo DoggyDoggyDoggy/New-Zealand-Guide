@@ -22,7 +22,7 @@ fun TwoInfoCardsRow(
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
     ) {
-        InfoCard(
+        InfoCardSquare(
             modifier = Modifier.weight(1f),
             cardText = firstCardText,
             onClick = firstCardOnClick
@@ -32,7 +32,7 @@ fun TwoInfoCardsRow(
             modifier = Modifier.width(12.dp)
         )
 
-        InfoCard(
+        InfoCardSquare(
             modifier = Modifier.weight(1f),
             cardText = secondCardText,
             onClick = secondCardOnClick
