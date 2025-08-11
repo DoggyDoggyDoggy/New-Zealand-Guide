@@ -65,7 +65,7 @@ fun Content(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         HeroBlock(
             photos = homeData.photos
