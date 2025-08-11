@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.about
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,13 +18,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import denys.diomaxius.newzealandguide.R
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
+import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 
 @Composable
 fun AboutScreen(
     modifier: Modifier = Modifier,
-    contactEmail: String = "developer@example.com"
+    contactEmail: String = "developer@example.com",
 ) {
     val context = LocalContext.current
+    val navHostController = LocalNavController.current
 
     // get versionName safely
     val versionName = remember {
@@ -33,14 +39,40 @@ fun AboutScreen(
             "?"
         }
     }
+    Scaffold(
+        topBar = {
+            TopBar(
+                text = stringResource(R.string.about_title),
+                navigationButton = {
+                    PopBackArrowButton {
+                        navHostController.popBackStack()
+                    }
+                }
+            )
+        }
+    ) { innerPadding->
+        Content(
+            modifier = modifier.padding(innerPadding),
+            context = context,
+            versionName = versionName,
+            contactEmail = contactEmail
+        )
+    }
+}
 
+@Composable
+fun Content(
+    modifier: Modifier = Modifier,
+    context: Context,
+    versionName: String,
+    contactEmail: String,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(text = stringResource(R.string.about_title), style = MaterialTheme.typography.titleLarge)
         Text(text = stringResource(R.string.about_created))
         Text(text = stringResource(R.string.about_photos))
         Text(text = stringResource(R.string.about_ai))
@@ -61,6 +93,9 @@ fun AboutScreen(
                 .padding(vertical = 4.dp)
         )
 
-        Text(text = stringResource(R.string.app_version_label, versionName), style = MaterialTheme.typography.labelSmall)
+        Text(
+            text = stringResource(R.string.app_version_label, versionName),
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }
