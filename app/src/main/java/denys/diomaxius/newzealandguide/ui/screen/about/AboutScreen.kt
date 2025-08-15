@@ -1,8 +1,11 @@
 package denys.diomaxius.newzealandguide.ui.screen.about
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +31,6 @@ import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 @Composable
 fun AboutScreen(
     modifier: Modifier = Modifier,
-    contactEmail: String = "developer@example.com",
 ) {
     val context = LocalContext.current
     val navHostController = LocalNavController.current
@@ -53,12 +55,11 @@ fun AboutScreen(
                 }
             )
         }
-    ) { innerPadding->
+    ) { innerPadding ->
         Content(
             modifier = modifier.padding(innerPadding),
             context = context,
-            versionName = versionName,
-            contactEmail = contactEmail
+            versionName = versionName
         )
     }
 }
@@ -67,10 +68,10 @@ fun AboutScreen(
 fun Content(
     modifier: Modifier = Modifier,
     context: Context,
-    versionName: String,
-    contactEmail: String,
+    versionName: String
 ) {
     val unsplashLicenseUrl = stringResource(R.string.unsplash_license_url)
+    val contactEmail: String = stringResource(R.string.email_for_reports)
 
     Column(
         modifier = modifier
@@ -80,7 +81,7 @@ fun Content(
 
         Text(text = stringResource(R.string.about_photos))
         Text(
-            modifier = Modifier.clickable{
+            modifier = Modifier.clickable {
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW, unsplashLicenseUrl.toUri())
                 )
@@ -108,11 +109,18 @@ fun Content(
                 modifier = Modifier
                     .clickable {
                         val subject = Uri.encode("NZ Guide — Feedback")
-                        val uri = Uri.parse("mailto:$contactEmail?subject=$subject")
+                        val uri = "mailto:$contactEmail?subject=$subject".toUri()
                         val intent = Intent(Intent.ACTION_SENDTO, uri)
-                        // safety: check if there's an app
-                        if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
+
+                        val chooser = Intent.createChooser(intent, "Send email")
+
+                        if (context !is Activity) chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+                        try {
+                            context.startActivity(chooser)
+                        } catch (e: ActivityNotFoundException) {
+                            Toast.makeText(context, "No email app installed", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
             )
