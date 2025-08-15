@@ -1,3 +1,11 @@
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/b6fa529f-321a-4b30-9555-5ae0d194d6ff"
+    alt="Android Developer Illustration"
+    width="600"
+    />
+</p>
+
 # New-Zealand-Guide
 
 Next-generation NZGuide app reimagined with a cloud-driven architecture powered by Firebase. All city, events, and weather data are now stored and served via Firebase services, with third-party API integrations handled by server-side functions. The Android client fetches and displays this data, resulting in a lighter, faster, and more maintainable application.
