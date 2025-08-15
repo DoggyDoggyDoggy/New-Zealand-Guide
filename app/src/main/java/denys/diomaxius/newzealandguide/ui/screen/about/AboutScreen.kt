@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -70,32 +72,46 @@ fun Content(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(16.dp)
     ) {
-        Text(text = stringResource(R.string.about_created))
+
         Text(text = stringResource(R.string.about_photos))
+        Text(text = stringResource(R.string.unsplash_license_url))
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         Text(text = stringResource(R.string.about_ai))
 
-        Text(
-            text = stringResource(R.string.about_contact, contactEmail),
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .clickable {
-                    val subject = Uri.encode("NZ Guide — Feedback")
-                    val uri = Uri.parse("mailto:$contactEmail?subject=$subject")
-                    val intent = Intent(Intent.ACTION_SENDTO, uri)
-                    // safety: check if there's an app
-                    if (intent.resolveActivity(context.packageManager) != null) {
-                        context.startActivity(intent)
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(text = stringResource(R.string.about_created))
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row {
+            Text(text = stringResource(R.string.about_contact))
+
+            Text(
+                text = contactEmail,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .clickable {
+                        val subject = Uri.encode("NZ Guide — Feedback")
+                        val uri = Uri.parse("mailto:$contactEmail?subject=$subject")
+                        val intent = Intent(Intent.ACTION_SENDTO, uri)
+                        // safety: check if there's an app
+                        if (intent.resolveActivity(context.packageManager) != null) {
+                            context.startActivity(intent)
+                        }
                     }
-                }
-                .padding(vertical = 4.dp)
-        )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = stringResource(R.string.app_version_label, versionName),
-            style = MaterialTheme.typography.labelSmall
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }
