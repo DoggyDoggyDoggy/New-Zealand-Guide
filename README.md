@@ -1,6 +1,6 @@
 <p align="center">
   <img
-    src="https://github.com/user-attachments/assets/b6fa529f-321a-4b30-9555-5ae0d194d6ff"
+    src="https://github.com/user-attachments/assets/2f08acf5-2049-4f86-8c17-edcb846598b1"
     alt="Android Developer Illustration"
     width="600"
     />
