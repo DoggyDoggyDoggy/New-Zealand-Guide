@@ -12,6 +12,12 @@ Next-generation NZGuide app reimagined with a cloud-driven architecture powered 
 
 **🛠️ Note:** New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
 
+## Screenshots
+
+<img width="31%" height="625" alt="Screenshot#1" src="https://github.com/user-attachments/assets/d89595a5-6efb-48cf-bf95-0ea758ac71be" />
+<img width="32%" height="625" alt="Screenshot#2" src="https://github.com/user-attachments/assets/540d036f-2304-424c-9749-af6fcc1afebd" />
+<img width="31%" height="625" alt="Screenshot#3" src="https://github.com/user-attachments/assets/0342f5be-dc38-40d2-aca2-fc8309c72f9b" />
+
 ## Project Overview
 
 New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github.com/DoggyDoggyDoggy/NZGuide), shifting all data storage and external API calls to Firebase:
