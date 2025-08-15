@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
@@ -69,6 +70,8 @@ fun Content(
     versionName: String,
     contactEmail: String,
 ) {
+    val unsplashLicenseUrl = stringResource(R.string.unsplash_license_url)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -76,7 +79,15 @@ fun Content(
     ) {
 
         Text(text = stringResource(R.string.about_photos))
-        Text(text = stringResource(R.string.unsplash_license_url))
+        Text(
+            modifier = Modifier.clickable{
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW, unsplashLicenseUrl.toUri())
+                )
+            },
+            text = unsplashLicenseUrl,
+            color = MaterialTheme.colorScheme.primary
+        )
 
         Spacer(modifier = Modifier.height(12.dp))
 
