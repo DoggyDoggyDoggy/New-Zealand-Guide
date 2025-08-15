@@ -13,10 +13,9 @@ Next-generation NZGuide app reimagined with a cloud-driven architecture powered 
 **🛠️ Note:** New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
 
 ## Screenshots
-
-<img width="31%" height="625" alt="Screenshot#1" src="https://github.com/user-attachments/assets/d89595a5-6efb-48cf-bf95-0ea758ac71be" />
-<img width="31%" height="625" alt="Screenshot#2" src="https://github.com/user-attachments/assets/540d036f-2304-424c-9749-af6fcc1afebd" />
-<img width="31%" height="625" alt="Screenshot#3" src="https://github.com/user-attachments/assets/0342f5be-dc38-40d2-aca2-fc8309c72f9b" />
+<img width="31%" height="625" alt="Screenshot#1"  src="https://github.com/user-attachments/assets/56b29edd-775d-4943-ae71-6692ce7b7ee8" />
+<img width="31%" height="625" alt="Screenshot#2" src="https://github.com/user-attachments/assets/f56714df-f6dc-4df0-9cca-006f5304fcf2" />
+<img width="31%" height="625" alt="Screenshot#3" src="https://github.com/user-attachments/assets/933416b0-c5fd-4079-a6cd-c61032b3518a" />
 
 ## Project Overview
 
