@@ -1,8 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.maoriwords.toDomain
 import denys.diomaxius.newzealandguide.data.model.maoriwords.MaoriWordsEntity
 import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
@@ -10,7 +8,7 @@ import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import kotlinx.coroutines.tasks.await
 
 class MaoriWordsRepositoryImpl(
-    private val firestore: FirebaseFirestore = Firebase.firestore
+    private val firestore: FirebaseFirestore
 ) : MaoriWordsRepository {
     override suspend fun getMaoriWords(): MaoriWords {
         val snap = firestore

@@ -1,8 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.event.getImageUrl
 import denys.diomaxius.newzealandguide.data.mapper.event.parseSessions
 import denys.diomaxius.newzealandguide.data.mapper.event.toDomain
@@ -12,7 +10,7 @@ import denys.diomaxius.newzealandguide.domain.repository.EventRepository
 import kotlinx.coroutines.tasks.await
 
 class EventRepositoryImpl(
-    private val firestore: FirebaseFirestore = Firebase.firestore,
+    private val firestore: FirebaseFirestore
 ) : EventRepository {
     override suspend fun getEventsInCity(cityId: String): List<Event> {
         val snap = firestore

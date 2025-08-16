@@ -1,8 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import denys.diomaxius.newzealandguide.data.mapper.city.toDomain
 import denys.diomaxius.newzealandguide.data.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.model.city.CityHistoryEntity
@@ -14,7 +12,7 @@ import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import kotlinx.coroutines.tasks.await
 
 class CityRepositoryImpl(
-    private val firestore: FirebaseFirestore = Firebase.firestore
+    private val firestore: FirebaseFirestore
 ) : CityRepository {
     override suspend fun getAllCities(): List<City> {
         val snap = firestore
