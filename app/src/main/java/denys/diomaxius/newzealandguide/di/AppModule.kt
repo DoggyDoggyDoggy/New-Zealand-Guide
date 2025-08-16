@@ -29,7 +29,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore =
-        Firebase.firestore.apply {}
+        Firebase.firestore
 
     @Provides
     @Singleton
