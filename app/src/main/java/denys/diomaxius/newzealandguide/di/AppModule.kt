@@ -1,5 +1,8 @@
 package denys.diomaxius.newzealandguide.di
 
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,31 +28,41 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideCityRepository(): CityRepository = CityRepositoryImpl()
+    fun provideFirebaseFirestore(): FirebaseFirestore =
+        Firebase.firestore.apply {}
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(): WeatherRepository = WeatherRepositoryImpl()
+    fun provideCityRepository(firestore: FirebaseFirestore): CityRepository =
+        CityRepositoryImpl(firestore)
 
     @Provides
     @Singleton
-    fun provideEventRepository(): EventRepository = EventRepositoryImpl()
+    fun provideWeatherRepository(firestore: FirebaseFirestore): WeatherRepository =
+        WeatherRepositoryImpl(firestore)
 
     @Provides
     @Singleton
-    fun provideHomeRepository(): HomeRepository = HomeRepositoryImpl()
+    fun provideEventRepository(firestore: FirebaseFirestore): EventRepository =
+        EventRepositoryImpl(firestore)
 
     @Provides
     @Singleton
-    fun provideMaoriWordsRepository(): MaoriWordsRepository = MaoriWordsRepositoryImpl()
+    fun provideHomeRepository(firestore: FirebaseFirestore): HomeRepository =
+        HomeRepositoryImpl(firestore)
 
     @Provides
     @Singleton
-    fun provideNewZealandHistoryRepository(): NewZealandHistoryRepository =
-        NewZealandHistoryRepositoryImpl()
+    fun provideMaoriWordsRepository(firestore: FirebaseFirestore): MaoriWordsRepository =
+        MaoriWordsRepositoryImpl(firestore)
 
     @Provides
     @Singleton
-    fun provideNewZealandFactsRepository(): NewZealandFactsRepository =
-        NewZealandFactsRepositoryImpl()
+    fun provideNewZealandHistoryRepository(firestore: FirebaseFirestore): NewZealandHistoryRepository =
+        NewZealandHistoryRepositoryImpl(firestore)
+
+    @Provides
+    @Singleton
+    fun provideNewZealandFactsRepository(firestore: FirebaseFirestore): NewZealandFactsRepository =
+        NewZealandFactsRepositoryImpl(firestore)
 }
