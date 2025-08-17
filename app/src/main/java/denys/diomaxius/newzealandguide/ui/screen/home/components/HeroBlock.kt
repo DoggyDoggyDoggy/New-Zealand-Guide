@@ -32,7 +32,7 @@ fun HeroBlock(
                 .fillMaxWidth()
                 .padding(6.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
+                containerColor = MaterialTheme.colorScheme.secondary
             ),
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 4.dp

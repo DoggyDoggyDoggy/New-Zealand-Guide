@@ -11,6 +11,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun TopBar(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = text,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
                 textAlign = TextAlign.Center
@@ -50,7 +51,7 @@ fun TopBar(
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color(0xFF8D96C2)
+            containerColor = MaterialTheme.colorScheme.primary
         )
     )
 }
