@@ -14,9 +14,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
@@ -51,7 +53,7 @@ fun HomeScreen(
             Scaffold(
                 topBar = {
                     TopBar(
-                        text = "New Zealand Guide",
+                        text = stringResource(R.string.top_bar_home),
                         navigationButton = {
                             MenuButton {
                                 scope.launch {

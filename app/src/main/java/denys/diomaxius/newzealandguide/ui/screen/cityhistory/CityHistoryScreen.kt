@@ -12,8 +12,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
@@ -36,7 +38,7 @@ fun CityHistoryScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "History of $cityName",
+                    text = stringResource(R.string.top_bar_city_history, cityName),
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()

@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.nzhistory.NewZealandHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
@@ -38,7 +40,7 @@ fun NewZealandHistoryScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "New Zealand History",
+                    text = stringResource(R.string.top_bar_nz_history),
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()

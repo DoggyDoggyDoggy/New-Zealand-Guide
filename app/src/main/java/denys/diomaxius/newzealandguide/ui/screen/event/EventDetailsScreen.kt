@@ -24,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.event.Event
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
@@ -54,7 +56,7 @@ fun EventDetailsScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "Event Details",
+                    text = stringResource(R.string.top_bar_event_details),
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()
