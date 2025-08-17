@@ -14,10 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
@@ -41,7 +43,7 @@ fun AllCitiesScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "City Guide",
+                    text = stringResource(R.string.top_bar_all_cities),
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()

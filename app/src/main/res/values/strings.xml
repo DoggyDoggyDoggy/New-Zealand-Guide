@@ -7,5 +7,18 @@
     <string name="about_ai">Some text content in this app was generated with ChatGPT (OpenAI). Content may contain inaccuracies — please report issues.</string>
     <string name="about_contact">Contact: </string>
     <string name="app_version_label">App version: %1$s</string>
-    <string name="email_for_reports">developer@example.com</string>
+    <string name="email_for_reports">hiddenmax58@gmail.com</string>
+
+    <string name="city_history_card">City History</string>
+    <string name="attraction_in_city_card">Top Things to Do in %1$s City</string>
+
+    <string name="top_bar_city_history">History of %1$s</string>
+    <string name="top_bar_attraction_in_city">Top Things to Do in %1$s</string>
+    <string name="top_bar_event_details">Event Details</string>
+    <string name="top_bar_home">New Zealand Guide</string>
+    <string name="top_bar_maori_words">Common Maori Words</string>
+    <string name="top_bar_nz_facts">New Zealand Facts</string>
+    <string name="top_bar_nz_history">New Zealand History</string>
+    <string name="top_bar_all_cities">City Guide</string>
+    <string name="nav_drawer_about">About</string>
 </resources>

@@ -14,9 +14,11 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 
 @Composable
@@ -54,7 +56,7 @@ fun DrawerContent(
             NavigationDrawerItem(
                 label = {
                     Text(
-                        text = "About",
+                        text = stringResource(R.string.nav_drawer_about),
                         textAlign = TextAlign.Center
                     )
                 },

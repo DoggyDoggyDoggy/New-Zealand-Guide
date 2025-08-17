@@ -14,9 +14,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
@@ -107,8 +109,8 @@ fun Content(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            firstCardText = "Top Things to Do in ${city.name} City",
-            secondCardText = "City History",
+            firstCardText = stringResource(R.string.attraction_in_city_card, city.name),
+            secondCardText = stringResource(R.string.city_history_card),
             firstCardOnClick = {
                 navHostController.navigate(
                     NavScreen.CityPlaces.createRoute(city.id, city.name)

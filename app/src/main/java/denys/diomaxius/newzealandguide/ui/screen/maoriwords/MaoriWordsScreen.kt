@@ -25,9 +25,11 @@ import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun MaoriWordsScreen(
@@ -45,7 +47,7 @@ fun MaoriWordsScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = "Common Maori Words",
+                    text = stringResource(R.string.top_bar_maori_words),
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.popBackStack()
