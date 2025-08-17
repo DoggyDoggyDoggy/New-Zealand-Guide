@@ -22,7 +22,7 @@ fun CityCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .clickable {
                 navigateToCity()
             }
