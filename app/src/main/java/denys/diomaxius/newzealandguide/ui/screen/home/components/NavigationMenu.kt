@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
@@ -35,8 +36,8 @@ fun LongCardNavigationMenu(
     ) {
         LongInfoCard(
             modifier = Modifier,
-            titleCardText = "Top Cities & Towns",
-            subTitleCardText = "Explore New Zealand",
+            titleCardText = stringResource(R.string.top_cities_towns),
+            subTitleCardText = stringResource(R.string.top_cities_towns_subtitle),
             onClick = {
                 navHostController.navigate(NavScreen.AllCities.route) {
                     launchSingleTop = true
@@ -47,8 +48,8 @@ fun LongCardNavigationMenu(
 
         LongInfoCard(
             modifier = Modifier,
-            titleCardText = "Te Reo Māori",
-            subTitleCardText = "Learn Te Reo",
+            titleCardText = stringResource(R.string.te_reo_maori),
+            subTitleCardText = stringResource(R.string.te_reo_maori_subtitle),
             onClick = {
                 navHostController.navigate(NavScreen.MaoriWords.route) {
                     launchSingleTop = true
@@ -59,8 +60,8 @@ fun LongCardNavigationMenu(
 
         LongInfoCard(
             modifier = Modifier,
-            titleCardText = "NZ History & Heritage",
-            subTitleCardText = "Dive into History",
+            titleCardText = stringResource(R.string.nz_history_heritage),
+            subTitleCardText = stringResource(R.string.nz_history_heritage_subtitle),
             onClick = {
                 navHostController.navigate(NavScreen.NewZealandHistory.route) {
                     launchSingleTop = true
@@ -71,8 +72,8 @@ fun LongCardNavigationMenu(
 
         LongInfoCard(
             modifier = Modifier,
-            titleCardText = "Fun Facts & Tips",
-            subTitleCardText = "Quick insights",
+            titleCardText = stringResource(R.string.fun_facts_tips),
+            subTitleCardText = stringResource(R.string.fun_facts_tips_subtitle),
             onClick = {
                 navHostController.navigate(NavScreen.NewZealandFacts.route) {
                     launchSingleTop = true
@@ -82,45 +83,3 @@ fun LongCardNavigationMenu(
         )
     }
 }
-
-/*
-@Composable
-fun SquareNavigationMenu(
-    navHostController: NavHostController,
-) {
-    TwoInfoCardsRow(
-        modifier = Modifier
-            .fillMaxWidth(),
-        firstCardText = "Cities",
-        secondCardText = "Maori Words",
-        firstCardOnClick = {
-            navHostController.navigate(NavScreen.AllCities.route) {
-                launchSingleTop = true
-            }
-        },
-        secondCardOnClick = {
-            navHostController.navigate(NavScreen.MaoriWords.route) {
-                launchSingleTop = true
-            }
-        }
-    )
-
-    Spacer(modifier = Modifier.height(12.dp))
-
-    TwoInfoCardsRow(
-        modifier = Modifier
-            .fillMaxWidth(),
-        firstCardText = "History",
-        secondCardText = "Facts",
-        firstCardOnClick = {
-            navHostController.navigate(NavScreen.NewZealandHistory.route) {
-                launchSingleTop = true
-            }
-        },
-        secondCardOnClick = {
-            navHostController.navigate(NavScreen.NewZealandFacts.route) {
-                launchSingleTop = true
-            }
-        }
-    )
-}*/
