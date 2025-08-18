@@ -26,5 +26,6 @@
     <string name="city_history_card_title">City History</string>
     <string name="city_history_card_subtitle">Discover the stories behind the city</string>
 
-
+    <string name="home_hero_block_title">Kia ora!</string>
+    <string name="home_hero_block_subtitle">Explore New Zealand</string>
 </resources>
