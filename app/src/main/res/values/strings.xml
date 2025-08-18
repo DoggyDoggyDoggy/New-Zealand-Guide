@@ -9,8 +9,6 @@
     <string name="app_version_label">App version: %1$s</string>
     <string name="email_for_reports">hiddenmax58@gmail.com</string>
 
-    <string name="city_history_card">City History</string>
-    <string name="attraction_in_city_card">Top Things to Do in %1$s City</string>
 
     <string name="top_bar_city_history">History of %1$s</string>
     <string name="top_bar_attraction_in_city">Top Things to Do in %1$s</string>

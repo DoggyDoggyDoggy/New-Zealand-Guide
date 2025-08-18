@@ -7,32 +7,49 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
+import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.infocard.LongInfoCard
 
 @Composable
 fun ColumnOfTwoLongInfoCards(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+    city: City,
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         LongInfoCard(
-            modifier = modifier,
-            titleCardText = "Top Cities & Towns",
-            subTitleCardText = "Explore New Zealand",
-            image =  R.drawable.ic_scroll_outline,
-            onClick = {}
+            modifier = Modifier,
+            titleCardText = "Top Attractions",
+            subTitleCardText = "Must-see sights in ${city.name}",
+            image = R.drawable.top_attractions,
+            onClick = {
+                navHostController.navigate(
+                    NavScreen.CityPlaces.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         LongInfoCard(
-            modifier = modifier,
-            titleCardText = "Top Cities & Towns",
-            subTitleCardText = "Explore New Zealand",
-            image =  R.drawable.ic_scroll_outline,
-            onClick = {}
+            modifier = Modifier,
+            titleCardText = "City History",
+            subTitleCardText = "Discover the stories behind the city",
+            image = R.drawable.ic_scroll_outline,
+            onClick = {
+                navHostController.navigate(
+                    NavScreen.CityHistory.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
 }
