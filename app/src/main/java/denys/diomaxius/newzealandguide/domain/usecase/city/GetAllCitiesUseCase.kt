@@ -5,7 +5,8 @@ import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import javax.inject.Inject
 
 class GetAllCitiesUseCase @Inject constructor(
-    private val cityRepository: CityRepository
+    private val cityRepository: CityRepository,
 ) {
-    suspend operator fun invoke(): List<City> = cityRepository.getAllCities()
+    suspend operator fun invoke(): List<City> =
+        cityRepository.getAllCities().sortedBy { it.name }
 }
