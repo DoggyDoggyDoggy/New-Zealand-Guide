@@ -51,7 +51,9 @@ fun Content(
     onClick: (cityId: String, eventId: String) -> Unit,
     cityId: String,
 ) {
-    LazyRow {
+    LazyRow(
+        modifier = Modifier.padding(start = 6.dp)
+    ) {
         items(events) { event ->
             EventCard(
                 event = event,
@@ -70,7 +72,7 @@ fun EventCard(
 ) {
     Card(
         modifier = Modifier
-            .padding(start = 12.dp)
+            .padding(end = 12.dp)
             .size(175.dp)
             .clickable {
                 onClick(cityId, event.id)
