@@ -18,5 +18,13 @@
     <string name="top_bar_nz_facts">New Zealand Facts</string>
     <string name="top_bar_nz_history">New Zealand History</string>
     <string name="top_bar_all_cities">City Guide</string>
+
     <string name="nav_drawer_about">About</string>
+
+    <string name="city_attractions_card_title">Top Attractions</string>
+    <string name="city_attractions_card_subtitle">Must-see sights in %1$s</string>
+    <string name="city_history_card_title">City History</string>
+    <string name="city_history_card_subtitle">Discover the stories behind the city</string>
+
+
 </resources>
