@@ -11,10 +11,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.ui.common.components.cityphotoslider.CityPhotoSlider
 
 @Composable
@@ -40,7 +42,7 @@ fun HeroBlock(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Kia ora!",
+                text = stringResource(R.string.home_hero_block_title),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp
@@ -50,7 +52,7 @@ fun HeroBlock(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 6.dp),
-                text = "Explore New Zealand",
+                text = stringResource(R.string.home_hero_block_subtitle),
                 textAlign = TextAlign.Center,
                 fontSize = 26.sp
             )
