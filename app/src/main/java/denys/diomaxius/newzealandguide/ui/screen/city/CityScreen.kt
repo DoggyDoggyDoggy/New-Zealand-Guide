@@ -101,30 +101,10 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        //RowOfTwoISquareInfoCard(
-        //    modifier = Modifier
-        //        .fillMaxWidth()
-        //        .padding(horizontal = 12.dp),
-        //    firstCardText = stringResource(R.string.attraction_in_city_card, city.name),
-        //    secondCardText = stringResource(R.string.city_history_card),
-        //    firstCardOnClick = {
-        //        navHostController.navigate(
-        //            NavScreen.CityPlaces.createRoute(city.id, city.name)
-        //        ) {
-        //            launchSingleTop = true
-        //        }
-        //    },
-        //    secondCardOnClick = {
-        //        navHostController.navigate(
-        //            NavScreen.CityHistory.createRoute(city.id, city.name)
-        //        ) {
-        //            launchSingleTop = true
-        //        }
-        //    }
-        //)
-
         ColumnOfTwoLongInfoCards(
-            modifier = Modifier.padding(horizontal = 6.dp)
+            modifier = Modifier.padding(horizontal = 6.dp),
+            navHostController = navHostController,
+            city = city
         )
 
         Spacer(
