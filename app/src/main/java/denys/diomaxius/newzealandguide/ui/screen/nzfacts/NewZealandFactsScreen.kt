@@ -3,6 +3,8 @@ package denys.diomaxius.newzealandguide.ui.screen.nzfacts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -76,7 +78,11 @@ fun Fact(
     fact: String
 ) {
     Card(
-        modifier = Modifier.padding(6.dp)
+        modifier = Modifier.padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
