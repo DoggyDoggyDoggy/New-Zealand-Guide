@@ -1,5 +1,6 @@
 [versions]
 agp = "8.10.0"
+datastorePreferences = "1.1.7"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -17,6 +18,9 @@ okhttp = "4.12.0"
 navigationCompose = "2.9.0"
 
 [libraries]
+#Preferences DataStore
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+
 #Navigation
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
