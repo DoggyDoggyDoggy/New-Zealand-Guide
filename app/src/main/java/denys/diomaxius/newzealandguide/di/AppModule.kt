@@ -1,14 +1,18 @@
 package denys.diomaxius.newzealandguide.di
 
+import android.content.Context
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import denys.diomaxius.newzealandguide.data.datastore.FavoriteCitiesDataStore
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.EventRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.FavoriteCitiesRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
@@ -16,6 +20,7 @@ import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryReposito
 import denys.diomaxius.newzealandguide.data.repository.WeatherRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.EventRepository
+import denys.diomaxius.newzealandguide.domain.repository.FavoriteCitiesRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
@@ -30,6 +35,16 @@ object AppModule {
     @Singleton
     fun provideFirebaseFirestore(): FirebaseFirestore =
         Firebase.firestore
+
+    @Provides
+    @Singleton
+    fun provideFavoriteCitiesDataStore(@ApplicationContext ctx: Context) =
+        FavoriteCitiesDataStore(ctx)
+
+    @Provides
+    @Singleton
+    fun provideFavoriteCitiesRepository(dataStore: FavoriteCitiesDataStore): FavoriteCitiesRepository =
+        FavoriteCitiesRepositoryImpl(dataStore)
 
     @Provides
     @Singleton
