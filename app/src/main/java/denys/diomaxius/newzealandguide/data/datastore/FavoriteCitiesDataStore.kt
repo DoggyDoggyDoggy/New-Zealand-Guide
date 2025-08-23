@@ -15,7 +15,7 @@ class FavoriteCitiesDataStore(private val context: Context) {
         private val FAVORITE_CITY_IDS_KEY = stringSetPreferencesKey("favorite_city_ids")
     }
 
-    val cityIds: Flow<List<String>> = context.cityIdsDataStore.data
+    val favoriteCityIds: Flow<List<String>> = context.cityIdsDataStore.data
         .map { prefs -> prefs[FAVORITE_CITY_IDS_KEY]?.toList() ?: emptyList() }
 
     suspend fun addCityId(id: String) {
