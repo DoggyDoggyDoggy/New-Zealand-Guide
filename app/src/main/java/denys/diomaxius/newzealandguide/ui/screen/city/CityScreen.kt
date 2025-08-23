@@ -108,7 +108,7 @@ fun Content(
         )
 
         Spacer(
-            modifier = Modifier.height(165.dp)
+            modifier = Modifier.height(12.dp)
         )
     }
 }
