@@ -1,11 +1,13 @@
 package denys.diomaxius.newzealandguide.ui.common.components.navigationdrawer
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
@@ -61,6 +63,7 @@ fun DrawerContent(
     ) {
         Column(
             modifier = Modifier.padding(6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             NavigationDrawerItem(
                 label = {},
@@ -72,6 +75,27 @@ fun DrawerContent(
                 },
                 selected = false,
                 onClick = closeDrawer
+            )
+
+            NavigationDrawerItem(
+                label = {
+                    Text(
+                        text = "Favorite Cities",
+                        textAlign = TextAlign.Center
+                    )
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Favorite"
+                    )
+                },
+                selected = false,
+                onClick = {
+                    navHostController.navigate(NavScreen.FavoriteCities.route) {
+                        launchSingleTop = true
+                    }
+                }
             )
 
             Spacer(
