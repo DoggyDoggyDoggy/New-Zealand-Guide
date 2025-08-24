@@ -29,5 +29,4 @@ class AllCitiesScreenViewModel @Inject constructor(
             UiState.Error(e)
         }
     }
-
 }

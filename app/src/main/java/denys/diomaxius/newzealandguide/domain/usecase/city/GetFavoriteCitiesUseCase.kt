@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
 import javax.inject.Inject
 
-class GetFavoriteCityIdsUseCase @Inject constructor(
+class GetFavoriteCitiesUseCase @Inject constructor(
     private val favoriteCitiesRepository: FavoriteCitiesRepository,
     private val getAllCitiesUseCase: GetAllCitiesUseCase
 ) {
