@@ -46,12 +46,12 @@ fun CityCard(
 
 
             Icon(
-                imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = "Favorite",
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(2.dp)
                     .size(58.dp),
+                imageVector = Icons.Default.FavoriteBorder,
+                contentDescription = "Favorite",
                 tint = Color.White
             )
 
