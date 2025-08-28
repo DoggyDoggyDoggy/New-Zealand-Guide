@@ -24,6 +24,7 @@ import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 fun CityCard(
     city: City,
     navigateToCity: () -> Unit,
+    addFavoriteCity: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -49,7 +50,10 @@ fun CityCard(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(2.dp)
-                    .size(58.dp),
+                    .size(58.dp)
+                    .clickable{
+                        addFavoriteCity(city.id)
+                    },
                 imageVector = Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
                 tint = Color.White
@@ -69,6 +73,7 @@ fun CityCardPreview() {
             name = "Auckland",
             photos = listOf("https://res.cloudinary.com/dpeak0qy7/image/upload/v1754316593/New_Project_3_lgsztg.png")
         ),
-        navigateToCity = {}
+        navigateToCity = {},
+        addFavoriteCity = {}
     )
 }
