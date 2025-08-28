@@ -46,7 +46,10 @@ fun AllCitiesScreen(
             Content(
                 modifier = Modifier.padding(innerPadding),
                 navHostController = navHostController,
-                cities = cities
+                cities = cities,
+                addFavoriteCity = {
+                    viewModel.addFavoriteCity(it)
+                }
             )
         }
     }
@@ -57,6 +60,7 @@ fun Content(
     modifier: Modifier = Modifier,
     cities: List<City>,
     navHostController: NavHostController,
+    addFavoriteCity: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -64,6 +68,7 @@ fun Content(
         items(cities) { city ->
             CityCard(
                 city = city,
+                addFavoriteCity = addFavoriteCity,
                 navigateToCity = {
                     navHostController.navigate(
                         NavScreen.City.createRoute(city.id)
