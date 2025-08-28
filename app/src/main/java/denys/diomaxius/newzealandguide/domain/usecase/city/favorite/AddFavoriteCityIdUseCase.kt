@@ -1,11 +1,11 @@
-package denys.diomaxius.newzealandguide.domain.usecase.city
+package denys.diomaxius.newzealandguide.domain.usecase.city.favorite
 
 import denys.diomaxius.newzealandguide.domain.repository.FavoriteCitiesRepository
 import javax.inject.Inject
 
-class RemoveFavoriteCityIdUseCase @Inject constructor(
+class AddFavoriteCityIdUseCase @Inject constructor(
     private val favoriteCitiesRepository: FavoriteCitiesRepository,
 ) {
     suspend operator fun invoke(id: String) =
-        favoriteCitiesRepository.removeFavoriteCityId(id)
+        favoriteCitiesRepository.addFavoriteCityId(id)
 }

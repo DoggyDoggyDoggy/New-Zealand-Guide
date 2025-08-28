@@ -1,7 +1,8 @@
-package denys.diomaxius.newzealandguide.domain.usecase.city
+package denys.diomaxius.newzealandguide.domain.usecase.city.favorite
 
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.repository.FavoriteCitiesRepository
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetAllCitiesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
