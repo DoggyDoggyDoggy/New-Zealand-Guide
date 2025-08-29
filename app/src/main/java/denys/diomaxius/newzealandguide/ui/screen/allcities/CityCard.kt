@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -17,14 +18,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
+import denys.diomaxius.newzealandguide.ui.model.CityUi
 
 @Composable
 fun CityCard(
-    city: City,
+    city: CityUi,
     navigateToCity: () -> Unit,
-    addFavoriteCity: (String) -> Unit
+    addFavoriteCity: (String) -> Unit,
+    removeFavoriteCity: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -52,9 +54,9 @@ fun CityCard(
                     .padding(2.dp)
                     .size(58.dp)
                     .clickable{
-                        addFavoriteCity(city.id)
+                        if (!city.isFavorite) addFavoriteCity(city.id) else removeFavoriteCity(city.id)
                     },
-                imageVector = Icons.Default.FavoriteBorder,
+                imageVector = if (city.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
                 tint = Color.White
             )
@@ -68,12 +70,14 @@ fun CityCard(
 @Composable
 fun CityCardPreview() {
     CityCard(
-        city = City(
+        city = CityUi(
             id = "2",
             name = "Auckland",
-            photos = listOf("https://res.cloudinary.com/dpeak0qy7/image/upload/v1754316593/New_Project_3_lgsztg.png")
+            photos = listOf("https://res.cloudinary.com/dpeak0qy7/image/upload/v1754316593/New_Project_3_lgsztg.png"),
+            isFavorite = false
         ),
         navigateToCity = {},
-        addFavoriteCity = {}
+        addFavoriteCity = {},
+        removeFavoriteCity = {}
     )
 }
