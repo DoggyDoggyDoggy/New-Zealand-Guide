@@ -12,13 +12,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
-import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.common.components.loadingscreen.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.model.CityUi
 
 @Composable
 fun AllCitiesScreen(
@@ -49,6 +49,9 @@ fun AllCitiesScreen(
                 cities = cities,
                 addFavoriteCity = {
                     viewModel.addFavoriteCity(it)
+                },
+                removeFavoriteCity = {
+                    viewModel.removeFavoriteCity(it)
                 }
             )
         }
@@ -58,9 +61,10 @@ fun AllCitiesScreen(
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
-    cities: List<City>,
+    cities: List<CityUi>,
     navHostController: NavHostController,
-    addFavoriteCity: (String) -> Unit
+    addFavoriteCity: (String) -> Unit,
+    removeFavoriteCity: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -69,6 +73,7 @@ fun Content(
             CityCard(
                 city = city,
                 addFavoriteCity = addFavoriteCity,
+                removeFavoriteCity = removeFavoriteCity,
                 navigateToCity = {
                     navHostController.navigate(
                         NavScreen.City.createRoute(city.id)
