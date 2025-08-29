@@ -25,8 +25,7 @@ import denys.diomaxius.newzealandguide.ui.model.CityUi
 fun CityCard(
     city: CityUi,
     navigateToCity: () -> Unit,
-    addFavoriteCity: (String) -> Unit,
-    removeFavoriteCity: (String) -> Unit
+    toggleFavorite: (String, Boolean) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -54,7 +53,7 @@ fun CityCard(
                     .padding(2.dp)
                     .size(58.dp)
                     .clickable{
-                        if (!city.isFavorite) addFavoriteCity(city.id) else removeFavoriteCity(city.id)
+                        toggleFavorite(city.id, city.isFavorite)
                     },
                 imageVector = if (city.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
@@ -77,7 +76,6 @@ fun CityCardPreview() {
             isFavorite = false
         ),
         navigateToCity = {},
-        addFavoriteCity = {},
-        removeFavoriteCity = {}
+        toggleFavorite = { _, _ -> }
     )
 }

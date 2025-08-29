@@ -30,12 +30,8 @@ class AllCitiesScreenViewModel @Inject constructor(
         observeCities()
     }
 
-    fun addFavoriteCity(id: String) = viewModelScope.launch {
-        addFavoriteCityIdUseCase(id)
-    }
-
-    fun removeFavoriteCity(id: String) = viewModelScope.launch {
-        removeFavoriteCityIdUseCase(id)
+    fun toggleFavorite(id: String, currentlyFavorite: Boolean) {
+        if (currentlyFavorite) removeFavoriteCity(id) else addFavoriteCity(id)
     }
 
     private fun observeCities() {
@@ -46,5 +42,13 @@ class AllCitiesScreenViewModel @Inject constructor(
                 .catch { e -> _citiesUiState.value = UiState.Error(e) }
                 .collect { uiList -> _citiesUiState.value = UiState.Success(uiList) }
         }
+    }
+
+    private fun addFavoriteCity(id: String) = viewModelScope.launch {
+        addFavoriteCityIdUseCase(id)
+    }
+
+    private fun removeFavoriteCity(id: String) = viewModelScope.launch {
+        removeFavoriteCityIdUseCase(id)
     }
 }
