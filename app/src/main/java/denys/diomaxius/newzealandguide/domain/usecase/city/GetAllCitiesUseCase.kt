@@ -11,13 +11,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-//class GetAllCitiesUseCase @Inject constructor(
-//    private val cityRepository: CityRepository,
-//) {
-//    suspend operator fun invoke(): List<City> =
-//        cityRepository.getAllCities().sortedBy { it.name }
-//}
-
 class GetAllCitiesUseCase @Inject constructor(
     private val cityRepository: CityRepository,
     private val getFavoriteCitiesUseCase: GetFavoriteCitiesUseCase
