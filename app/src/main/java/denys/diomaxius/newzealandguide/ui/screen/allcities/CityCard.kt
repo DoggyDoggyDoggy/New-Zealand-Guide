@@ -17,15 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 import denys.diomaxius.newzealandguide.ui.model.CityUi
 
 @Composable
 fun CityCard(
+    viewModel: CityCardViewModel = hiltViewModel(),
     city: CityUi,
-    navigateToCity: () -> Unit,
-    toggleFavorite: (String, Boolean) -> Unit
+    navigateToCity: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -53,7 +54,7 @@ fun CityCard(
                     .padding(2.dp)
                     .size(58.dp)
                     .clickable{
-                        toggleFavorite(city.id, city.isFavorite)
+                        viewModel.toggleFavorite(city.id, city.isFavorite)
                     },
                 imageVector = if (city.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
@@ -75,7 +76,6 @@ fun CityCardPreview() {
             photos = listOf("https://res.cloudinary.com/dpeak0qy7/image/upload/v1754316593/New_Project_3_lgsztg.png"),
             isFavorite = false
         ),
-        navigateToCity = {},
-        toggleFavorite = { _, _ -> }
+        navigateToCity = {}
     )
 }
