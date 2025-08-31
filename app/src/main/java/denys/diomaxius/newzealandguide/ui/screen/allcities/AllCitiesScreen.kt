@@ -1,15 +1,9 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -68,56 +62,28 @@ fun Content(
     cities: List<CityUi>,
     navHostController: NavHostController,
     showFavorite: Boolean,
-    toggleFavorite: () -> Unit
+    toggleFavorite: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
+    LazyColumn(
+        modifier = modifier.padding(horizontal = 12.dp)
     ) {
-        Filters(
-            showFavorite = showFavorite,
-            toggleFavorite = toggleFavorite
-        )
-
-        LazyColumn(
-            modifier = Modifier
-        ) {
-            items(cities) { city ->
-                CityCard(
-                    city = city,
-                    navigateToCity = {
-                        navHostController.navigate(
-                            NavScreen.City.createRoute(city.id)
-                        ) {
-                            launchSingleTop = true
-                        }
-                    }
-                )
-            }
+        item {
+            Filters(
+                showFavorite = showFavorite,
+                toggleFavorite = toggleFavorite
+            )
         }
-    }
-}
-
-@Composable
-fun Filters(
-    modifier: Modifier = Modifier,
-    showFavorite: Boolean,
-    toggleFavorite: () -> Unit
-) {
-    Row(
-        modifier = modifier.padding(start = 12.dp)
-    ) {
-        FilterChip(
-            selected = !showFavorite,
-            onClick = toggleFavorite,
-            label = { Text(text = "All") }
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        FilterChip(
-            selected = showFavorite,
-            onClick = toggleFavorite,
-            label = { Text(text = "Favorite") }
-        )
+        items(cities) { city ->
+            CityCard(
+                city = city,
+                navigateToCity = {
+                    navHostController.navigate(
+                        NavScreen.City.createRoute(city.id)
+                    ) {
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
     }
 }
