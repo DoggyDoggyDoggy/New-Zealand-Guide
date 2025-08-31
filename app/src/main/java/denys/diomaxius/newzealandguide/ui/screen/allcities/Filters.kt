@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Filters(
@@ -21,7 +22,12 @@ fun Filters(
         FilterChip(
             selected = !showFavorite,
             onClick = if (showFavorite) toggleFavorite else ({}),
-            label = { Text(text = "All") }
+            label = {
+                Text(
+                    text = "All",
+                    fontSize = 18.sp
+                )
+            }
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -29,7 +35,12 @@ fun Filters(
         FilterChip(
             selected = showFavorite,
             onClick = if (!showFavorite) toggleFavorite else ({}),
-            label = { Text(text = "Favorite") }
+            label = {
+                Text(
+                    text = "Favorite",
+                    fontSize = 18.sp
+                )
+            }
         )
     }
 }
