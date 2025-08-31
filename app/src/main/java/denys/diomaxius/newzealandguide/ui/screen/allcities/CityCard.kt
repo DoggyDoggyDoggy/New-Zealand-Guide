@@ -30,8 +30,8 @@ fun CityCard(
 ) {
     Card(
         modifier = Modifier
+            .padding(bottom = 12.dp)
             .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
             .clickable {
                 navigateToCity()
             }
@@ -46,7 +46,6 @@ fun CityCard(
                 contentDescription = city.name,
                 contentScale = ContentScale.FillWidth
             )
-
 
             Icon(
                 modifier = Modifier
