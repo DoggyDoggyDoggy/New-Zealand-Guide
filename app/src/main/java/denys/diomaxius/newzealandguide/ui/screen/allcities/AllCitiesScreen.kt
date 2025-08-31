@@ -13,9 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +33,7 @@ fun AllCitiesScreen(
 ) {
     val citiesUiState by viewModel.citiesUiState.collectAsState()
     val navHostController = LocalNavController.current
+    val showFavorite by viewModel.showFavorite.collectAsState()
 
     UiStateHandler(
         state = citiesUiState,
@@ -57,9 +55,8 @@ fun AllCitiesScreen(
                 modifier = Modifier.padding(innerPadding),
                 navHostController = navHostController,
                 cities = cities,
-                toggleFavorite = { id, isFavorite ->
-                    viewModel.toggleFavorite(id, isFavorite)
-                }
+                showFavorite = showFavorite,
+                toggleFavorite = viewModel::toggleFavorite
             )
         }
     }
@@ -70,19 +67,23 @@ fun Content(
     modifier: Modifier = Modifier,
     cities: List<CityUi>,
     navHostController: NavHostController,
-    toggleFavorite: (String, Boolean) -> Unit
+    showFavorite: Boolean,
+    toggleFavorite: () -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
-        Filters()
+        Filters(
+            showFavorite = showFavorite,
+            toggleFavorite = toggleFavorite
+        )
+
         LazyColumn(
             modifier = Modifier
         ) {
             items(cities) { city ->
                 CityCard(
                     city = city,
-                    toggleFavorite = toggleFavorite,
                     navigateToCity = {
                         navHostController.navigate(
                             NavScreen.City.createRoute(city.id)
@@ -97,15 +98,17 @@ fun Content(
 }
 
 @Composable
-fun Filters(modifier: Modifier = Modifier) {
-    var showFavorite by remember { mutableStateOf(false) }
-
+fun Filters(
+    modifier: Modifier = Modifier,
+    showFavorite: Boolean,
+    toggleFavorite: () -> Unit
+) {
     Row(
         modifier = modifier.padding(start = 12.dp)
     ) {
         FilterChip(
             selected = !showFavorite,
-            onClick = { showFavorite = !showFavorite },
+            onClick = toggleFavorite,
             label = { Text(text = "All") }
         )
 
@@ -113,7 +116,7 @@ fun Filters(modifier: Modifier = Modifier) {
 
         FilterChip(
             selected = showFavorite,
-            onClick = { showFavorite = !showFavorite },
+            onClick = toggleFavorite,
             label = { Text(text = "Favorite") }
         )
     }
