@@ -20,7 +20,7 @@ fun Filters(
     ) {
         FilterChip(
             selected = !showFavorite,
-            onClick = toggleFavorite,
+            onClick = if (showFavorite) toggleFavorite else ({}),
             label = { Text(text = "All") }
         )
 
@@ -28,7 +28,7 @@ fun Filters(
 
         FilterChip(
             selected = showFavorite,
-            onClick = toggleFavorite,
+            onClick = if (!showFavorite) toggleFavorite else ({}),
             label = { Text(text = "Favorite") }
         )
     }
