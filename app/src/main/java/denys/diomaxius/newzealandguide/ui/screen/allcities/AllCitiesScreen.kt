@@ -77,6 +77,7 @@ fun Content(
         }
         items(cities) { city ->
             CityCard(
+                modifier = Modifier,
                 city = city,
                 navigateToCity = {
                     navHostController.navigate(
