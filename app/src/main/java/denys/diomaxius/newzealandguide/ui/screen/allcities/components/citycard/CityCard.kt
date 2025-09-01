@@ -57,7 +57,7 @@ fun CityCard(
                     },
                 imageVector = if (city.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                 contentDescription = "Favorite",
-                tint = Color.White
+                tint = Color(0xFFF87272)
             )
 
             TextOverlay(text = city.name)
