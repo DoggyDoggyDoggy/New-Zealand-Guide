@@ -5,7 +5,6 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -56,7 +55,6 @@ fun CityCard(
                 contentScale = ContentScale.FillWidth
             )
 
-            val interactionSource = remember { MutableInteractionSource() }
             val scale = remember { Animatable(1f) }
             val scope = rememberCoroutineScope()
 
@@ -67,7 +65,7 @@ fun CityCard(
                     .size(58.dp)
                     .scale(scale.value)
                     .clickable (
-                        interactionSource = interactionSource,
+                        interactionSource = null,
                         indication = null
                     ) {
                         viewModel.toggleFavorite(city.id, city.isFavorite)
