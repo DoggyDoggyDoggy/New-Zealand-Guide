@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.allcities
+package denys.diomaxius.newzealandguide.ui.screen.allcities.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
