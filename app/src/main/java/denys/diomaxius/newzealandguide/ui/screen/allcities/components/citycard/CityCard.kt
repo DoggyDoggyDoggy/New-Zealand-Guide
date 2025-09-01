@@ -32,12 +32,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CityCard(
+    modifier: Modifier = Modifier,
     viewModel: CityCardViewModel = hiltViewModel(),
     city: CityUi,
     navigateToCity: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 12.dp)
             .fillMaxWidth()
             .clickable {
