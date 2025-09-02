@@ -1,12 +1,18 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,8 +27,11 @@ import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowB
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.model.CityUi
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.EmptyFavoriteScreen
-import denys.diomaxius.newzealandguide.ui.screen.allcities.components.citycard.CityCard
+import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.Filters
+import kotlinx.coroutines.delay
+
+private const val EXIT_ANIMATION_MS = 260L
 
 @Composable
 fun AllCitiesScreen(
@@ -53,7 +62,10 @@ fun AllCitiesScreen(
                 navHostController = navHostController,
                 cities = cities,
                 showFavorite = showFavorite,
-                toggleFavorite = viewModel::toggleFavorite
+                toggleFavorite = viewModel::toggleFavorite,
+                toggleCityFavorite = { cityId, currentlyFavorite ->
+                    viewModel.toggleCityFavorite(cityId, currentlyFavorite)
+                }
             )
         }
     }
@@ -66,7 +78,16 @@ fun Content(
     navHostController: NavHostController,
     showFavorite: Boolean,
     toggleFavorite: () -> Unit,
+    toggleCityFavorite: (cityId: String, currentlyFavorite: Boolean) -> Unit,
 ) {
+    val visibleMap = remember { mutableStateMapOf<String, Boolean>() }
+
+    LaunchedEffect(cities) {
+        cities.forEach { city ->
+            if (!visibleMap.containsKey(city.id)) visibleMap[city.id] = true
+        }
+    }
+
     if (showFavorite && cities.isEmpty()) {
         EmptyFavoriteScreen()
     }
@@ -80,18 +101,45 @@ fun Content(
                 toggleFavorite = toggleFavorite
             )
         }
-        items(cities) { city ->
-            CityCard(
-                modifier = Modifier,
-                city = city,
-                navigateToCity = {
-                    navHostController.navigate(
-                        NavScreen.City.createRoute(city.id)
-                    ) {
-                        launchSingleTop = true
+        items(
+            items = cities,
+            key = { it.id }
+        ) { city ->
+            val visible = visibleMap.getOrElse(city.id) { true }
+
+            AnimatedVisibility(
+                visible = visible,
+                exit = slideOutHorizontally(
+                    targetOffsetX = { -it }
+                ) + fadeOut()
+            ){
+                CityCard(
+                    modifier = Modifier
+                        .animateItem(),
+                    city = city,
+                    navigateToCity = {
+                        navHostController.navigate(
+                            NavScreen.City.createRoute(city.id)
+                        ) {
+                            launchSingleTop = true
+                        }
+                    },
+                    onFavoriteClick = {
+                        if (showFavorite && city.isFavorite) {
+                            visibleMap[city.id] = false
+                        } else {
+                            toggleCityFavorite(city.id, city.isFavorite)
+                        }
                     }
+                )
+            }
+            LaunchedEffect(key1 = visible, key2 = city.id) {
+                if (!visible) {
+                    delay(EXIT_ANIMATION_MS + 20)
+                    toggleCityFavorite(city.id, city.isFavorite)
+                    visibleMap.remove(city.id)
                 }
-            )
+            }
         }
     }
 }
