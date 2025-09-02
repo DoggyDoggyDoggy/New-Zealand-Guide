@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetAllCitiesUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.favorite.AddFavoriteCityIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.favorite.RemoveFavoriteCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.common.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.mapper.toUi
 import denys.diomaxius.newzealandguide.ui.model.CityUi
@@ -18,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AllCitiesScreenViewModel @Inject constructor(
-    private val getAllCitiesUseCase: GetAllCitiesUseCase
+    private val getAllCitiesUseCase: GetAllCitiesUseCase,
+    private val addFavoriteCityIdUseCase: AddFavoriteCityIdUseCase,
+    private val removeFavoriteCityIdUseCase: RemoveFavoriteCityIdUseCase,
 ) : ViewModel() {
     private val _showFavorite = MutableStateFlow<Boolean>(false)
     val showFavorite = _showFavorite.asStateFlow()
@@ -32,6 +36,16 @@ class AllCitiesScreenViewModel @Inject constructor(
 
     fun toggleFavorite() {
         _showFavorite.value = !_showFavorite.value
+    }
+
+    fun toggleCityFavorite(cityId: String, currentlyFavorite: Boolean) {
+        viewModelScope.launch {
+            if (currentlyFavorite) {
+                removeFavoriteCityIdUseCase(cityId)
+            } else {
+                addFavoriteCityIdUseCase(cityId)
+            }
+        }
     }
 
     private fun observeCities() {
