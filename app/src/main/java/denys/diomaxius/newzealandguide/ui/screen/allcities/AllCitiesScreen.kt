@@ -20,6 +20,7 @@ import denys.diomaxius.newzealandguide.ui.common.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.common.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.model.CityUi
+import denys.diomaxius.newzealandguide.ui.screen.allcities.components.EmptyFavoriteScreen
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.citycard.CityCard
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.Filters
 
@@ -66,8 +67,12 @@ fun Content(
     showFavorite: Boolean,
     toggleFavorite: () -> Unit,
 ) {
+    if (showFavorite && cities.isEmpty()) {
+        EmptyFavoriteScreen()
+    }
     LazyColumn(
-        modifier = modifier.padding(horizontal = 12.dp)
+        modifier = modifier
+            .padding(horizontal = 12.dp)
     ) {
         item {
             Filters(
