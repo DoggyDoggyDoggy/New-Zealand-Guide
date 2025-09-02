@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.allcities.components.citycard
+package denys.diomaxius.newzealandguide.ui.screen.allcities.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.ui.common.components.TextOverlay
 import denys.diomaxius.newzealandguide.ui.model.CityUi
@@ -33,9 +32,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun CityCard(
     modifier: Modifier = Modifier,
-    viewModel: CityCardViewModel = hiltViewModel(),
     city: CityUi,
-    navigateToCity: () -> Unit
+    navigateToCity: () -> Unit,
+    onFavoriteClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -69,7 +68,7 @@ fun CityCard(
                         interactionSource = null,
                         indication = null
                     ) {
-                        viewModel.toggleFavorite(city.id, city.isFavorite)
+                        onFavoriteClick()
                         if (!city.isFavorite) {
                             scope.launch {
                                 scale.animateTo(1.2f, animationSpec = tween(delayMillis = 120))
@@ -100,6 +99,7 @@ fun CityCardPreview() {
             photos = listOf("https://res.cloudinary.com/dpeak0qy7/image/upload/v1754316593/New_Project_3_lgsztg.png"),
             isFavorite = false
         ),
-        navigateToCity = {}
+        navigateToCity = {},
+        onFavoriteClick = {}
     )
 }
