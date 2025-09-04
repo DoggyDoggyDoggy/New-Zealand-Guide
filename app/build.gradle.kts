@@ -63,6 +63,7 @@ dependencies {
 
     //App Check
     implementation(libs.firebase.appcheck.playintegrity)
+    debugImplementation (libs.firebase.appcheck.debug) // Debug App Check
 
     //Firestore
     implementation(libs.firebase.firestore)
