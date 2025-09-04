@@ -24,6 +24,7 @@ New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github
 * **Server-side data storage**: Cities, events, and weather are managed in Firestore and Cloud Storage.
 * **Serverless integrations**: Weather and events APIs are invoked via Firebase Cloud Functions.
 * **Client-focused UI**: The Android app (Jetpack Compose) only reads and displays data from Firebase, eliminating direct calls to external services.
+* **Secure Access**: Firebase App Check ensures that only the official app (from Google Play or debug devices you authorize) can access the server. Simply copying this repository will **not** grant access to backend data.
 
 ---
 
