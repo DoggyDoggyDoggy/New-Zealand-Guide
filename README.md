@@ -14,6 +14,10 @@ Next-generation NZGuide app reimagined with a cloud-driven architecture powered 
 * New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
 * Simply copying this repository will **not** grant access to backend data.
 
+<a href="https://play.google.com/store/apps/details?id=denys.diomaxius.newzealandguide&hl=en">
+  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="160"/>
+</a>
+
 ## Screenshots
 <img width="31%" height="625" alt="Screenshot#1"  src="https://github.com/user-attachments/assets/56b29edd-775d-4943-ae71-6692ce7b7ee8" />
 <img width="31%" height="625" alt="Screenshot#2" src="https://github.com/user-attachments/assets/f56714df-f6dc-4df0-9cca-006f5304fcf2" />
