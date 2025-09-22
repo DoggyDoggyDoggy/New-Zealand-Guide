@@ -10,10 +10,6 @@
 
 Next-generation NZGuide app reimagined with a cloud-driven architecture powered by Firebase. All city, events, and weather data are now stored and served via Firebase services, with third-party API integrations handled by server-side functions. The Android client fetches and displays this data, resulting in a lighter, faster, and more maintainable application.
 
-**🛠️ Note:** 
-* New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
-* Simply copying this repository will **not** grant access to backend data.
-
 <a href="https://play.google.com/store/apps/details?id=denys.diomaxius.newzealandguide&hl=en">
   <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"/>
 </a>
@@ -48,6 +44,12 @@ New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github
 
 * **Android**: Kotlin, Jetpack Compose, MVVM
 * **Backend as a Service**: Firebase Firestore, Сloudinary Storage, Firebase Functions
+
+---
+
+## 🛠️ Note
+* New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
+* Simply copying this repository will **not** grant access to backend data.
 
 ## License
 
