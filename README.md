@@ -15,7 +15,7 @@ Next-generation NZGuide app reimagined with a cloud-driven architecture powered 
 * Simply copying this repository will **not** grant access to backend data.
 
 <a href="https://play.google.com/store/apps/details?id=denys.diomaxius.newzealandguide&hl=en">
-  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="160"/>
+  <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"/>
 </a>
 
 ## Screenshots
