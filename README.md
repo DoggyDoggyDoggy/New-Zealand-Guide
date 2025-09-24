@@ -21,8 +21,6 @@ Next-generation NZGuide app reimagined with a cloud-driven architecture powered 
 
 ## Project Overview
 
-New-Zealand-Guide is a complete rebuild of the original [NZGuide](https://github.com/DoggyDoggyDoggy/NZGuide), shifting all data storage and external API calls to Firebase:
-
 * **Server-side data storage**: Cities, events, and weather are managed in Firestore and Cloud Storage.
 * **Serverless integrations**: Weather and events APIs are invoked via Firebase Cloud Functions.
 * **Client-focused UI**: The Android app (Jetpack Compose) only reads and displays data from Firebase, eliminating direct calls to external services.
