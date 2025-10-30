@@ -8,7 +8,7 @@
 
 # New-Zealand-Guide
 
-Next-generation NZGuide app reimagined with a cloud-driven architecture powered by Firebase. All city, events, and weather data are now stored and served via Firebase services, with third-party API integrations handled by server-side functions. The Android client fetches and displays this data, resulting in a lighter, faster, and more maintainable application.
+New Zealand Guide brings 5-day weather forecasts, weekly event listings, city histories, must-see places, and useful Māori phrases to your pocket. Whether you’re planning a trip, checking local events, or just curious about NZ cities and culture, this app helps you discover more — quickly and simply.
 
 <a href="https://play.google.com/store/apps/details?id=denys.diomaxius.newzealandguide&hl=en">
   <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"/>
