@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguidev2
+package denys.diomaxius.newzealandguide
 
 import org.junit.Test
 

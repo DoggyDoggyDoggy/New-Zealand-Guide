@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguidev2.ui.theme
+package denys.diomaxius.newzealandguide.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

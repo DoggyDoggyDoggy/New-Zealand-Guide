@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "denys.diomaxius.newzealandguidev2"
+    namespace = "denys.diomaxius.newzealandguide"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "denys.diomaxius.newzealandguidev2"
+        applicationId = "denys.diomaxius.newzealandguide"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
