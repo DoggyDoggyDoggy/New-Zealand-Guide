@@ -3,11 +3,10 @@ package denys.diomaxius.newzealandguide.data.local.room.model.city
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "cities")
-data class CityEntity(
+@Entity
+data class CityPlacesEntity(
     @PrimaryKey
-    val id: String,
     val name: String,
-    val history: CityHistoryEntity,
-    val places: List<CityPlacesEntity>
+    val image: String,
+    val description: String
 )
