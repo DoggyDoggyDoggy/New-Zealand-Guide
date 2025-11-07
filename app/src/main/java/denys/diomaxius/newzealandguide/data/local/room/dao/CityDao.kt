@@ -12,10 +12,6 @@ interface CityDao {
     @Query("SELECT * FROM cities ORDER BY name COLLATE NOCASE ASC")
     fun citiesPagingSource(): PagingSource<Int, CityEntity>
 
-    //May be redundant
-    @Query("SELECT * FROM cities")
-    suspend fun getAllCities(): List<CityEntity>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(cities: List<CityEntity>)
 
