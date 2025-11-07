@@ -5,6 +5,7 @@ import androidx.room.Relation
 import denys.diomaxius.newzealandguide.data.local.room.model.event.EventEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.event.EventWithSessions
 
+//Refactor to CityDetails or delete
 data class CityWithEvents(
     @Embedded val city: CityEntity,
     @Relation(
