@@ -22,4 +22,8 @@ object AppModule {
         CityDatabase::class.java,
         CityDatabase.DATABASE_NAME
     ).build()
+
+    @Provides
+    @Singleton
+    fun provideCityDao(db: CityDatabase) = db.cityDao()
 }
