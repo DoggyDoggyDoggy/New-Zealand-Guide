@@ -7,7 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
+import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -26,4 +28,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCityDao(db: CityDatabase) = db.cityDao()
+
+    @Provides
+    @Singleton
+    fun provideCityRepository(cityDao: CityDao) =
+        CityRepositoryImpl(cityDao)
 }
