@@ -10,6 +10,7 @@ import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
+import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import javax.inject.Singleton
 
 @Module
@@ -31,6 +32,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCityRepository(cityDao: CityDao) =
+    fun provideCityRepository(cityDao: CityDao) : CityRepository =
         CityRepositoryImpl(cityDao)
 }
