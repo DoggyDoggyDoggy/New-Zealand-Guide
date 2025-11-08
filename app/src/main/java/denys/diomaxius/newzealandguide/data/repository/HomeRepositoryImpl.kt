@@ -10,7 +10,7 @@ class HomeRepositoryImpl : HomeRepository {
         "home/homephoto/3.png",
         "home/homephoto/4.png",
     )
-    override suspend fun getHomeData(): Home =
+    override fun getHomeData(): Home =
         Home(
             photos = photos
         )

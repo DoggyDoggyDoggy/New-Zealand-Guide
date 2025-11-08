@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetHomeDataUseCase @Inject constructor(
     private val homeRepository: HomeRepository
 ) {
-    suspend operator fun invoke(): Home = homeRepository.getHomeData()
+   operator fun invoke(): Home = homeRepository.getHomeData()
 }
