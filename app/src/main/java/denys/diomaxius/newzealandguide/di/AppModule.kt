@@ -2,6 +2,7 @@ package denys.diomaxius.newzealandguide.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,7 +11,9 @@ import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import javax.inject.Singleton
 
 @Module
@@ -35,4 +38,9 @@ object AppModule {
     @Singleton
     fun provideCityRepository(cityDao: CityDao): CityRepository =
         CityRepositoryImpl(cityDao)
+
+    @Provides
+    @Singleton
+    fun provideHomeRepository(): HomeRepository =
+        HomeRepositoryImpl()
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import denys.diomaxius.newzealandguide.domain.usecase.GetCitiesPagerFlowUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetCitiesPagerFlowUseCase
 import javax.inject.Inject
 
 @HiltViewModel
