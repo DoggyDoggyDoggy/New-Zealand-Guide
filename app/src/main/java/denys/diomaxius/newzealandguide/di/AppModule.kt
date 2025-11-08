@@ -24,7 +24,8 @@ object AppModule {
         context,
         CityDatabase::class.java,
         CityDatabase.DATABASE_NAME
-    ).build()
+    ).createFromAsset("database/prepopulated.db")
+     .build()
 
     @Provides
     @Singleton
@@ -32,6 +33,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCityRepository(cityDao: CityDao) : CityRepository =
+    fun provideCityRepository(cityDao: CityDao): CityRepository =
         CityRepositoryImpl(cityDao)
 }
