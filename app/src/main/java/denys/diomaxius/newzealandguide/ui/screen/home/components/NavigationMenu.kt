@@ -50,7 +50,11 @@ fun LongCardNavigationMenu(
             modifier = Modifier,
             titleCardText = stringResource(R.string.te_reo_maori),
             subTitleCardText = stringResource(R.string.te_reo_maori_subtitle),
-            onClick = {},
+            onClick = {
+                navHostController.navigate(NavScreen.MaoriWords.route) {
+                    launchSingleTop = true
+                }
+            },
             image = R.drawable.ic_chat_outline
         )
 

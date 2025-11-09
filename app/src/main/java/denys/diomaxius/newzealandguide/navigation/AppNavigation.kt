@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
+import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
@@ -34,6 +35,10 @@ fun AppNavigation(
 
             composable(NavScreen.NewZealandFacts.route) {
                 NewZealandFactsScreen()
+            }
+
+            composable(NavScreen.MaoriWords.route) {
+                MaoriWordsScreen()
             }
         }
     }
