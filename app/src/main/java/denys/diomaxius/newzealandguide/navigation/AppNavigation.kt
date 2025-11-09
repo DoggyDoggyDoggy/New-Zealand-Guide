@@ -23,13 +23,13 @@ fun AppNavigation(
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
             navController = navHostController,
-            startDestination = NavScreen.HomeScreen.route
+            startDestination = NavScreen.Home.route
         ) {
-            composable(NavScreen.HomeScreen.route) {
+            composable(NavScreen.Home.route) {
                 HomeScreen()
             }
 
-            composable(NavScreen.AllCitiesScreen.route) {
+            composable(NavScreen.AllCities.route) {
                 AllCitiesScreen()
             }
 

@@ -39,7 +39,7 @@ fun LongCardNavigationMenu(
             titleCardText = stringResource(R.string.top_cities_towns),
             subTitleCardText = stringResource(R.string.top_cities_towns_subtitle),
             onClick = {
-                navHostController.navigate(NavScreen.AllCitiesScreen.route) {
+                navHostController.navigate(NavScreen.AllCities.route) {
                     launchSingleTop = true
                 }
             },
