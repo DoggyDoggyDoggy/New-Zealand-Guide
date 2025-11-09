@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">New Zealand Guide v2</string>
+
+    <string name="about_title">About</string>
+    <string name="about_created">Created by Denys Pedan.</string>
+    <string name="about_photos">Photos License:</string>
+    <string name="unsplash_license_url">https://unsplash.com/license</string>
+    <string name="about_ai">Some text content in this app was generated with ChatGPT (OpenAI). Content may contain inaccuracies — please report issues.</string>
+    <string name="about_contact">Contact: </string>
+    <string name="app_version_label">App version: %1$s</string>
+    <string name="email_for_reports">hiddenmax58@gmail.com</string>
+
+
+    <string name="top_bar_city_history">History of %1$s</string>
+    <string name="top_bar_attraction_in_city">Top Things to Do in %1$s</string>
+    <string name="top_bar_event_details">Event Details</string>
+    <string name="top_bar_home">New Zealand Guide</string>
+    <string name="top_bar_maori_words">Common Maori Words</string>
+    <string name="top_bar_nz_facts">New Zealand Facts</string>
+    <string name="top_bar_nz_history">New Zealand History</string>
+    <string name="top_bar_all_cities">City Guide</string>
+
+    <string name="nav_drawer_about">About</string>
+
+    <string name="city_attractions_card_title">Top Attractions</string>
+    <string name="city_attractions_card_subtitle">Must-see sights in %1$s</string>
+    <string name="city_history_card_title">City History</string>
+    <string name="city_history_card_subtitle">Discover the stories behind the city</string>
+
+    <string name="home_hero_block_title">Kia ora!</string>
+    <string name="home_hero_block_subtitle">Explore New Zealand</string>
+
+    <string name="top_cities_towns"><![CDATA[Top Cities & Towns]]></string>
+    <string name="top_cities_towns_subtitle">Explore New Zealand</string>
+    <string name="te_reo_maori">Te Reo Māori</string>
+    <string name="te_reo_maori_subtitle">Learn Te Reo</string>
+    <string name="nz_history_heritage"><![CDATA[NZ History & Heritage]]></string>
+    <string name="nz_history_heritage_subtitle">Dive into History</string>
+    <string name="fun_facts_tips"><![CDATA[Fun Facts & Tips]]></string>
+    <string name="fun_facts_tips_subtitle">Quick insights</string>
 </resources>
