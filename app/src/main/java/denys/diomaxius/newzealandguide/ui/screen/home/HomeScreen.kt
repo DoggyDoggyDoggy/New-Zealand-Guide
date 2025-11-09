@@ -1,9 +1,25 @@
 package denys.diomaxius.newzealandguide.ui.screen.home
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
+import denys.diomaxius.newzealandguide.domain.model.Home
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.topbar.MenuButton
+import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.screen.home.components.HeroBlock
+import denys.diomaxius.newzealandguide.ui.screen.home.components.NavigationMenu
 
 @Composable
 fun HomeScreen(
@@ -11,8 +27,44 @@ fun HomeScreen(
 ) {
     val homeData = viewModel.homeData
 
-    Text(
-        text = homeData.photos.first(),
-        modifier = Modifier
-    )
+    val navHostController = LocalNavController.current
+
+    Scaffold(
+        topBar = {
+            TopBar(
+                text = stringResource(R.string.top_bar_home),
+                navigationButton = {
+                    MenuButton {}
+                }
+            )
+        }
+    ) { innerPadding ->
+        Content(
+            modifier = Modifier.padding(innerPadding),
+            navHostController = navHostController,
+            homeData = homeData
+        )
+    }
+}
+
+@Composable
+fun Content(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController,
+    homeData: Home,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        HeroBlock(
+            photos = homeData.photos
+        )
+
+        NavigationMenu(
+            navHostController = navHostController
+        )
+    }
 }
