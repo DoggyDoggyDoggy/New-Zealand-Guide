@@ -23,7 +23,7 @@ fun CityPhotoSlider(
         ) { url ->
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                model = url,
+                model = "file:///android_asset/$url",
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
