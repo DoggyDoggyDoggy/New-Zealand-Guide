@@ -62,7 +62,11 @@ fun LongCardNavigationMenu(
             modifier = Modifier,
             titleCardText = stringResource(R.string.nz_history_heritage),
             subTitleCardText = stringResource(R.string.nz_history_heritage_subtitle),
-            onClick = {},
+            onClick = {
+                navHostController.navigate(NavScreen.NewZealandHistory.route) {
+                    launchSingleTop = true
+                }
+            },
             image = R.drawable.ic_scroll_outline
         )
 
