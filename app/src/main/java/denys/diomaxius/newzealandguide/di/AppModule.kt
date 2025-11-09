@@ -11,9 +11,11 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
+import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import javax.inject.Singleton
 
@@ -49,4 +51,9 @@ object AppModule {
     @Singleton
     fun provideNewZealandFactsRepository(): NewZealandFactsRepository =
         NewZealandFactsRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideMaoriWordsRepository(): MaoriWordsRepository =
+        MaoriWordsRepositoryImpl()
 }
