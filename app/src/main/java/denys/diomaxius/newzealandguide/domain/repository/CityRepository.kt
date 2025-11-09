@@ -1,7 +1,7 @@
 package denys.diomaxius.newzealandguide.domain.repository
 
 import androidx.paging.PagingData
-import denys.diomaxius.newzealandguide.domain.model.City
+import denys.diomaxius.newzealandguide.domain.model.city.City
 import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {

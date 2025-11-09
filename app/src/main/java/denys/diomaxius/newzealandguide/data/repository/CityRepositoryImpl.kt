@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
-import denys.diomaxius.newzealandguide.domain.model.City
+import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
