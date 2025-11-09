@@ -24,8 +24,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.City
-import denys.diomaxius.newzealandguide.ui.components.MenuButton
-import denys.diomaxius.newzealandguide.ui.components.TopBar
+import denys.diomaxius.newzealandguide.ui.components.topbar.MenuButton
+import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 
 @Composable
 fun AllCitiesScreen(
