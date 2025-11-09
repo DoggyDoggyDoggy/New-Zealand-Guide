@@ -2,7 +2,6 @@ package denys.diomaxius.newzealandguide.di
 
 import android.content.Context
 import androidx.room.Room
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,8 +11,10 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
+import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import javax.inject.Singleton
 
 @Module
@@ -43,4 +44,9 @@ object AppModule {
     @Singleton
     fun provideHomeRepository(): HomeRepository =
         HomeRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideNewZealandFactsRepository(): NewZealandFactsRepository =
+        NewZealandFactsRepositoryImpl()
 }
