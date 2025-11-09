@@ -24,7 +24,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.City
-import denys.diomaxius.newzealandguide.ui.components.topbar.MenuButton
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 
 @Composable
@@ -33,12 +34,16 @@ fun AllCitiesScreen(
 ) {
     val cities = viewModel.lazyCities.collectAsLazyPagingItems()
 
+    val navHostController = LocalNavController.current
+
     Scaffold(
         topBar = {
             TopBar(
                 text = "All cities",
                 navigationButton = {
-                    MenuButton { }
+                    PopBackArrowButton {
+                        navHostController.navigateUp()
+                    }
                 }
             )
         }
