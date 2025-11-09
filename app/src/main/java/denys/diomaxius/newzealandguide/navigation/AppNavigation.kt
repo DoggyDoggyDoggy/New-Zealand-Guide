@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
+import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not initialized")
@@ -29,6 +30,10 @@ fun AppNavigation(
 
             composable(NavScreen.AllCitiesScreen.route) {
                 AllCitiesScreen()
+            }
+
+            composable(NavScreen.NewZealandFacts.route) {
+                NewZealandFactsScreen()
             }
         }
     }
