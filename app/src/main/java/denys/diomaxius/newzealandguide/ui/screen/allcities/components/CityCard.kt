@@ -34,7 +34,7 @@ fun CityCard(
 
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                model = city.photos.first(),
+                model = "file:///android_asset/" + city.photos.first(),
                 contentDescription = city.name,
                 contentScale = ContentScale.FillWidth
             )
