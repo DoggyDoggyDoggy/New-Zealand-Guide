@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.0"
+gson = "2.13.2"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -32,6 +33,9 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 #Coil
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
+
+#Gson
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 #Hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidCompiler" }
