@@ -1,9 +1,10 @@
-package denys.diomaxius.newzealandguide.data.local.room.model.city
+package denys.diomaxius.newzealandguide.domain.model.cityhistory
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 
 @Entity(
     tableName = "city_history",
@@ -12,7 +13,7 @@ import androidx.room.PrimaryKey
             entity = CityEntity::class,
             parentColumns = ["id"],
             childColumns = ["cityId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.Companion.CASCADE
         )
     ],
     indices = [Index("cityId")]
