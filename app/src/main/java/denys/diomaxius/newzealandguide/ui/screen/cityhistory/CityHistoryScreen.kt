@@ -10,6 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,13 +22,14 @@ import denys.diomaxius.newzealandguide.domain.model.cityhistory.CityHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
-import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 
 @Composable
 fun CityHistoryScreen(
     viewModel: CityHistoryScreenViewModel = hiltViewModel(),
     cityName: String,
 ) {
+    val cityHistory by viewModel.cityHistory.collectAsState()
+
     val navHostController = LocalNavController.current
 
     Scaffold(
@@ -43,10 +46,7 @@ fun CityHistoryScreen(
     ) { innerPadding ->
         Content(
             modifier = Modifier.padding(innerPadding),
-            cityHistory = CityHistory(
-                cityId = "",
-                paragraphs = emptyList()
-            )
+            cityHistory = cityHistory
         )
     }
 }
