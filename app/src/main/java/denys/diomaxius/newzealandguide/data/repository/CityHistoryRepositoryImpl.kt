@@ -5,7 +5,7 @@ import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.model.cityhistory.CityHistory
 import denys.diomaxius.newzealandguide.domain.repository.CityHistoryRepository
 
-class CityHistoryImpl(
+class CityHistoryRepositoryImpl(
     private val cityHistoryDao: CityHistoryDao
 ) : CityHistoryRepository {
     override suspend fun getCityHistoryByCityId(cityId: String): CityHistory =
