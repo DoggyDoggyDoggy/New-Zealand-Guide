@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.infocard.LongInfoCard
 
 @Composable
@@ -37,7 +38,13 @@ fun ColumnOfTwoLongInfoCards(
             titleCardText = stringResource(R.string.city_history_card_title),
             subTitleCardText = stringResource(R.string.city_history_card_subtitle),
             image = R.drawable.ic_scroll_outline,
-            onClick = {}
+            onClick = {
+                navHostController.navigate(
+                    NavScreen.CityHistory.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
 }
