@@ -7,10 +7,12 @@ import denys.diomaxius.newzealandguide.data.local.room.converter.Converters
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityHistoryDao
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.cityhistory.CityHistoryEntity
 
 @Database(
     entities = [
-        CityEntity::class
+        CityEntity::class,
+        CityHistoryEntity::class
     ],
     version = 1
 )
