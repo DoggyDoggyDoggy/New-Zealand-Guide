@@ -32,22 +32,25 @@ fun CityHistoryScreen(
 
     val navHostController = LocalNavController.current
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                text = stringResource(R.string.top_bar_city_history, cityName),
-                navigationButton = {
-                    PopBackArrowButton {
-                        navHostController.navigateUp()
+    //Change to UiState later on
+    if (cityHistory.cityId != "") {
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = stringResource(R.string.top_bar_city_history, cityName),
+                    navigationButton = {
+                        PopBackArrowButton {
+                            navHostController.navigateUp()
+                        }
                     }
-                }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                cityHistory = cityHistory
             )
         }
-    ) { innerPadding ->
-        Content(
-            modifier = Modifier.padding(innerPadding),
-            cityHistory = cityHistory
-        )
     }
 }
 
