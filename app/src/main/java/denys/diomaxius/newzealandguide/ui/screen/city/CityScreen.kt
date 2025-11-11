@@ -30,23 +30,26 @@ fun CityScreen(
 
     val city by viewModel.city.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                text = city.name,
-                navigationButton = {
-                    PopBackArrowButton {
-                        navHostController.navigateUp()
+    //Change to UiState later on
+    if (city.id != "") {
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = city.name,
+                    navigationButton = {
+                        PopBackArrowButton {
+                            navHostController.navigateUp()
+                        }
                     }
-                }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                city = city,
+                navHostController = navHostController
             )
         }
-    ) { innerPadding ->
-        Content(
-            modifier = Modifier.padding(innerPadding),
-            city = city,
-            navHostController = navHostController
-        )
     }
 }
 
