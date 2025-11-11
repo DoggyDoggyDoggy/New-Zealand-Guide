@@ -6,13 +6,16 @@ import androidx.room.TypeConverters
 import denys.diomaxius.newzealandguide.data.local.room.converter.Converters
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityHistoryDao
+import denys.diomaxius.newzealandguide.data.local.room.dao.CityPlacesDao
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.cityhistory.CityHistoryEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.cityplace.CityPlaceEntity
 
 @Database(
     entities = [
         CityEntity::class,
-        CityHistoryEntity::class
+        CityHistoryEntity::class,
+        CityPlaceEntity::class
     ],
     version = 1
 )
@@ -24,4 +27,5 @@ abstract class CityDatabase: RoomDatabase() {
 
     abstract fun cityDao(): CityDao
     abstract fun cityHistoryDao(): CityHistoryDao
+    abstract fun cityPlacesDao(): CityPlacesDao
 }
