@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
+import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
@@ -44,6 +45,10 @@ fun AppNavigation(
 
             composable(NavScreen.NewZealandHistory.route) {
                 NewZealandHistoryScreen()
+            }
+
+            composable(NavScreen.City.route) {
+                CityScreen()
             }
         }
     }

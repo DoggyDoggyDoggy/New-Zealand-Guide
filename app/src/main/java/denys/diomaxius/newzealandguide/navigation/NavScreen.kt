@@ -6,4 +6,7 @@ sealed class NavScreen(val route: String) {
     object NewZealandFacts : NavScreen("new_zealand_facts")
     object MaoriWords : NavScreen("maori_words")
     object NewZealandHistory : NavScreen("new_zealand_history")
+    object City : NavScreen("city/{cityId}") {
+        fun createRoute(cityId: String): String = "city/$cityId"
+    }
 }

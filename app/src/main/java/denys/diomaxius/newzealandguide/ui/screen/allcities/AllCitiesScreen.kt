@@ -9,10 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
@@ -39,7 +41,8 @@ fun AllCitiesScreen(
     ) { innerPadding ->
         Content(
             modifier = Modifier.padding(innerPadding),
-            cities = cities
+            cities = cities,
+            navHostController = navHostController
         )
     }
 }
@@ -47,7 +50,8 @@ fun AllCitiesScreen(
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
-    cities: LazyPagingItems<City>
+    cities: LazyPagingItems<City>,
+    navHostController: NavHostController,
 ) {
     LazyColumn(
         modifier = modifier
@@ -59,7 +63,13 @@ fun Content(
             cities[index]?.let { city ->
                 CityCard(
                     city = city,
-                    navigateToCity = {}
+                    navigateToCity = {
+                        navHostController.navigate(
+                            NavScreen.City.createRoute(city.id)
+                        ) {
+                            launchSingleTop = true
+                        }
+                    }
                 )
             }
         }
