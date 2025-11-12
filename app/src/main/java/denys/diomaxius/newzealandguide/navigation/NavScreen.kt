@@ -12,4 +12,7 @@ sealed class NavScreen(val route: String) {
     object CityHistory : NavScreen("cityhistory/{cityId}/{cityName}") {
         fun createRoute(cityId: String, cityName: String): String = "cityhistory/$cityId/$cityName"
     }
+    object CityPlaces : NavScreen("cityplaces/{cityId}/{cityName}") {
+        fun createRoute(cityId: String, cityName: String): String = "cityplaces/$cityId/$cityName"
+    }
 }

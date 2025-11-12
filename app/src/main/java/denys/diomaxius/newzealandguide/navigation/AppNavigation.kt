@@ -12,6 +12,7 @@ import androidx.navigation.navArgument
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
+import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
@@ -64,6 +65,20 @@ fun AppNavigation(
                 val cityName = backStackEntry.arguments!!.getString("cityName")!!
 
                 CityHistoryScreen(
+                    cityName = cityName
+                )
+            }
+
+            composable(
+                route = NavScreen.CityPlaces.route,
+                arguments = listOf(
+                    navArgument("cityId") { type = NavType.StringType },
+                    navArgument("cityName") { type = NavType.StringType },
+                )
+            ) { backStackEntry ->
+                val cityName = backStackEntry.arguments!!.getString("cityName")!!
+
+                CityPlacesScreen(
                     cityName = cityName
                 )
             }
