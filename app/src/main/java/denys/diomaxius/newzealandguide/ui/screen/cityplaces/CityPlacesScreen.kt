@@ -42,6 +42,7 @@ fun CityPlacesScreen(
 
     val navHostController = LocalNavController.current
 
+    //Change to UiState later on
     if (cityPlaces.isNotEmpty()) {
         Scaffold(
             topBar = {
