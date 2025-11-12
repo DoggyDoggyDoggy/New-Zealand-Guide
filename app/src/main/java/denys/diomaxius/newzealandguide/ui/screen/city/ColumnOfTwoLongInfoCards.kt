@@ -28,7 +28,13 @@ fun ColumnOfTwoLongInfoCards(
             titleCardText = stringResource(R.string.city_attractions_card_title),
             subTitleCardText = stringResource(R.string.city_attractions_card_subtitle, city.name),
             image = R.drawable.top_attractions,
-            onClick = {}
+            onClick = {
+                navHostController.navigate(
+                    NavScreen.CityPlaces.createRoute(city.id, city.name)
+                ) {
+                    launchSingleTop = true
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
