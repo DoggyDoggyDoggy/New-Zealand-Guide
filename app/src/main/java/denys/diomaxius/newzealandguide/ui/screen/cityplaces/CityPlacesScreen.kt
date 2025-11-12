@@ -42,22 +42,24 @@ fun CityPlacesScreen(
 
     val navHostController = LocalNavController.current
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                text = stringResource(R.string.top_bar_attraction_in_city, cityName),
-                navigationButton = {
-                    PopBackArrowButton {
-                        navHostController.navigateUp()
+    if (cityPlaces.isNotEmpty()) {
+        Scaffold(
+            topBar = {
+                TopBar(
+                    text = stringResource(R.string.top_bar_attraction_in_city, cityName),
+                    navigationButton = {
+                        PopBackArrowButton {
+                            navHostController.navigateUp()
+                        }
                     }
-                }
+                )
+            }
+        ) { innerPadding ->
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                cityPlacesTopics = cityPlaces
             )
         }
-    ) { innerPadding ->
-        Content(
-            modifier = Modifier.padding(innerPadding),
-            cityPlacesTopics = cityPlaces
-        )
     }
 }
 
@@ -81,7 +83,7 @@ fun Content(
 fun CityPlace(topic: CityPlace) {
     Card(
         modifier = Modifier.padding(vertical = 8.dp),
-        shape = RoundedCornerShape(8.dp),colors = CardDefaults.cardColors(
+        shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(6.dp)
