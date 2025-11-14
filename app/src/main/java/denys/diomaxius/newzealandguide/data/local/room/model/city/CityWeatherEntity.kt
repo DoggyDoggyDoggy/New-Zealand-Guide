@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("cityId")]
 )
-data class WeatherEntity(
+data class CityWeatherEntity(
     @PrimaryKey
     val cityId: String,
     val temp: Double = 0.0,
