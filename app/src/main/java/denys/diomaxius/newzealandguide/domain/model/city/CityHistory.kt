@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.model.cityhistory
+package denys.diomaxius.newzealandguide.domain.model.city
 
 data class CityHistory(
     val cityId: String,

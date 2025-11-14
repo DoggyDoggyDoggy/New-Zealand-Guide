@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import denys.diomaxius.newzealandguide.domain.model.cityplace.CityPlace
+import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.domain.usecase.cityplaces.GetPlacesForCityByIdUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

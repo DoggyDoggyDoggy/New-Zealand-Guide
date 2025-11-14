@@ -1,10 +1,9 @@
 package denys.diomaxius.newzealandguide.data.local.room.mapper
 
-import denys.diomaxius.newzealandguide.data.local.room.model.cityhistory.CityHistoryEntity
-import denys.diomaxius.newzealandguide.domain.model.cityhistory.CityHistory
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 
-fun CityHistoryEntity.toDomain(): CityHistory =
-    CityHistory(
+fun CityHistoryEntity.toDomain(): denys.diomaxius.newzealandguide.domain.model.city.CityHistory =
+    denys.diomaxius.newzealandguide.domain.model.city.CityHistory(
         cityId = cityId,
         paragraphs = paragraphs
     )

@@ -8,8 +8,8 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityHistoryDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityPlacesDao
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
-import denys.diomaxius.newzealandguide.data.local.room.model.cityhistory.CityHistoryEntity
-import denys.diomaxius.newzealandguide.data.local.room.model.cityplace.CityPlaceEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
 
 @Database(
     entities = [

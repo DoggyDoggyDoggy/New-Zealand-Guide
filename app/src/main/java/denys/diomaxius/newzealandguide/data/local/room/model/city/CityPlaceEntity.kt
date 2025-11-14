@@ -1,13 +1,12 @@
-package denys.diomaxius.newzealandguide.data.local.room.model.cityweather
+package denys.diomaxius.newzealandguide.data.local.room.model.city
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
-import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 
 @Entity(
-    tableName = "city_weather",
+    tableName = "city_place",
+    primaryKeys = ["cityId", "name"],
     foreignKeys = [
         ForeignKey(
             entity = CityEntity::class,
@@ -18,11 +17,9 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
     ],
     indices = [Index("cityId")]
 )
-data class WeatherEntity(
-    @PrimaryKey
+data class CityPlaceEntity(
     val cityId: String,
-    val temp: Double = 0.0,
-    val description: String = "",
-    val icon: String = "",
-    val date: String = "",
+    val name: String,
+    val image: String,
+    val description: String
 )

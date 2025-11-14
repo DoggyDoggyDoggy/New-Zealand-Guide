@@ -1,13 +1,12 @@
-package denys.diomaxius.newzealandguide.data.local.room.model.cityplace
+package denys.diomaxius.newzealandguide.data.local.room.model.city
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
+import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "city_place",
-    primaryKeys = ["cityId", "name"],
+    tableName = "city_history",
     foreignKeys = [
         ForeignKey(
             entity = CityEntity::class,
@@ -18,9 +17,8 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
     ],
     indices = [Index("cityId")]
 )
-data class CityPlaceEntity(
+data class CityHistoryEntity(
+    @PrimaryKey
     val cityId: String,
-    val name: String,
-    val image: String,
-    val description: String
+    val paragraphs: List<String>
 )

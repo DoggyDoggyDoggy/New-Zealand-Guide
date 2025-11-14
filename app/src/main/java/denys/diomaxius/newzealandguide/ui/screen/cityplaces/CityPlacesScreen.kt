@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.R
-import denys.diomaxius.newzealandguide.domain.model.cityplace.CityPlace
+import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar

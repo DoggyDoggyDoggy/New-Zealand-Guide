@@ -1,7 +1,7 @@
 package denys.diomaxius.newzealandguide.data.local.room.mapper
 
-import denys.diomaxius.newzealandguide.data.local.room.model.cityplace.CityPlaceEntity
-import denys.diomaxius.newzealandguide.domain.model.cityplace.CityPlace
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
+import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 
 fun CityPlaceEntity.toDomain() : CityPlace =
     CityPlace(
