@@ -6,7 +6,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.event.EventEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.event.EventWithSessions
 
 //Refactor to CityDetails or delete
-data class CityWithEvents(
+data class CityWithDetails(
     @Embedded val city: CityEntity,
     @Relation(
         parentColumn = "id",
