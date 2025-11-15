@@ -2,6 +2,9 @@ package denys.diomaxius.newzealandguide.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +37,11 @@ object AppModule {
         CityDatabase.DATABASE_NAME
     ).createFromAsset("database/prepopulated.db")
         .build()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseFirestore(): FirebaseFirestore =
+        Firebase.firestore
 
     @Provides
     @Singleton

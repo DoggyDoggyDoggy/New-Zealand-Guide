@@ -23,5 +23,5 @@ data class CityWeatherEntity(
     val temp: Double,
     val description: String,
     val icon: String,
-    val date: String,
+    val dateTime: String,
 )
