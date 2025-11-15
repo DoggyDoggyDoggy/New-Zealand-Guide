@@ -14,7 +14,7 @@ class WeatherRepositoryImpl (
         val entries: List<CityWeatherEntity> = emptyList(),
     )
 
-    override suspend fun getWeatherByCityId(cityId: String): List<CityWeather> {
+    override suspend fun getCityWeatherByCityId(cityId: String): List<CityWeather> {
         val snap = firestore
             .collection("cities")
             .document(cityId)

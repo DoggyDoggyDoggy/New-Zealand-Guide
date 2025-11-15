@@ -17,11 +17,13 @@ import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.WeatherRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
+import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
 import javax.inject.Singleton
 
 @Module
@@ -56,6 +58,11 @@ object AppModule {
     @Singleton
     fun provideHomeRepository(): HomeRepository =
         HomeRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(firestore: FirebaseFirestore): WeatherRepository =
+        WeatherRepositoryImpl(firestore)
 
     @Provides
     @Singleton
