@@ -4,6 +4,8 @@ import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
 
 @Dao
 interface CityDao {
@@ -12,4 +14,10 @@ interface CityDao {
 
     @Query("SELECT * FROM cities WHERE id = :cityId")
     suspend fun getCityById(cityId: String): CityEntity
+
+    @Query("SELECT * FROM city_history WHERE cityId = :cityId")
+    suspend fun getCityHistoryByCityId(cityId: String): CityHistoryEntity
+
+    @Query("SELECT * FROM city_place WHERE cityId = :cityId")
+    suspend fun getPlacesForCity(cityId: String): List<CityPlaceEntity>
 }

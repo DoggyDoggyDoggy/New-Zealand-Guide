@@ -8,18 +8,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
-import denys.diomaxius.newzealandguide.data.local.room.dao.CityHistoryDao
-import denys.diomaxius.newzealandguide.data.local.room.dao.CityPlacesDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
-import denys.diomaxius.newzealandguide.data.repository.CityHistoryRepositoryImpl
-import denys.diomaxius.newzealandguide.data.repository.CityPlacesRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryRepositoryImpl
-import denys.diomaxius.newzealandguide.domain.repository.CityHistoryRepository
-import denys.diomaxius.newzealandguide.domain.repository.CityPlacesRepository
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
@@ -47,14 +41,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCityHistoryDao(db: CityDatabase) = db.cityHistoryDao()
-
-    @Provides
-    @Singleton
-    fun provideCityPlacesDao(db: CityDatabase) = db.cityPlacesDao()
-
-    @Provides
-    @Singleton
     fun provideCityRepository(cityDao: CityDao): CityRepository =
         CityRepositoryImpl(cityDao)
 
@@ -77,14 +63,4 @@ object AppModule {
     @Singleton
     fun provideNewZealandHistoryRepository(): NewZealandHistoryRepository =
         NewZealandHistoryRepositoryImpl()
-
-    @Provides
-    @Singleton
-    fun provideCityHistoryRepository(cityHistoryDao: CityHistoryDao): CityHistoryRepository =
-        CityHistoryRepositoryImpl(cityHistoryDao)
-
-    @Provides
-    @Singleton
-    fun provideCityPlacesRepository(cityPlacesDao: CityPlacesDao): CityPlacesRepository =
-        CityPlacesRepositoryImpl(cityPlacesDao)
 }

@@ -7,6 +7,8 @@ import androidx.paging.map
 import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
+import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -29,4 +31,10 @@ class CityRepositoryImpl(
 
     override suspend fun getCityById(cityId: String): City =
         cityDao.getCityById(cityId).toDomain()
+
+    override suspend fun getPlacesForCityById(cityId: String): List<CityPlace> =
+        cityDao.getPlacesForCity(cityId).map { it.toDomain() }
+
+    override suspend fun getCityHistoryByCityId(cityId: String): CityHistory =
+        cityDao.getCityHistoryByCityId(cityId).toDomain()
 }
