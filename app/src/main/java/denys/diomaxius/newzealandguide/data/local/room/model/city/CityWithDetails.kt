@@ -2,16 +2,12 @@ package denys.diomaxius.newzealandguide.data.local.room.model.city
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import denys.diomaxius.newzealandguide.data.local.room.model.event.EventEntity
-import denys.diomaxius.newzealandguide.data.local.room.model.event.EventWithSessions
 
-//Refactor to CityDetails or delete
 data class CityWithDetails(
     @Embedded val city: CityEntity,
     @Relation(
         parentColumn = "id",
-        entityColumn = "cityId",
-        entity = EventEntity::class
+        entityColumn = "cityId"
     )
-    val events: List<EventWithSessions>
+    val weather: CityWeatherEntity
 )

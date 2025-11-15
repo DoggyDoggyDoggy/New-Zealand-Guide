@@ -20,8 +20,8 @@ import androidx.room.PrimaryKey
 data class CityWeatherEntity(
     @PrimaryKey
     val cityId: String,
-    val temp: Double = 0.0,
-    val description: String = "",
-    val icon: String = "",
-    val date: String = "",
+    val temp: Double,
+    val description: String,
+    val icon: String,
+    val date: String,
 )
