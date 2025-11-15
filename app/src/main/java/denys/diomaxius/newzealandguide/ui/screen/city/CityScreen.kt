@@ -21,6 +21,7 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.components.weather.WeatherForecastFiveDays
 
 @Composable
 fun CityScreen(
@@ -69,6 +70,11 @@ fun Content(
                 .shadow(12.dp),
             photos = city.photos
         )
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        WeatherForecastFiveDays()
 
         Spacer(
             modifier = Modifier.height(16.dp)
