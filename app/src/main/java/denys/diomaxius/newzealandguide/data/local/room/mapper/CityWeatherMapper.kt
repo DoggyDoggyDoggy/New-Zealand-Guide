@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.data.mapper
+package denys.diomaxius.newzealandguide.data.local.room.mapper
 
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather

@@ -3,7 +3,7 @@ package denys.diomaxius.newzealandguide.data.repository
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
-import denys.diomaxius.newzealandguide.data.mapper.toDomain
+import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.data.remote.model.CityWeatherDto
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
