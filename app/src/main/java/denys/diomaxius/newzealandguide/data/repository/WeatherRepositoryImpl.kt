@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.data.repository
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
@@ -20,18 +19,18 @@ class WeatherRepositoryImpl (
     override suspend fun getCityWeatherByCityId(cityId: String): List<CityWeather> {
         val snap = firestore
             .collection("cities")
-            .document("Auckland")
+            .document(cityId)
             .collection("weather")
             .document("forecast")
             .get()
             .await()
 
-        Log.d("WeatherRepositoryImpl", "getCityWeatherByCityId: ${snap?.data?.entries}")
-
-        return snap.toObject(ForecastDocument::class.java)
+        val forecast = snap.toObject(ForecastDocument::class.java)
             ?.entries
-            ?.map(CityWeatherDto::toEntity)
-            ?.map(CityWeatherEntity::toDomain)
             ?: throw Exception("Weather not found")
+
+        return forecast
+            .map { dto -> dto.toEntity(cityId) }
+            .map(CityWeatherEntity::toDomain)
     }
 }
