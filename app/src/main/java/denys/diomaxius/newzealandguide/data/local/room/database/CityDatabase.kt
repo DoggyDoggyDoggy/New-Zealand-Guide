@@ -9,13 +9,15 @@ import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheI
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 
 @Database(
     entities = [
         CityEntity::class,
         CityHistoryEntity::class,
         CityPlaceEntity::class,
-        WeatherCacheInfo::class
+        WeatherCacheInfo::class,
+        CityWeatherEntity::class
     ],
     version = 1
 )

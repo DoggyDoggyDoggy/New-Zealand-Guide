@@ -61,8 +61,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(firestore: FirebaseFirestore): WeatherRepository =
-        WeatherRepositoryImpl(firestore)
+    fun provideWeatherRepository(
+        dao: CityDao,
+        firestore: FirebaseFirestore
+    ): WeatherRepository =
+        WeatherRepositoryImpl(firestore, dao)
 
     @Provides
     @Singleton
