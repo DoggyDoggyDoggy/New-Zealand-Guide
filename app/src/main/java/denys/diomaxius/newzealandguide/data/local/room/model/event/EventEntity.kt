@@ -2,11 +2,11 @@ package denys.diomaxius.newzealandguide.data.local.room.model.event
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 
 @Entity(
-    tableName = "events",
+    tableName = "city_events",
+    primaryKeys = ["cityId", "eventId"],
     foreignKeys = [
         ForeignKey(
             entity = CityEntity::class,
@@ -17,10 +17,8 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
     ]
 )
 data class EventEntity(
-    @PrimaryKey
-    val id: String,
     val cityId: String,
-    val firebaseEventId: String,
+    val eventId: String,
     val url: String,
     val name: String,
     val description: String,
