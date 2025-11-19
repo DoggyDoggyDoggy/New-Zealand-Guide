@@ -5,10 +5,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 
 @Dao
 interface CityDao {
@@ -29,4 +31,26 @@ interface CityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrUpdateWeatherCacheInfo(info: WeatherCacheInfo)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllWeatherForecast(weatherList: List<CityWeatherEntity>)
+
+    @Query("SELECT * FROM city_weather WHERE cityId = :cityId ORDER BY dateTime ASC")
+    fun getCityWeatherForecast(cityId: String): List<CityWeatherEntity>
+
+    @Query("DELETE FROM city_weather WHERE cityId = :cityId")
+    suspend fun deleteCityWeatherForecast(cityId: String)
+
+    @Transaction
+    suspend fun replaceWeatherForecast(
+        cityId: String,
+        newForecast: List<CityWeatherEntity>,
+        cacheInfo: WeatherCacheInfo
+    ) {
+        deleteCityWeatherForecast(cityId)
+
+        insertAllWeatherForecast(newForecast)
+
+        insertOrUpdateWeatherCacheInfo(cacheInfo)
+    }
 }
