@@ -39,8 +39,8 @@ class WeatherRepositoryImpl (
 
             Log.i("WeatherRepositoryImpl", "Fetching new weather")
 
-            val weatherDtos = dataSource.fetchForecast(cityId)
-            val newForecastEntities = weatherDtos.map { dto -> dto.toEntity(cityId) }
+            val weatherDto = dataSource.fetchForecast(cityId)
+            val newForecastEntities = weatherDto.map { dto -> dto.toEntity(cityId) }
 
             val newCacheInfo = WeatherCacheInfo(cityId, Instant.now())
 
