@@ -1,8 +1,7 @@
-package denys.diomaxius.newzealandguide.data.local.room.model.event
+package denys.diomaxius.newzealandguide.data.local.room.model.city
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 
 @Entity(
     tableName = "city_events",
@@ -12,11 +11,11 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
             entity = CityEntity::class,
             parentColumns = ["id"],
             childColumns = ["cityId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.Companion.CASCADE
         )
     ]
 )
-data class EventEntity(
+data class CityEventEntity(
     val cityId: String,
     val eventId: String,
     val url: String,
@@ -24,4 +23,5 @@ data class EventEntity(
     val description: String,
     val address: String,
     val imageUrl: String,
+    val sessions: List<String>
 )
