@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "city_weather",
+    primaryKeys = ["cityId", "dateTime"],
     foreignKeys = [
         ForeignKey(
             entity = CityEntity::class,
@@ -20,8 +21,8 @@ import androidx.room.PrimaryKey
 data class CityWeatherEntity(
     @PrimaryKey
     val cityId: String,
+    val dateTime: String,
     val temp: Double,
     val description: String,
-    val icon: String,
-    val dateTime: String,
+    val icon: String
 )
