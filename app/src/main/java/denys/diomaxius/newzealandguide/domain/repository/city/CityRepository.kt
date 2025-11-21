@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.repository
+package denys.diomaxius.newzealandguide.domain.repository.city
 
 import androidx.paging.PagingData
 import denys.diomaxius.newzealandguide.domain.model.city.City

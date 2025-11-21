@@ -8,7 +8,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEnt
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
-import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
+import denys.diomaxius.newzealandguide.domain.repository.city.CityWeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -16,10 +16,10 @@ import java.time.temporal.ChronoUnit
 
 private const val MAX_CACHE_AGE_HOURS = 36L
 
-class WeatherRepositoryImpl (
+class CityWeatherRepositoryImpl (
     private val dao: CityDao,
     private val dataSource: CityWeatherDataSource
-) : WeatherRepository {
+) : CityWeatherRepository {
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
         val cacheInfo = withContext(Dispatchers.IO) {
             dao.getWeatherCacheInfo(cityId)

@@ -9,7 +9,7 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
-import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.city.CityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

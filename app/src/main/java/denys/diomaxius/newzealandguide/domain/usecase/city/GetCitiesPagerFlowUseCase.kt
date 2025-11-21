@@ -1,6 +1,6 @@
 package denys.diomaxius.newzealandguide.domain.usecase.city
 
-import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.city.CityRepository
 import javax.inject.Inject
 
 class GetCitiesPagerFlowUseCase @Inject constructor(

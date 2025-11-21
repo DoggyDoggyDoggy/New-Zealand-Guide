@@ -19,13 +19,13 @@ import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryRepositoryImpl
-import denys.diomaxius.newzealandguide.data.repository.WeatherRepositoryImpl
-import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.data.repository.CityWeatherRepositoryImpl
+import denys.diomaxius.newzealandguide.domain.repository.city.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
-import denys.diomaxius.newzealandguide.domain.repository.WeatherRepository
+import denys.diomaxius.newzealandguide.domain.repository.city.CityWeatherRepository
 import javax.inject.Singleton
 
 @Module
@@ -66,8 +66,8 @@ object AppModule {
     fun provideWeatherRepository(
         dao: CityDao,
         cityWeatherDataSource: CityWeatherDataSource
-    ): WeatherRepository =
-        WeatherRepositoryImpl(dao, cityWeatherDataSource)
+    ): CityWeatherRepository =
+        CityWeatherRepositoryImpl(dao, cityWeatherDataSource)
 
     @Provides
     @Singleton
