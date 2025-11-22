@@ -5,5 +5,5 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import kotlinx.coroutines.flow.Flow
 
 interface CityEventsRepository {
-    fun cityEventsPagerFlow(pageSize: Int): Flow<PagingData<CityEvent>>
+    fun cityEventsPagerFlow(pageSize: Int, cityId: String): Flow<PagingData<CityEvent>>
 }
