@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.data.remote.paging
+package denys.diomaxius.newzealandguide.data.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
