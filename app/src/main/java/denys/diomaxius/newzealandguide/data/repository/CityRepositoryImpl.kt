@@ -30,7 +30,7 @@ private const val MAX_CACHE_AGE_HOURS = 36L
 
 class CityRepositoryImpl(
     private val cityDao: CityDao,
-    private val dataSource: CityWeatherDataSource,
+    private val weatherDataSource: CityWeatherDataSource,
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
@@ -74,7 +74,7 @@ class CityRepositoryImpl(
 
             Log.i("WeatherRepositoryImpl", "Fetching new weather")
 
-            val weatherDto = dataSource.fetchForecast(cityId)
+            val weatherDto = weatherDataSource.fetchForecast(cityId)
             val newForecastEntities = weatherDto.map { dto -> dto.toEntity(cityId) }
 
             val newCacheInfo = WeatherCacheInfo(cityId, Instant.now())
