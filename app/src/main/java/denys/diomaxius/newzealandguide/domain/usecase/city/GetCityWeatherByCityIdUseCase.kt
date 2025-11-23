@@ -1,10 +1,10 @@
 package denys.diomaxius.newzealandguide.domain.usecase.city
 
-import denys.diomaxius.newzealandguide.domain.repository.city.CityWeatherRepository
+import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import javax.inject.Inject
 
 class GetCityWeatherByCityIdUseCase  @Inject constructor(
-    private val repository: CityWeatherRepository
+    private val cityRepository: CityRepository
 ) {
-    suspend operator fun invoke(cityId: String) = repository.getCityWeatherByCityId(cityId)
+    suspend operator fun invoke(cityId: String) = cityRepository.getCityWeatherByCityId(cityId)
 }

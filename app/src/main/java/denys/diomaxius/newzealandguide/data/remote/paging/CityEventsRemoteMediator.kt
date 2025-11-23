@@ -17,5 +17,4 @@ class CityEventsRemoteMediator(
         val limit = state.config.pageSize.takeIf { it > 0 } ?: pageSize
         TODO("Not yet implemented")
     }
-
 }

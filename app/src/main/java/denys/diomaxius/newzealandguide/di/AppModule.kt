@@ -19,13 +19,11 @@ import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryRepositoryImpl
-import denys.diomaxius.newzealandguide.data.repository.CityWeatherRepositoryImpl
-import denys.diomaxius.newzealandguide.domain.repository.city.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
-import denys.diomaxius.newzealandguide.domain.repository.city.CityWeatherRepository
 import javax.inject.Singleton
 
 @Module
@@ -53,28 +51,23 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCityRepository(cityDao: CityDao): CityRepository =
-        CityRepositoryImpl(cityDao)
+    fun provideCityWeatherDataSource(
+        firestore: FirebaseFirestore,
+    ): CityWeatherDataSource =
+        CityWeatherDataSourceImpl(firestore)
+
+    @Provides
+    @Singleton
+    fun provideCityRepository(
+        cityDao: CityDao,
+        cityWeatherDataSource: CityWeatherDataSource,
+    ): CityRepository =
+        CityRepositoryImpl(cityDao, cityWeatherDataSource)
 
     @Provides
     @Singleton
     fun provideHomeRepository(): HomeRepository =
         HomeRepositoryImpl()
-
-    @Provides
-    @Singleton
-    fun provideWeatherRepository(
-        dao: CityDao,
-        cityWeatherDataSource: CityWeatherDataSource
-    ): CityWeatherRepository =
-        CityWeatherRepositoryImpl(dao, cityWeatherDataSource)
-
-    @Provides
-    @Singleton
-    fun provideCityWeatherDataSource(
-        firestore: FirebaseFirestore
-    ): CityWeatherDataSource =
-        CityWeatherDataSourceImpl(firestore)
 
     @Provides
     @Singleton
