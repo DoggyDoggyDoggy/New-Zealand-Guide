@@ -99,8 +99,6 @@ class CityRepositoryImpl(
         pageSize: Int,
         cityId: String,
     ): Flow<PagingData<CityEvent>> {
-        val pagingSourceFactory = { cityDao.getCityEventsPagingSource(cityId) }
-
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize,
@@ -113,7 +111,7 @@ class CityRepositoryImpl(
                 pageSize = pageSize,
                 dataSource = eventsDataSource
             ),
-            pagingSourceFactory = pagingSourceFactory
+            pagingSourceFactory = { cityDao.getCityEventsPagingSource(cityId) }
         ).flow
             .flowMap { pagingData ->
                 pagingData.map { entity -> entity.toDomain() }
