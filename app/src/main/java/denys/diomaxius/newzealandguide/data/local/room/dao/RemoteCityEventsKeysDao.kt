@@ -1,10 +1,12 @@
 package denys.diomaxius.newzealandguide.data.local.room.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 
+@Dao
 interface RemoteCityEventsKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKey(remoteKey: RemoteCityEventsKeysEntity)
