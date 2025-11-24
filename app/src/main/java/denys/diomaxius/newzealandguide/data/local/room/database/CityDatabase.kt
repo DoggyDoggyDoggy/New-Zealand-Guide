@@ -11,6 +11,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 
 @Database(
     entities = [
@@ -19,7 +20,8 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEnt
         CityPlaceEntity::class,
         WeatherCacheInfo::class,
         CityWeatherEntity::class,
-        CityEventEntity::class
+        CityEventEntity::class,
+        RemoteCityEventsKeysEntity::class
     ],
     version = 1
 )
