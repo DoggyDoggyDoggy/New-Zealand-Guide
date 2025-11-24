@@ -12,7 +12,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
+import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
+import denys.diomaxius.newzealandguide.data.remote.datasource.CityEventsDataSourceImpl
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityWeatherDataSourceImpl
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
@@ -58,11 +60,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCityEventsDataSource(
+        firestore: FirebaseFirestore,
+    ): CityEventsDataSource =
+        CityEventsDataSourceImpl(firestore)
+
+    @Provides
+    @Singleton
     fun provideCityRepository(
         cityDao: CityDao,
         cityWeatherDataSource: CityWeatherDataSource,
+        cityEventsDataSource: CityEventsDataSource
     ): CityRepository =
-        CityRepositoryImpl(cityDao, cityWeatherDataSource)
+        CityRepositoryImpl(cityDao, cityWeatherDataSource, cityEventsDataSource)
 
     @Provides
     @Singleton

@@ -5,10 +5,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntity
+import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 
 @OptIn(ExperimentalPagingApi::class)
 class CityEventsRemoteMediator(
+    private val cityId: String,
     private val pageSize: Int,
+    private val dataSource: CityEventsDataSource,
 ) : RemoteMediator<Int, CityEventEntity>() {
     override suspend fun load(
         loadType: LoadType,

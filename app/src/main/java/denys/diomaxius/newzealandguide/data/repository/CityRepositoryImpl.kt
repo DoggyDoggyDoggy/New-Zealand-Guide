@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import android.util.Log
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,6 +10,8 @@ import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
+import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
+import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.model.city.City
@@ -31,6 +34,7 @@ private const val MAX_CACHE_AGE_HOURS = 36L
 class CityRepositoryImpl(
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
+    private val eventsDataSource: CityEventsDataSource,
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
@@ -90,6 +94,7 @@ class CityRepositoryImpl(
         }
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     override fun cityEventsPagerFlow(
         pageSize: Int,
         cityId: String,
@@ -102,6 +107,11 @@ class CityRepositoryImpl(
                 enablePlaceholders = false,
                 initialLoadSize = pageSize,
                 prefetchDistance = pageSize / 2
+            ),
+            remoteMediator = CityEventsRemoteMediator(
+                cityId = cityId,
+                pageSize = pageSize,
+                dataSource = eventsDataSource
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
