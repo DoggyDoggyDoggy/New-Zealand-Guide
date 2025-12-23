@@ -62,4 +62,7 @@ interface CityDao {
 
     @Query("SELECT * FROM city_events WHERE cityId = :cityId ORDER BY eventId ASC")
     fun getCityEventsPagingSource(cityId: String): PagingSource<Int, CityEventEntity>
+
+    @Query("DELETE FROM city_events WHERE cityId = :cityId")
+    suspend fun deleteEventsByCityId(cityId: String)
 }
