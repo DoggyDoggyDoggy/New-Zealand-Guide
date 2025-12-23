@@ -17,7 +17,6 @@ class CityEventsRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, CityEventEntity>,
     ): MediatorResult {
-        val limit = state.config.pageSize.takeIf { it > 0 } ?: pageSize
-        TODO("Not yet implemented")
+        TODO("Provide the return value")
     }
 }
