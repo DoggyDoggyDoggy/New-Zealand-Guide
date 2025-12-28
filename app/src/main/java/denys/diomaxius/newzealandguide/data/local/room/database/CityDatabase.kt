@@ -33,5 +33,5 @@ abstract class CityDatabase : RoomDatabase() {
     }
 
     abstract fun cityDao(): CityDao
-    abstract fun remoteKeysDao(): RemoteCityEventsKeysDao
+    abstract fun remoteCityEventsKeysDao(): RemoteCityEventsKeysDao
 }

@@ -53,6 +53,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideRemoteCityEventsKeysDao(db: CityDatabase) = db.remoteCityEventsKeysDao()
+
+    @Provides
+    @Singleton
     fun provideCityWeatherDataSource(
         firestore: FirebaseFirestore,
     ): CityWeatherDataSource =
