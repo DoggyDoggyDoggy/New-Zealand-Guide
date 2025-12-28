@@ -65,4 +65,7 @@ interface CityDao {
 
     @Query("DELETE FROM city_events WHERE cityId = :cityId")
     suspend fun deleteEventsByCityId(cityId: String)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrReplaceCityEvents(events: List<CityEventEntity>)
 }
