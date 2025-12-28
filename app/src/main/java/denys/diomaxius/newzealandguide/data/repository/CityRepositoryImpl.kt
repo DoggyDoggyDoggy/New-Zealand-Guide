@@ -8,6 +8,8 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
+import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
+import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
@@ -35,6 +37,8 @@ class CityRepositoryImpl(
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
     private val eventsDataSource: CityEventsDataSource,
+    private val remoteKeysDao: RemoteCityEventsKeysDao,
+    private val database: CityDatabase,
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
@@ -109,7 +113,9 @@ class CityRepositoryImpl(
             remoteMediator = CityEventsRemoteMediator(
                 cityId = cityId,
                 pageSize = pageSize,
-                dataSource = eventsDataSource
+                dataSource = eventsDataSource,
+                remoteKeysDao = remoteKeysDao,
+                database = database
             ),
             pagingSourceFactory = { cityDao.getCityEventsPagingSource(cityId) }
         ).flow
