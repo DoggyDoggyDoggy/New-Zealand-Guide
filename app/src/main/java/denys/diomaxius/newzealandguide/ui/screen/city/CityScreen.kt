@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
+import denys.diomaxius.newzealandguide.ui.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.weather.WeatherForecastFiveDays
@@ -75,6 +76,12 @@ fun Content(
         )
 
         WeatherForecastFiveDays()
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        Events()
 
         Spacer(
             modifier = Modifier.height(16.dp)
