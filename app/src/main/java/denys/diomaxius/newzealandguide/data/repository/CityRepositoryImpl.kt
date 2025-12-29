@@ -115,6 +115,7 @@ class CityRepositoryImpl(
                 pageSize = pageSize,
                 dataSource = eventsDataSource,
                 remoteKeysDao = remoteKeysDao,
+                cityDao = cityDao,
                 database = database
             ),
             pagingSourceFactory = { cityDao.getCityEventsPagingSource(cityId) }
