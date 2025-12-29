@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
+import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
@@ -74,9 +75,17 @@ object AppModule {
     fun provideCityRepository(
         cityDao: CityDao,
         cityWeatherDataSource: CityWeatherDataSource,
-        cityEventsDataSource: CityEventsDataSource
+        cityEventsDataSource: CityEventsDataSource,
+        remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
+        database: CityDatabase,
     ): CityRepository =
-        CityRepositoryImpl(cityDao, cityWeatherDataSource, cityEventsDataSource)
+        CityRepositoryImpl(
+            cityDao,
+            cityWeatherDataSource,
+            cityEventsDataSource,
+            remoteCityEventsKeysDao,
+            database
+        )
 
     @Provides
     @Singleton
