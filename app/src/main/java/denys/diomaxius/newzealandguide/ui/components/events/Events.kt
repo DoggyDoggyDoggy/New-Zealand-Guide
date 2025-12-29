@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.components.events
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -16,7 +17,9 @@ fun Events(
 ) {
     val events = viewModel.events.collectAsLazyPagingItems()
 
-    LazyColumn {
+    LazyColumn(
+      modifier = Modifier.height(200.dp)
+    ) {
         items(
             events.itemCount
         ) {index->
