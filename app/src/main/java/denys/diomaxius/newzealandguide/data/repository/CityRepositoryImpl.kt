@@ -37,7 +37,7 @@ class CityRepositoryImpl(
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
     private val eventsDataSource: CityEventsDataSource,
-    private val remoteKeysDao: RemoteCityEventsKeysDao,
+    private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
 ) : CityRepository {
 
@@ -114,7 +114,7 @@ class CityRepositoryImpl(
                 cityId = cityId,
                 pageSize = pageSize,
                 dataSource = eventsDataSource,
-                remoteKeysDao = remoteKeysDao,
+                remoteCityEventsKeysDao = remoteCityEventsKeysDao,
                 cityDao = cityDao,
                 database = database
             ),
