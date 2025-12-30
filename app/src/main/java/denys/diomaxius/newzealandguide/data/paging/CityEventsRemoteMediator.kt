@@ -63,7 +63,7 @@ class CityEventsRemoteMediator(
                 cityId = cityId,
                 limit = pageSize,
                 lastDocId = lastDocId
-            ).map { it.toEntity() }
+            ).map { it.toEntity(cityId) }
 
             Log.d("CityEventsRemoteMediator", "database add")
 

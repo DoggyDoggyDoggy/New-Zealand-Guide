@@ -32,6 +32,8 @@ class CityEventsDataSourceImpl @Inject constructor(
             query = query.startAfter(lastDocId)
         }
 
-        return query.get().await().documents as List<CityEventDto>
+        return query.get().await().mapNotNull{
+            it.toObject(CityEventDto::class.java)
+        }
     }
 }

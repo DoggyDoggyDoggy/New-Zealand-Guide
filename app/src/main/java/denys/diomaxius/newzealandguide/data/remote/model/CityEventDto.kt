@@ -1,7 +1,6 @@
 package denys.diomaxius.newzealandguide.data.remote.model
 
 data class CityEventDto(
-    val cityId: String = "",
     val address: String = "",
     val description: String = "",
     val eventId: String = "",
