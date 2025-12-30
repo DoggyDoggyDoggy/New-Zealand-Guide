@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.components.events
 
+import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +33,8 @@ fun Events(
 
 @Composable
 fun EventItem(event: CityEvent) {
+    Log.i("Events", "Event: ${event.eventId}")
+
     Text(
         modifier = Modifier.padding(6.dp),
         text = event.name

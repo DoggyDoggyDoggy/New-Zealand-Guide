@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.data.remote.datasource
 
+import android.util.Log
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
@@ -16,11 +17,16 @@ class CityEventsDataSourceImpl @Inject constructor(
         limit: Int,
         lastDocId: String?
     ): List<CityEventDto> {
+
+        Log.d("CityEventsDataSourceImpl", "Get events. CityId: $cityId")
+
         var query = firestore.collection("cities")
             .document(cityId)
             .collection("events")
             .orderBy(FieldPath.documentId())
             .limit(limit.toLong())
+
+        Log.d("CityEventsDataSourceImpl", "Query: $query")
 
         if (lastDocId != null) {
             query = query.startAfter(lastDocId)

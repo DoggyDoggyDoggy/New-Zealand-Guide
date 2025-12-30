@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.data.paging
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -27,6 +28,8 @@ class CityEventsRemoteMediator(
         state: PagingState<Int, CityEventEntity>,
     ): MediatorResult {
         try {
+            Log.d("CityEventsRemoteMediator", "loadType: $loadType")
+
             if (loadType == LoadType.PREPEND) {
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
@@ -50,14 +53,19 @@ class CityEventsRemoteMediator(
 
             // Если APPEND и нет ключа — считаем, что пагинация окончена
             if (loadType == LoadType.APPEND && lastDocId == null) {
+                Log.d("CityEventsRemoteMediator", "End of pagination")
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
+
+            Log.d("CityEventsRemoteMediator", "Get entities. CityId: $cityId")
 
             val entities = dataSource.getEvents(
                 cityId = cityId,
                 limit = pageSize,
                 lastDocId = lastDocId
             ).map { it.toEntity() }
+
+            Log.d("CityEventsRemoteMediator", "database add")
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -87,6 +95,7 @@ class CityEventsRemoteMediator(
 
             return MediatorResult.Success(endOfPaginationReached = entities.isEmpty() || (entities.size < pageSize))
         } catch (e: Exception) {
+            Log.e("CityEventsRemoteMediator", "Error fetching events", e)
             return MediatorResult.Error(e)
         }
     }
