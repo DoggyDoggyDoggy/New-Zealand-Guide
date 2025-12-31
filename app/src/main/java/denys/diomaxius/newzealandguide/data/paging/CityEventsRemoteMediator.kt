@@ -80,8 +80,10 @@ class CityEventsRemoteMediator(
                 if (entities.isNotEmpty()) {
                     val newLastDocId = entities.last()
 
+                    Log.d("CityEventsRemoteMediator", "lastDocId: ${newLastDocId.eventId}")
+
                     val newKey = RemoteCityEventsKeysEntity(
-                        key = cityId,
+                        cityId = cityId,
                         lastDocId = newLastDocId.eventId
                     )
 

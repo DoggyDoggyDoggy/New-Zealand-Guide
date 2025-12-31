@@ -11,9 +11,9 @@ interface RemoteCityEventsKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKey(remoteKey: RemoteCityEventsKeysEntity)
 
-    @Query("SELECT * FROM remote_city_events_keys WHERE 'key' = :cityId")
+    @Query("SELECT * FROM remote_city_events_keys WHERE cityId = :cityId")
     suspend fun getKeyByCityId(cityId: String): RemoteCityEventsKeysEntity?
 
-    @Query("DELETE FROM remote_city_events_keys WHERE 'key' = :cityId")
+    @Query("DELETE FROM remote_city_events_keys WHERE cityId = :cityId")
     suspend fun clearKeyByCityId(cityId: String)
 }

@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "remote_city_events_keys")
 data class RemoteCityEventsKeysEntity(
-    @PrimaryKey val key: String,
+    @PrimaryKey val cityId: String,
     val lastDocId: String?
 )
