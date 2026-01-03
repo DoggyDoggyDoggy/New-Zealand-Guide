@@ -64,7 +64,7 @@ fun Content(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            //.verticalScroll(rememberScrollState())
     ) {
         CityPhotoSlider(
             modifier = Modifier

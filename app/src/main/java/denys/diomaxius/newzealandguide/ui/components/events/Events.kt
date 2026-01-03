@@ -10,22 +10,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 
 @Composable
 fun Events(
-    viewModel: EventsViewModel = hiltViewModel()
+    viewModel: EventsViewModel = hiltViewModel(),
 ) {
     val events = viewModel.events.collectAsLazyPagingItems()
 
     LazyColumn(
-      modifier = Modifier.height(200.dp)
+        modifier = Modifier.height(200.dp)
     ) {
         items(
-            events.itemCount
-        ) {index->
-            events[index]?.let {
-                EventItem(it)
+            count = events.itemCount,
+            key = events.itemKey { it.eventId },
+            contentType = { "event_item" }
+        ) { index ->
+            val event = events[index]
+            if (event != null) {
+                EventItem(event)
             }
         }
     }
