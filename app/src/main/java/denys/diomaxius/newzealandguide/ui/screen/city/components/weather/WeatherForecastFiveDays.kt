@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.components.weather
+package denys.diomaxius.newzealandguide.ui.screen.city.components.weather
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

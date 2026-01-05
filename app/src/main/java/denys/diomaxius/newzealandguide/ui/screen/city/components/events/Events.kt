@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.components.events
+package denys.diomaxius.newzealandguide.ui.screen.city.components.events
 
 import android.util.Log
 import androidx.compose.foundation.layout.height

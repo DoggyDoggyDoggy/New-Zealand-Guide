@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.components.weather
+package denys.diomaxius.newzealandguide.ui.screen.city.components.weather
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

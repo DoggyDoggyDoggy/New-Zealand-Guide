@@ -19,10 +19,11 @@ import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
-import denys.diomaxius.newzealandguide.ui.components.events.Events
+import denys.diomaxius.newzealandguide.ui.screen.city.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
-import denys.diomaxius.newzealandguide.ui.components.weather.WeatherForecastFiveDays
+import denys.diomaxius.newzealandguide.ui.screen.city.components.ColumnOfTwoLongInfoCards
+import denys.diomaxius.newzealandguide.ui.screen.city.components.weather.WeatherForecastFiveDays
 
 @Composable
 fun CityScreen(
