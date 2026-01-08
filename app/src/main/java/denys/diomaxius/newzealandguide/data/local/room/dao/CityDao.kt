@@ -71,4 +71,7 @@ interface CityDao {
 
     @Query("SELECT MAX(positionInList) FROM city_events WHERE cityId = :cityId")
     suspend fun getMaxPosition(cityId: String): Int?
+
+    @Query("SELECT eventId FROM city_events WHERE cityId = :cityId")
+    suspend fun getStoredEventIds(cityId: String): List<String>
 }

@@ -68,6 +68,7 @@ class CityEventsRemoteMediator(
             Log.d("CityEventsRemoteMediator", "database add")
 
             database.withTransaction {
+                /*
                 val nextPos = if (loadType == LoadType.REFRESH) {
                     0
                 } else {
@@ -102,6 +103,41 @@ class CityEventsRemoteMediator(
                     // Если пустая страница — ставим ключ в null (означает конец)
                     // Можно оставить как есть — в APPEND мы будем считать конец, если lastDocId == null
                     remoteCityEventsKeysDao.clearKeyByCityId(cityId)
+                }*/
+
+                // 1. Если REFRESH - чистим всё
+                if (loadType == LoadType.REFRESH) {
+                    cityDao.deleteEventsByCityId(cityId)
+                    remoteCityEventsKeysDao.clearKeyByCityId(cityId)
+                }
+
+                // 2. Получаем ID тех, кто уже в базе, чтобы не было дублей
+                val storedIds = if (loadType == LoadType.APPEND) {
+                    cityDao.getStoredEventIds(cityId).toHashSet()
+                } else {
+                    emptySet()
+                }
+
+                // 3. Оставляем только РЕАЛЬНО новые ивенты
+                val newEntities = entities.filter { it.eventId !in storedIds }
+
+                if (newEntities.isNotEmpty()) {
+                    val lastPos = cityDao.getMaxPosition(cityId) ?: -1
+                    val nextPos = lastPos + 1
+
+                    val entitiesWithIndex = newEntities.mapIndexed { index, entity ->
+                        entity.copy(positionInList = nextPos + index)
+                    }
+
+                    cityDao.insertOrReplaceCityEvents(entitiesWithIndex)
+                }
+
+                // 4. Ключи сохраняем на основе ОРИГИНАЛЬНОГО последнего элемента из сети
+                if (entities.isNotEmpty()) {
+                    val lastEntity = entities.last()
+                    remoteCityEventsKeysDao.insertKey(
+                        RemoteCityEventsKeysEntity(cityId, lastEntity.eventId)
+                    )
                 }
             }
 

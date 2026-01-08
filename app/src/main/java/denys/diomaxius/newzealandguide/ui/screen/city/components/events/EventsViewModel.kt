@@ -15,5 +15,5 @@ class EventsViewModel @Inject constructor(
 ) : ViewModel() {
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
-    val events = getCityEventsIdUseCase(5, cityId).cachedIn(viewModelScope)
+    val events = getCityEventsIdUseCase(20, cityId).cachedIn(viewModelScope)
 }

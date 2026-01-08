@@ -38,7 +38,7 @@ fun Events(
     ) {
         items(
             count = events.itemCount,
-            key = events.itemKey { it.positionInList },
+            key = events.itemKey { it.eventId},
             contentType = { "event_item" }
         ) { index ->
             events[index]?.let {
