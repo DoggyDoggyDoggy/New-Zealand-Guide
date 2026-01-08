@@ -8,5 +8,6 @@ data class CityEvent(
     val description: String,
     val address: String,
     val imageUrl: String,
-    val sessions: List<String>
+    val sessions: List<String>,
+    val positionInList: Int
 )

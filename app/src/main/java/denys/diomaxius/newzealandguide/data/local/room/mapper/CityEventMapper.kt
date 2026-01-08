@@ -12,5 +12,6 @@ fun CityEventEntity.toDomain() : CityEvent =
         description = description,
         address = address,
         imageUrl = imageUrl,
-        sessions = sessions
+        sessions = sessions,
+        positionInList = positionInList
     )

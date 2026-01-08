@@ -38,7 +38,7 @@ fun Events(
     ) {
         items(
             count = events.itemCount,
-            key = events.itemKey { it.eventId },
+            key = events.itemKey { it.positionInList },
             contentType = { "event_item" }
         ) { index ->
             events[index]?.let {
@@ -77,7 +77,7 @@ fun CityEventCard(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                         .padding(top = 4.dp),
-                    text = event.name,
+                    text = event.positionInList.toString(),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = Color.Black
