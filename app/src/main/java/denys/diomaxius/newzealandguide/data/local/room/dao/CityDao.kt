@@ -68,4 +68,7 @@ interface CityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrReplaceCityEvents(events: List<CityEventEntity>)
+
+    @Query("SELECT MAX(positionInList) FROM city_events WHERE cityId = :cityId")
+    suspend fun getMaxPosition(cityId: String): Int?
 }
