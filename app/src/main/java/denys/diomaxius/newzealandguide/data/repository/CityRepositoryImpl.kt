@@ -106,7 +106,7 @@ class CityRepositoryImpl(
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize,
-                enablePlaceholders = false,
+                enablePlaceholders = true,
                 initialLoadSize = pageSize,
                 prefetchDistance = pageSize / 2
             ),
