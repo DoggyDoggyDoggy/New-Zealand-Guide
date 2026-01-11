@@ -13,6 +13,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class CityEventsRemoteMediator(
@@ -23,91 +24,113 @@ class CityEventsRemoteMediator(
     private val database: CityDatabase,
     private val cityDao: CityDao,
 ) : RemoteMediator<Int, CityEventEntity>() {
+
+    // Настройка времени жизни кэша (7 дней)
+    private val cacheTimeout = TimeUnit.DAYS.toMillis(7)
+
+    /**
+     * Эта функция решает, нужно ли запускать load() при старте.
+     */
+    override suspend fun initialize(): InitializeAction {
+        val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
+        val lastUpdated = remoteKey?.lastUpdated ?: 0L
+        val now = System.currentTimeMillis()
+
+        // Если ключа нет (первый запуск) ИЛИ время истекло -> LAUNCH (Запускаем REFRESH)
+        // Иначе -> SKIP (Показываем локальные данные)
+        return if (remoteKey == null || (now - lastUpdated > cacheTimeout)) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, CityEventEntity>,
     ): MediatorResult {
-        try {
-            Log.d("CityEventsRemoteMediator", "loadType: $loadType")
-
-            if (loadType == LoadType.PREPEND) {
-                return MediatorResult.Success(endOfPaginationReached = true)
-            }
-
-            // Определяем cursor (lastDocId) для запроса
-            val lastDocId: String? = when (loadType) {
-                LoadType.REFRESH -> {
-                    // при REFRESH начинаем сначала (null -> старт запроса)
-                    null
-                }
-
+        return try {
+            // 1. Определяем ключ (cursor) для загрузки
+            val lastDocId = when (loadType) {
+                LoadType.REFRESH -> null
+                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    // при APPEND — берем сохранённый cursor для этого города
-                    val keyEntity = remoteCityEventsKeysDao.getKeyByCityId(cityId)
-                    // если ключа нет — значит либо ещё не было загрузки, либо конец
-                    keyEntity?.lastDocId
+                    val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
+                    // Если APPEND, но ключа нет — значит, мы достигли конца списка ранее
+                    if (remoteKey?.lastDocId == null) {
+                        return MediatorResult.Success(endOfPaginationReached = true)
+                    }
+                    remoteKey.lastDocId
                 }
-
-                else -> null
             }
 
-            // Если APPEND и нет ключа — считаем, что пагинация окончена
-            if (loadType == LoadType.APPEND && lastDocId == null) {
-                Log.d("CityEventsRemoteMediator", "End of pagination")
-                return MediatorResult.Success(endOfPaginationReached = true)
-            }
-
-            Log.d("CityEventsRemoteMediator", "Get entities. CityId: $cityId")
-
-            val entities = dataSource.getEvents(
+            // 2. Загружаем данные из сети
+            val response = dataSource.getEvents(
                 cityId = cityId,
                 limit = pageSize,
                 lastDocId = lastDocId
-            ).map { it.toEntity(cityId) }
+            )
 
-            Log.d("CityEventsRemoteMediator", "database add")
+            // Преобразуем DTO в Entity сразу
+            val entities = response.map { it.toEntity(cityId) }
+            val endOfPaginationReached = entities.size < pageSize
 
+            // 3. Сохраняем в БД (Транзакция)
             database.withTransaction {
-                // 1. Если REFRESH - чистим всё
                 if (loadType == LoadType.REFRESH) {
-                    cityDao.deleteEventsByCityId(cityId)
-                    remoteCityEventsKeysDao.clearKeyByCityId(cityId)
+                    clearCache()
                 }
 
-                // 2. Получаем ID тех, кто уже в базе, чтобы не было дублей
-                val storedIds = if (loadType == LoadType.APPEND) {
-                    cityDao.getStoredEventIds(cityId).toHashSet()
-                } else {
-                    emptySet()
-                }
-
-                // 3. Оставляем только РЕАЛЬНО новые ивенты
-                val newEntities = entities.filter { it.eventId !in storedIds }
-
-                if (newEntities.isNotEmpty()) {
-                    val lastPos = cityDao.getMaxPosition(cityId) ?: -1
-                    val nextPos = lastPos + 1
-
-                    val entitiesWithIndex = newEntities.mapIndexed { index, entity ->
-                        entity.copy(positionInList = nextPos + index)
-                    }
-
-                    cityDao.insertOrReplaceCityEvents(entitiesWithIndex)
-                }
-
-                // 4. Ключи сохраняем на основе ОРИГИНАЛЬНОГО последнего элемента из сети
-                if (entities.isNotEmpty()) {
-                    val lastEntity = entities.last()
-                    remoteCityEventsKeysDao.insertKey(
-                        RemoteCityEventsKeysEntity(cityId, lastEntity.eventId)
-                    )
-                }
+                saveEvents(entities, loadType)
+                saveRemoteKey(entities.lastOrNull(), endOfPaginationReached)
             }
 
-            return MediatorResult.Success(endOfPaginationReached = entities.isEmpty() || (entities.size < pageSize))
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+
         } catch (e: Exception) {
-            Log.e("CityEventsRemoteMediator", "Error fetching events", e)
-            return MediatorResult.Error(e)
+            Log.e("CityEventsRemoteMediator", "Error loading data", e)
+            MediatorResult.Error(e)
         }
+    }
+
+    // --- Вспомогательные методы для чистоты кода ---
+
+    private suspend fun clearCache() {
+        remoteCityEventsKeysDao.clearKeyByCityId(cityId)
+        cityDao.deleteEventsByCityId(cityId)
+    }
+
+    private suspend fun saveEvents(newEvents: List<CityEventEntity>, loadType: LoadType) {
+        if (newEvents.isEmpty()) return
+
+        // Вычисляем начальную позицию для сортировки
+        val startPosition = if (loadType == LoadType.REFRESH) {
+            0
+        } else {
+            // Берем максимальную позицию + 1. Если базы нет, то 0.
+            (cityDao.getMaxPosition(cityId) ?: -1) + 1
+        }
+
+        // Присваиваем позиции элементам
+        val eventsWithPosition = newEvents.mapIndexed { index, event ->
+            event.copy(positionInList = startPosition + index)
+        }
+
+        // Используем InsertOrReplace в DAO, чтобы не делать ручную проверку на дубликаты
+        // Это быстрее и чище. Room сам обновит данные, если ID совпадут.
+        cityDao.insertOrReplaceCityEvents(eventsWithPosition)
+    }
+
+    private suspend fun saveRemoteKey(lastEvent: CityEventEntity?, endOfPagination: Boolean) {
+        // Если данные кончились, сохраняем null как маркер конца
+        // Если данные есть, берем ID последнего элемента
+        val nextKey = if (endOfPagination && lastEvent == null) null else lastEvent?.eventId
+
+        val keyEntity = RemoteCityEventsKeysEntity(
+            cityId = cityId,
+            lastDocId = nextKey,
+            lastUpdated = System.currentTimeMillis() // Обновляем время при каждой успешной загрузке
+        )
+        remoteCityEventsKeysDao.insertKey(keyEntity)
     }
 }
