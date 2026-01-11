@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class RemoteCityEventsKeysEntity(
     @PrimaryKey val cityId: String,
     val lastDocId: String?,
-    // Добавляем время сохранения (по умолчанию сейчас)
     val lastUpdated: Long = System.currentTimeMillis()
 )
