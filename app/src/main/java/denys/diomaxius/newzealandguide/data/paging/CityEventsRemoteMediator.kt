@@ -68,43 +68,6 @@ class CityEventsRemoteMediator(
             Log.d("CityEventsRemoteMediator", "database add")
 
             database.withTransaction {
-                /*
-                val nextPos = if (loadType == LoadType.REFRESH) {
-                    0
-                } else {
-                    (cityDao.getMaxPosition(cityId) ?: 0) + 1
-                }
-
-                val entitiesWithIndex = entities.mapIndexed { index, entity ->
-                    entity.copy(positionInList = nextPos + index)
-                }
-
-                if (loadType == LoadType.REFRESH) {
-                    // Очистить старые события и ключи для этого города
-                    cityDao.deleteEventsByCityId(cityId)
-                    remoteCityEventsKeysDao.clearKeyByCityId(cityId)
-                }
-
-                cityDao.insertOrReplaceCityEvents(entitiesWithIndex)
-
-                // Сохраняем новый ключ — last document id из последнего документа списка
-                if (entities.isNotEmpty()) {
-                    val newLastDocId = entities.last()
-
-                    Log.d("CityEventsRemoteMediator", "lastDocId: ${newLastDocId.eventId}")
-
-                    val newKey = RemoteCityEventsKeysEntity(
-                        cityId = cityId,
-                        lastDocId = newLastDocId.eventId
-                    )
-
-                    remoteCityEventsKeysDao.insertKey(newKey)
-                } else {
-                    // Если пустая страница — ставим ключ в null (означает конец)
-                    // Можно оставить как есть — в APPEND мы будем считать конец, если lastDocId == null
-                    remoteCityEventsKeysDao.clearKeyByCityId(cityId)
-                }*/
-
                 // 1. Если REFRESH - чистим всё
                 if (loadType == LoadType.REFRESH) {
                     cityDao.deleteEventsByCityId(cityId)
