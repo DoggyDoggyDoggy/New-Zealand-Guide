@@ -6,5 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "remote_city_events_keys")
 data class RemoteCityEventsKeysEntity(
     @PrimaryKey val cityId: String,
-    val lastDocId: String?
+    val lastDocId: String?,
+    // Добавляем время сохранения (по умолчанию сейчас)
+    val lastUpdated: Long = System.currentTimeMillis()
 )
