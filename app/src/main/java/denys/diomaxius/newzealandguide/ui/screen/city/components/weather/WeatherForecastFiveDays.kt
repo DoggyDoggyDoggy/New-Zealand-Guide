@@ -31,7 +31,7 @@ fun WeatherForecastFiveDays(
 
     UiStateHandler(
         cityWeatherUiState,
-        loading = {}
+        loading = { WeatherForecastFiveDaysLoading() },
     ) {weatherForecast ->
         Content(weatherForecast)
     }
