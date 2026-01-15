@@ -19,6 +19,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
@@ -30,14 +32,31 @@ fun Events(
 ) {
     val events = viewModel.events.collectAsLazyPagingItems()
 
+    when {
+        events.loadState.refresh is LoadState.Loading -> {
+            EventsLoading()
+        }
+
+        events.loadState.append is LoadState.Error -> {
+
+        }
+
+        else -> {
+            Content(events)
+        }
+    }
+}
+
+@Composable
+fun Content(events: LazyPagingItems<CityEvent>) {
     val listState = rememberLazyListState()
 
-    LazyRow (
+    LazyRow(
         state = listState
     ) {
         items(
             count = events.itemCount,
-            key = events.itemKey { it.eventId},
+            key = events.itemKey { it.eventId },
             contentType = { "event_item" }
         ) { index ->
             events[index]?.let {
