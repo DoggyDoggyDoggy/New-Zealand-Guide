@@ -18,6 +18,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.screen.city.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
@@ -82,7 +83,15 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        Events()
+        Events(
+            onClick = { cityId, eventId ->
+                navHostController.navigate(
+                    NavScreen.Event.createRoute(cityId, eventId)
+                ) {
+                    launchSingleTop = true
+                }
+            }
+        )
 
         Spacer(
             modifier = Modifier.height(16.dp)

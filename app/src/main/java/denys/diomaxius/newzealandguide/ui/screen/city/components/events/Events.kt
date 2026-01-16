@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.city.components.events
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 @Composable
 fun Events(
     viewModel: EventsViewModel = hiltViewModel(),
+    onClick: (cityId: String, eventId: String) -> Unit,
 ) {
     val events = viewModel.events.collectAsLazyPagingItems()
 
@@ -42,13 +44,16 @@ fun Events(
         }
 
         else -> {
-            Content(events)
+            Content(events, onClick)
         }
     }
 }
 
 @Composable
-fun Content(events: LazyPagingItems<CityEvent>) {
+fun Content(
+    events: LazyPagingItems<CityEvent>,
+    onClick: (String, String) -> Unit,
+) {
     val listState = rememberLazyListState()
 
     LazyRow(
@@ -60,7 +65,7 @@ fun Content(events: LazyPagingItems<CityEvent>) {
             contentType = { "event_item" }
         ) { index ->
             events[index]?.let {
-                CityEventCard(it)
+                CityEventCard(it, onClick)
             }
         }
     }
@@ -69,11 +74,15 @@ fun Content(events: LazyPagingItems<CityEvent>) {
 @Composable
 fun CityEventCard(
     event: CityEvent,
+    onClick: (String, String) -> Unit,
 ) {
     Card(
         modifier = Modifier
             .padding(end = 12.dp)
-            .size(175.dp),
+            .size(175.dp)
+            .clickable {
+                onClick(event.cityId, event.eventId)
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
