@@ -75,6 +75,9 @@ class CityRepositoryImpl(
     override suspend fun getCityHistoryByCityId(cityId: String): CityHistory =
         cityDao.getCityHistoryByCityId(cityId).toDomain()
 
+    override suspend fun getCityEvent(cityId: String, eventId: String): CityEvent =
+        cityDao.getCityEvent(cityId, eventId).toDomain()
+
     override suspend fun getCityWeatherByCityId(cityId: String): List<CityWeather> {
         val shouldFetch = shouldFetchNewWeather(cityId)
 
