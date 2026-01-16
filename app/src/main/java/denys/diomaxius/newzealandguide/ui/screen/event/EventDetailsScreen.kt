@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
+import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.screen.event.components.BuyTicketButton
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventBottomBar
@@ -35,7 +37,16 @@ fun EventDetailsScreen(
         state = uiState
     ) { event ->
         Scaffold(
-            topBar = {},
+            topBar = {
+                TopBar(
+                    text = event.name,
+                    navigationButton = {
+                        PopBackArrowButton {
+                            navHostController.navigateUp()
+                        }
+                    }
+                )
+            },
             bottomBar = {
                 EventBottomBar(
                     modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues()),
