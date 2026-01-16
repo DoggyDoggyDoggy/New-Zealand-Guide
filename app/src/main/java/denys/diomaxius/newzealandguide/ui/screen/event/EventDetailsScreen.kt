@@ -36,6 +36,7 @@ import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventAddress
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventBottomBar
+import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDates
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
 
 @Composable
@@ -123,6 +124,10 @@ fun Content(
             EventAddress(event.address)
 
             Spacer(modifier = Modifier.height(4.dp))
+
+            EventDates(event.sessions)
+
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
