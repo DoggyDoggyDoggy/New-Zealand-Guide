@@ -13,6 +13,7 @@ import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
+import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
@@ -81,6 +82,16 @@ fun AppNavigation(
                 CityPlacesScreen(
                     cityName = cityName
                 )
+            }
+
+            composable(
+                route = NavScreen.Event.route,
+                arguments = listOf(
+                    navArgument("cityId") { type = NavType.StringType },
+                    navArgument("eventId") { type = NavType.StringType }
+                )
+            ) {
+                EventDetailsScreen()
             }
         }
     }
