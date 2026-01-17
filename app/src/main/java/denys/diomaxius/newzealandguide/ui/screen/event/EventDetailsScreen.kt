@@ -31,6 +31,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
@@ -48,12 +49,13 @@ fun EventDetailsScreen(
     val context: Context = LocalContext.current
 
     UiStateHandler(
-        state = uiState
+        state = uiState,
+        loading = { ScreenLoading() },
     ) { event ->
         Scaffold(
             topBar = {
                 TopBar(
-                    text = event.name,
+                    text = "Event",
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.navigateUp()
