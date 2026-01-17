@@ -23,19 +23,24 @@ import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSl
 import denys.diomaxius.newzealandguide.ui.screen.city.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.screen.city.components.ColumnOfTwoLongInfoCards
 import denys.diomaxius.newzealandguide.ui.screen.city.components.weather.WeatherForecastFiveDays
+import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 
 @Composable
 fun CityScreen(
-    viewModel: CityScreenViewModel = hiltViewModel()
+    viewModel: CityScreenViewModel = hiltViewModel(),
 ) {
     val navHostController = LocalNavController.current
 
-    val city by viewModel.city.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     //Change to UiState later on
-    if (city.id != "") {
+    UiStateHandler(
+        state = uiState,
+        loading = { ScreenLoading() }
+    ) { city ->
         Scaffold(
             topBar = {
                 TopBar(
