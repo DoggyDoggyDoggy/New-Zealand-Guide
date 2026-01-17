@@ -36,7 +36,6 @@ fun CityScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    //Change to UiState later on
     UiStateHandler(
         state = uiState,
         loading = { ScreenLoading() }
