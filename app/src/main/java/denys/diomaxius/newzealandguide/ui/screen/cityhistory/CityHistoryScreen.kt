@@ -20,20 +20,25 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 
 @Composable
 fun CityHistoryScreen(
     viewModel: CityHistoryScreenViewModel = hiltViewModel(),
     cityName: String,
 ) {
-    val cityHistory by viewModel.cityHistory.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val navHostController = LocalNavController.current
 
-    //Change to UiState later on
-    if (cityHistory.cityId != "") {
+    UiStateHandler(
+        state = uiState,
+        loading = { ScreenLoading() }
+    )
+    { cityHistory ->
         Scaffold(
             topBar = {
                 TopBar(
