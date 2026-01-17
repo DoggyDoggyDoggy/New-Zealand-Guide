@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetPlacesForCityByIdUseCase
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,8 +17,8 @@ class CityPlacesScreenViewModel @Inject constructor(
     private val getPlacesForCityByIdUseCase: GetPlacesForCityByIdUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _cityPlaces = MutableStateFlow<List<CityPlace>>(emptyList())
-    val cityPlaces = _cityPlaces.asStateFlow()
+    private val _uiState = MutableStateFlow<UiState<List<CityPlace>>>(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
@@ -26,6 +27,10 @@ class CityPlacesScreenViewModel @Inject constructor(
     }
 
     private fun loadPlaces() = viewModelScope.launch {
-        _cityPlaces.value = getPlacesForCityByIdUseCase(cityId)
+        _uiState.value = try {
+            UiState.Success(getPlacesForCityByIdUseCase(cityId))
+        } catch (e: Exception) {
+            UiState.Error(e)
+        }
     }
 }

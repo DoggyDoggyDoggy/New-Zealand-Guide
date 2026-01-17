@@ -30,20 +30,25 @@ import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 
 @Composable
 fun CityPlacesScreen(
     viewModel: CityPlacesScreenViewModel = hiltViewModel(),
     cityName: String,
 ) {
-    val cityPlaces by viewModel.cityPlaces.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     val navHostController = LocalNavController.current
 
     //Change to UiState later on
-    if (cityPlaces.isNotEmpty()) {
+    UiStateHandler(
+        state = uiState,
+        loading = { ScreenLoading() }
+    ) { cityPlaces ->
         Scaffold(
             topBar = {
                 TopBar(
