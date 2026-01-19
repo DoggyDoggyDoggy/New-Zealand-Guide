@@ -114,7 +114,7 @@ fun CityPlace(topic: CityPlace) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp)),
-                    model = topic.image,
+                    model = "file:///android_asset/${topic.image}",
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth
                 )
