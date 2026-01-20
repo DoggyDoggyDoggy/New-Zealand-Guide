@@ -31,7 +31,6 @@ fun CityCard(
         Box(
             contentAlignment = Alignment.BottomStart
         ) {
-
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
                 model = "file:///android_asset/" + city.photos.first(),
