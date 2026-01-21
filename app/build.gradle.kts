@@ -68,6 +68,10 @@ dependencies {
     //Firestore
     implementation(libs.firebase.firestore)
 
+    //App Check
+    implementation(libs.firebase.appcheck.playintegrity)
+    debugImplementation (libs.firebase.appcheck.debug) // Debug App Check
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
