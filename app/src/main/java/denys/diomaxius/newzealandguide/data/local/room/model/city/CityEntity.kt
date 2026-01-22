@@ -8,5 +8,6 @@ data class CityEntity(
     @PrimaryKey
     val id: String,
     val name: String,
-    val photos: List<String>
+    val photos: List<String>,
+    val favorite: Boolean
 )

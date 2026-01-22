@@ -7,5 +7,6 @@ fun CityEntity.toDomain(): City =
     City(
         id = id,
         name = name,
-        photos = photos
+        photos = photos,
+        favorite = favorite
     )
