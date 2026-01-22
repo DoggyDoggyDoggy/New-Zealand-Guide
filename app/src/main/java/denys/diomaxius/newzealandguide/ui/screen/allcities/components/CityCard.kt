@@ -18,7 +18,8 @@ import denys.diomaxius.newzealandguide.ui.components.TextOverlay
 fun CityCard(
     modifier: Modifier = Modifier,
     city: City,
-    navigateToCity: () -> Unit
+    navigateToCity: () -> Unit,
+    toggleFavorite: () -> Unit
 ) {
     Card(
         modifier = modifier

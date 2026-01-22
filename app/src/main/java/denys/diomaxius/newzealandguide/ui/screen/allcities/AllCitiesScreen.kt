@@ -21,7 +21,7 @@ import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
 
 @Composable
 fun AllCitiesScreen(
-    viewModel: AllCitiesScreenViewModel = hiltViewModel()
+    viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
     val cities = viewModel.lazyCities.collectAsLazyPagingItems()
 
@@ -42,7 +42,8 @@ fun AllCitiesScreen(
         Content(
             modifier = Modifier.padding(innerPadding),
             cities = cities,
-            navHostController = navHostController
+            navHostController = navHostController,
+            toggleFavorite = viewModel::toggleFavorite
         )
     }
 }
@@ -52,6 +53,7 @@ fun Content(
     modifier: Modifier = Modifier,
     cities: LazyPagingItems<City>,
     navHostController: NavHostController,
+    toggleFavorite: (String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
@@ -69,7 +71,8 @@ fun Content(
                         ) {
                             launchSingleTop = true
                         }
-                    }
+                    },
+                    toggleFavorite = { toggleFavorite(city.id) }
                 )
             }
         }
