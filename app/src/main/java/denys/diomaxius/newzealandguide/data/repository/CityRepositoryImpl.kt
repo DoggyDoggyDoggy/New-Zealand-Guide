@@ -11,6 +11,7 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
@@ -53,18 +54,9 @@ class CityRepositoryImpl(
         return hoursPassed >= MAX_CACHE_AGE_HOURS
     }
 
-    override fun citiesPagerFlow(pageSize: Int): Flow<PagingData<City>> =
-        Pager(
-            config = PagingConfig(
-                pageSize = pageSize,
-                enablePlaceholders = false,
-                initialLoadSize = pageSize,
-                prefetchDistance = pageSize / 2
-            ),
-            pagingSourceFactory = { cityDao.citiesPagingSource() }
-        ).flow.map { pagingData ->
-            pagingData.map { it.toDomain() }
-        }
+    override fun getAllCitiesFlow(): Flow<List<City>> =
+        cityDao.getAllCitiesFlow().map { list -> list.map(CityEntity::toDomain) }
+
 
     override suspend fun getCityById(cityId: String): City =
         cityDao.getCityById(cityId).toDomain()

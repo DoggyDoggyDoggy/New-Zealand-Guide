@@ -9,7 +9,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
-    fun citiesPagerFlow(pageSize: Int): Flow<PagingData<City>>
+    fun getAllCitiesFlow(): Flow<List<City>>
     suspend fun getCityById(cityId: String): City
     suspend fun getPlacesForCityById(cityId: String) : List<CityPlace>
     suspend fun getCityHistoryByCityId(cityId: String): CityHistory

@@ -12,11 +12,12 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CityDao {
     @Query("SELECT * FROM cities ORDER BY name COLLATE NOCASE ASC")
-    fun citiesPagingSource(): PagingSource<Int, CityEntity>
+    fun getAllCitiesFlow(): Flow<List<CityEntity>>
 
     @Query("SELECT * FROM cities WHERE id = :cityId")
     suspend fun getCityById(cityId: String): CityEntity

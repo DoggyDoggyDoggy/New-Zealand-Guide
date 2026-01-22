@@ -4,14 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
@@ -23,7 +24,7 @@ import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
 fun AllCitiesScreen(
     viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
-    val cities = viewModel.lazyCities.collectAsLazyPagingItems()
+    val cities by viewModel.cities.collectAsState()
 
     val navHostController = LocalNavController.current
 
@@ -51,9 +52,9 @@ fun AllCitiesScreen(
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
-    cities: LazyPagingItems<City>,
     navHostController: NavHostController,
     toggleFavorite: (String) -> Unit,
+    cities: List<City>,
 ) {
     LazyColumn(
         modifier = modifier
@@ -61,20 +62,21 @@ fun Content(
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(cities.itemCount) { index ->
-            cities[index]?.let { city ->
-                CityCard(
-                    city = city,
-                    navigateToCity = {
-                        navHostController.navigate(
-                            NavScreen.City.createRoute(city.id)
-                        ) {
-                            launchSingleTop = true
-                        }
-                    },
-                    toggleFavorite = { toggleFavorite(city.id) }
-                )
-            }
+        items(
+            items = cities,
+            key = { it.id }
+        ) { city ->
+            CityCard(
+                city = city,
+                navigateToCity = {
+                    navHostController.navigate(
+                        NavScreen.City.createRoute(city.id)
+                    ) {
+                        launchSingleTop = true
+                    }
+                },
+                toggleFavorite = { toggleFavorite(city.id) }
+            )
         }
     }
 }
