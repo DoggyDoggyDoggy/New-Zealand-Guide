@@ -27,6 +27,9 @@ interface CityDao {
     @Query("SELECT * FROM city_place WHERE cityId = :cityId")
     suspend fun getPlacesForCity(cityId: String): List<CityPlaceEntity>
 
+    @Query("UPDATE cities SET favorite = NOT favorite WHERE id = :cityId")
+    suspend fun toggleFavorite(cityId: String)
+
     //Weather
     @Query("SELECT * FROM weather_cache_info WHERE cityId = :cityId")
     fun getWeatherCacheInfo(cityId: String): WeatherCacheInfo?
