@@ -16,8 +16,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CityDao {
-    @Query("SELECT * FROM cities ORDER BY name COLLATE NOCASE ASC")
-    fun getAllCitiesFlow(): Flow<List<CityEntity>>
+    @Query("""
+        SELECT * FROM cities 
+        WHERE (:showOnlyFavorites = 0 OR favorite = 1)
+        ORDER BY name COLLATE NOCASE ASC
+    """)
+    fun getAllCitiesFlow(showOnlyFavorites: Boolean): Flow<List<CityEntity>>
 
     @Query("SELECT * FROM cities WHERE favorite = 1 ORDER BY name COLLATE NOCASE ASC")
     fun getAllFavoriteCitiesFlow(): Flow<List<CityEntity>>

@@ -54,11 +54,8 @@ class CityRepositoryImpl(
         return hoursPassed >= MAX_CACHE_AGE_HOURS
     }
 
-    override fun getAllCitiesFlow(): Flow<List<City>> =
-        cityDao.getAllCitiesFlow().map { list -> list.map(CityEntity::toDomain) }
-
-    override fun getAllFavoriteCitiesFlow(): Flow<List<City>> =
-        cityDao.getAllFavoriteCitiesFlow().map { list -> list.map(CityEntity::toDomain) }
+    override fun getAllCitiesFlow(onlyFavorites: Boolean): Flow<List<City>> =
+        cityDao.getAllCitiesFlow(onlyFavorites).map { list -> list.map(CityEntity::toDomain) }
 
     override suspend fun getCityById(cityId: String): City =
         cityDao.getCityById(cityId).toDomain()
