@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,7 +53,7 @@ fun AllCitiesScreen(
 
 @Composable
 fun Content(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     navHostController: NavHostController,
     toggleFavorite: (String) -> Unit,
     cities: List<City>,
@@ -64,10 +63,9 @@ fun Content(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(horizontal = 12.dp)
     ) {
-        item{
+        item {
             FavoriteFilter(
                 showFavorite = favoriteFilter,
                 toggleFavorite = toggleFavoriteFilter
