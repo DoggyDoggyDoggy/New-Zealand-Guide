@@ -19,6 +19,9 @@ interface CityDao {
     @Query("SELECT * FROM cities ORDER BY name COLLATE NOCASE ASC")
     fun getAllCitiesFlow(): Flow<List<CityEntity>>
 
+    @Query("SELECT * FROM cities WHERE favorite = 1 ORDER BY name COLLATE NOCASE ASC")
+    fun getAllFavoriteCitiesFlow(): Flow<List<CityEntity>>
+
     @Query("SELECT * FROM cities WHERE id = :cityId")
     suspend fun getCityById(cityId: String): CityEntity
 
