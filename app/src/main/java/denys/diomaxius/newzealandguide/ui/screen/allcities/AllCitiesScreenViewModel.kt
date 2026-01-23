@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetAllCitiesFlowUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.ToggleFavoriteUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +17,9 @@ class AllCitiesScreenViewModel @Inject constructor(
     getAllCitiesFlowUseCase: GetAllCitiesFlowUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
 ) : ViewModel() {
+    private val _favoriteFilter = MutableStateFlow(false)
+    val favoriteFilter = _favoriteFilter.asStateFlow()
+
     val cities = getAllCitiesFlowUseCase()
         .stateIn(
             scope = viewModelScope,
@@ -26,5 +31,9 @@ class AllCitiesScreenViewModel @Inject constructor(
         viewModelScope.launch {
             toggleFavoriteUseCase(cityId)
         }
+    }
+
+    fun toggleFavoriteFilter() {
+        _favoriteFilter.value = !_favoriteFilter.value
     }
 }

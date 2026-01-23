@@ -19,13 +19,14 @@ import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
+import denys.diomaxius.newzealandguide.ui.screen.allcities.components.FavoriteFilter
 
 @Composable
 fun AllCitiesScreen(
     viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
     val cities by viewModel.cities.collectAsState()
-
+    val favoriteFilter by viewModel.favoriteFilter.collectAsState()
     val navHostController = LocalNavController.current
 
     Scaffold(
@@ -44,7 +45,9 @@ fun AllCitiesScreen(
             modifier = Modifier.padding(innerPadding),
             cities = cities,
             navHostController = navHostController,
-            toggleFavorite = viewModel::toggleFavorite
+            toggleFavorite = viewModel::toggleFavorite,
+            favoriteFilter = favoriteFilter,
+            toggleFavoriteFilter = viewModel::toggleFavoriteFilter
         )
     }
 }
@@ -55,13 +58,22 @@ fun Content(
     navHostController: NavHostController,
     toggleFavorite: (String) -> Unit,
     cities: List<City>,
+    favoriteFilter: Boolean,
+    toggleFavoriteFilter: () -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(horizontal = 12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        item{
+            FavoriteFilter(
+                showFavorite = favoriteFilter,
+                toggleFavorite = toggleFavoriteFilter
+            )
+        }
+
         items(
             items = cities,
             key = { it.id }
