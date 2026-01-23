@@ -1,5 +1,7 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +20,7 @@ import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
+import denys.diomaxius.newzealandguide.ui.screen.allcities.components.EmptyFavoriteScreen
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.FavoriteFilter
 
 @Composable
@@ -60,33 +63,42 @@ fun Content(
     favoriteFilter: Boolean,
     toggleFavoriteFilter: () -> Unit,
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 12.dp)
+    Box (
+        modifier = modifier.fillMaxSize()
     ) {
-        item {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp)
+        ) {
             FavoriteFilter(
                 showFavorite = favoriteFilter,
                 toggleFavorite = toggleFavoriteFilter
             )
-        }
 
-        items(
-            items = cities,
-            key = { it.id }
-        ) { city ->
-            CityCard(
-                city = city,
-                navigateToCity = {
-                    navHostController.navigate(
-                        NavScreen.City.createRoute(city.id)
-                    ) {
-                        launchSingleTop = true
+            if (cities.isNotEmpty()){
+                LazyColumn {
+                    items(
+                        items = cities,
+                        key = { it.id }
+                    ) { city ->
+                        CityCard(
+                            city = city,
+                            navigateToCity = {
+                                navHostController.navigate(
+                                    NavScreen.City.createRoute(city.id)
+                                ) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            toggleFavorite = { toggleFavorite(city.id) }
+                        )
                     }
-                },
-                toggleFavorite = { toggleFavorite(city.id) }
-            )
+                }
+            }
+        }
+        if (cities.isEmpty() && favoriteFilter) {
+            EmptyFavoriteScreen()
         }
     }
 }
