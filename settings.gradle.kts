@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "New Zealand Guide v2"
+rootProject.name = "New Zealand Guide"
 include(":app")
  
