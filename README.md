@@ -8,7 +8,8 @@
 
 # New-Zealand-Guide
 
-New Zealand Guide brings 5-day weather forecasts, weekly event listings, city histories, must-see places, and useful Māori phrases to your pocket. Whether you’re planning a trip, checking local events, or just curious about NZ cities and culture, this app helps you discover more — quickly and simply.
+New Zealand Guide is an Android travel guide app for New Zealand, built with Kotlin and Jetpack Compose.
+It provides users with information about cities, events, and weather, featuring local caching and smooth incremental data loading.
 
 <a href="https://play.google.com/store/apps/details?id=denys.diomaxius.newzealandguide&hl=en">
   <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200"/>
@@ -21,27 +22,30 @@ New Zealand Guide brings 5-day weather forecasts, weekly event listings, city hi
 
 ## Project Overview
 
-* **Server-side data storage**: Cities, events, and weather are managed in Firestore and Cloud Storage.
-* **Serverless integrations**: Weather and events APIs are invoked via Firebase Cloud Functions.
-* **Client-focused UI**: The Android app (Jetpack Compose) only reads and displays data from Firebase, eliminating direct calls to external services.
-* **Secure Access**: Firebase App Check ensures that only the official app (from Google Play or debug devices you authorize) can access the server.
-
----
-
-## Features
-
-* **City Guide**: Explore New Zealand cities with descriptions, photos, and travel tips.
-* **Weather Data**: Fresh weather updates pulled and cached via Cloud Functions.
-* **Event Listings**: Up-to-date local events stored in Firestore.
-* **Offline Ready**: Firestore’s offline persistence for core data.
-* **Secure by Design**: API keys are stored server-side; no secrets in the client.
+- **City & Event Listings**: Users can browse cities and events happening in them.  
+- **Incremental Data Loading**: Events are loaded **as the user scrolls**, reducing server load and saving bandwidth.  
+- **Local Caching with Room**: Data is cached locally for offline use and faster UI response.  
+- **Weather Information**: Displays forecasts for selected cities.  
+- **Useful Māori Phrases**: Fun facts and basic local language phrases.
 
 ---
 
 ## Tech Stack
 
-* **Android**: Kotlin, Jetpack Compose, MVVM
-* **Backend as a Service**: Firebase Firestore, Сloudinary Storage, Firebase Functions
+- **Android**: Jetpack Compose, Room, RemoteMediator, Hilt, Paging 3, Coil, MVVM  
+- **Backend**: Firebase Firestore, Firebase Functions, App Check
+
+---
+
+## Implementation Highlights
+
+- **RemoteMediator + Paging 3**: Events are loaded incrementally, ensuring smooth scrolling and minimal server requests.  
+- **Room**: Maintains a local copy of data for fast access and offline functionality.  
+- **Firebase**: Stores up-to-date city info, events, and media while keeping network requests optimized.  
+- **Serverless Integrations**: Weather and events APIs are invoked via Firebase Cloud Functions.  
+- **Secure Access**: Firebase App Check ensures that only the official app (from Google Play or authorized debug devices) can access the server.  
+- **Modern Android Stack**: Full MVVM architecture, dependency injection with Hilt, and Jetpack Compose UI.
+- **Offline-first**: Cached data ensures the app works smoothly even without internet.
 
 ---
 
