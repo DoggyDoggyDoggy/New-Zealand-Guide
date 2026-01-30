@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.map as flowMap
 private const val MAX_CACHE_AGE_HOURS = 36L
 
 class CityRepositoryImpl(
+    private val context: Context,
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
     private val eventsDataSource: CityEventsDataSource,
@@ -109,6 +111,7 @@ class CityRepositoryImpl(
                 prefetchDistance = pageSize / 2
             ),
             remoteMediator = CityEventsRemoteMediator(
+                context = context,
                 cityId = cityId,
                 pageSize = pageSize,
                 dataSource = eventsDataSource,

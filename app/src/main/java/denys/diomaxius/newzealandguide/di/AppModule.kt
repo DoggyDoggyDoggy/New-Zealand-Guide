@@ -73,6 +73,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideCityRepository(
+        @ApplicationContext context: Context,
         cityDao: CityDao,
         cityWeatherDataSource: CityWeatherDataSource,
         cityEventsDataSource: CityEventsDataSource,
@@ -80,6 +81,7 @@ object AppModule {
         database: CityDatabase,
     ): CityRepository =
         CityRepositoryImpl(
+            context,
             cityDao,
             cityWeatherDataSource,
             cityEventsDataSource,

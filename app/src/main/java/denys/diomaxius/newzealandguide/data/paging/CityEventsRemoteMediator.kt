@@ -1,5 +1,9 @@
 package denys.diomaxius.newzealandguide.data.paging
 
+import android.content.Context
+import coil3.imageLoader
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -17,6 +21,7 @@ import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class CityEventsRemoteMediator(
+    private val context: Context,
     private val cityId: String,
     private val pageSize: Int,
     private val dataSource: CityEventsDataSource,
@@ -85,6 +90,8 @@ class CityEventsRemoteMediator(
                 saveRemoteKey(entities.lastOrNull(), endOfPaginationReached)
             }
 
+            prefetchImages(entities)
+
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
         } catch (e: Exception) {
@@ -132,5 +139,21 @@ class CityEventsRemoteMediator(
             lastUpdated = System.currentTimeMillis() // Обновляем время при каждой успешной загрузке
         )
         remoteCityEventsKeysDao.insertKey(keyEntity)
+    }
+
+    private fun prefetchImages(entities: List<CityEventEntity>) {
+        val imageLoader = context.imageLoader
+
+        entities.forEach { event ->
+            val request = ImageRequest.Builder(context)
+                .data(event.imageUrl)
+                // Записываем только на диск, не занимая оперативную память (RAM)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .diskCachePolicy(CachePolicy.ENABLED)
+                .build()
+
+            // Запускаем асинхронную загрузку
+            imageLoader.enqueue(request)
+        }
     }
 }
