@@ -62,10 +62,10 @@ class CityEventsRemoteMediator(
                 LoadType.APPEND -> {
                     val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
                     // Если APPEND, но ключа нет — значит, мы достигли конца списка ранее
-                    if (remoteKey?.lastDocId == null) {
+                    if (remoteKey?.lastDocId == null && remoteKey != null) {
                         return MediatorResult.Success(endOfPaginationReached = true)
                     }
-                    remoteKey.lastDocId
+                    remoteKey?.lastDocId
                 }
             }
 
@@ -86,11 +86,18 @@ class CityEventsRemoteMediator(
                     clearCache()
                 }
 
-                saveEvents(entities, loadType)
-                saveRemoteKey(entities.lastOrNull(), endOfPaginationReached)
+                if (entities.isNotEmpty()) {
+                    saveEvents(entities, loadType)
+                }
+
+                if (loadType == LoadType.REFRESH || entities.isNotEmpty() || endOfPaginationReached) {
+                    saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                }
             }
 
-            prefetchImages(entities)
+            if (entities.isNotEmpty()) {
+                prefetchImages(entities)
+            }
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
@@ -128,15 +135,21 @@ class CityEventsRemoteMediator(
         cityDao.insertOrReplaceCityEvents(eventsWithPosition)
     }
 
-    private suspend fun saveRemoteKey(lastEvent: CityEventEntity?, endOfPagination: Boolean) {
-        // Если данные кончились, сохраняем null как маркер конца
-        // Если данные есть, берем ID последнего элемента
-        val nextKey = if (endOfPagination && lastEvent == null) null else lastEvent?.eventId
+    private suspend fun saveRemoteKey(
+        lastEvent: CityEventEntity?,
+        endOfPagination: Boolean,
+        loadType: LoadType,
+    ) {
+        val existingKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
+
+        // Если данные кончились — null, иначе — ID последнего ивента
+        val nextKey = if (endOfPagination) null else (lastEvent?.eventId ?: existingKey?.lastDocId)
 
         val keyEntity = RemoteCityEventsKeysEntity(
             cityId = cityId,
             lastDocId = nextKey,
-            lastUpdated = System.currentTimeMillis() // Обновляем время при каждой успешной загрузке
+            lastUpdated = if (loadType == LoadType.REFRESH) System.currentTimeMillis() else (existingKey?.lastUpdated
+                ?: System.currentTimeMillis())
         )
         remoteCityEventsKeysDao.insertKey(keyEntity)
     }
