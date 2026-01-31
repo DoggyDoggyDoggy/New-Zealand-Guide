@@ -39,7 +39,7 @@ fun Events(
     }
 
     if (events.loadState.refresh is LoadState.Loading && events.itemCount == 0) {
-        EventsLoading()
+        EventsLoadingRow()
     }
 
     if (events.loadState.refresh is LoadState.Error && events.itemCount == 0) {

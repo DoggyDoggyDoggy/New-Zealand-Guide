@@ -17,27 +17,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EventsLoading() {
+fun EventsLoadingRow() {
     Row(
         modifier = Modifier.horizontalScroll(rememberScrollState())
     ) {
         repeat(4) {
-            Card(
-                modifier = Modifier
-                    .padding(end = 12.dp)
-                    .size(175.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface
-                )
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            EventLoadingCard()
+        }
+    }
+}
+
+@Composable
+fun EventLoadingCard() {
+    Card(
+        modifier = Modifier
+            .padding(end = 12.dp)
+            .size(175.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
     }
 }
