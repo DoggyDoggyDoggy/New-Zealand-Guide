@@ -69,6 +69,12 @@ fun Content(
                 CityEventCard(it, onClick)
             }
         }
+
+        if (events.loadState.append is LoadState.Loading) {
+            item {
+                EventLoadingCard()
+            }
+        }
     }
 }
 
