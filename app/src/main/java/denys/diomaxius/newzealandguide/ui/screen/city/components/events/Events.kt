@@ -34,18 +34,19 @@ fun Events(
 ) {
     val events = viewModel.events.collectAsLazyPagingItems()
 
-    when {
-        events.loadState.refresh is LoadState.Loading -> {
-            EventsLoading()
-        }
+    if (events.itemCount > 0) {
+        Content(events, onClick)
+    }
 
-        events.loadState.append is LoadState.Error -> {
+    if (events.loadState.refresh is LoadState.Loading && events.itemCount == 0) {
+        EventsLoading()
+    }
 
-        }
-
-        else -> {
-            Content(events, onClick)
-        }
+    if (events.loadState.refresh is LoadState.Error && events.itemCount == 0) {
+        Text(
+            text = "Something went wrong",
+            color = MaterialTheme.colorScheme.error
+        )
     }
 }
 
