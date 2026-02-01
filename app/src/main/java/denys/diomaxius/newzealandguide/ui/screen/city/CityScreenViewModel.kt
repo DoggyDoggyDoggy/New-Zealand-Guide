@@ -26,6 +26,11 @@ class CityScreenViewModel @Inject constructor(
     getCityEventsIdUseCase: GetCityEventsByIdUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
+    data class CityScreenUiState(
+        val city: UiState<City> = UiState.Loading,
+        val weather: UiState<List<CityWeather>> = UiState.Loading,
+    )
+
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
     private val _uiState = MutableStateFlow(CityScreenUiState())
@@ -65,9 +70,4 @@ class CityScreenViewModel @Inject constructor(
             _uiState.update { it.copy(weather = UiState.Error(e)) }
         }
     }
-
-    data class CityScreenUiState(
-        val city: UiState<City> = UiState.Loading,
-        val weather: UiState<List<CityWeather>> = UiState.Loading,
-    )
 }
