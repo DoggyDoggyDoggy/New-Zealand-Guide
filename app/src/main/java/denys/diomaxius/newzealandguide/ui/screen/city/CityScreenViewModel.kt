@@ -3,10 +3,12 @@ package denys.diomaxius.newzealandguide.ui.screen.city
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventsByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class CityScreenViewModel @Inject constructor(
     private val getCityWeatherByCityIdUseCase: GetCityWeatherByCityIdUseCase,
     private val getCityByIdUseCase: GetCityByIdUseCase,
+    getCityEventsIdUseCase: GetCityEventsByIdUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
@@ -28,12 +31,13 @@ class CityScreenViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(CityScreenUiState())
     val uiState: StateFlow<CityScreenUiState> = _uiState.asStateFlow()
 
+    val events = getCityEventsIdUseCase(20, cityId).cachedIn(viewModelScope)
+
     init {
         loadAll()
     }
 
     private fun loadAll() {
-        // Запускаем загрузку city и weather параллельно.
         viewModelScope.launch {
             supervisorScope {
                 launch { loadCity() }

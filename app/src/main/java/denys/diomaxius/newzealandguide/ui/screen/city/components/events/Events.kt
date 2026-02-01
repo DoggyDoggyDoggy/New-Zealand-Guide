@@ -19,10 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
@@ -33,11 +31,10 @@ import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun Events(
-    viewModel: EventsViewModel = hiltViewModel(),
+    events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
 ) {
     val context = LocalContext.current
-    val events = viewModel.events.collectAsLazyPagingItems()
 
     if (events.itemCount > 0) {
         Content(events, onClick)

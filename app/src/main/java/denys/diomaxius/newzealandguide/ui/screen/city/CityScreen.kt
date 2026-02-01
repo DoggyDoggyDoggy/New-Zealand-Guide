@@ -16,7 +16,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
@@ -37,6 +40,7 @@ fun CityScreen(
     val navHostController = LocalNavController.current
 
     val uiState by viewModel.uiState.collectAsState()
+    val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
 
     UiStateHandler(
         state = uiState.city,
@@ -58,7 +62,8 @@ fun CityScreen(
                 modifier = Modifier.padding(innerPadding),
                 city = city,
                 navHostController = navHostController,
-                weather = uiState.weather
+                weather = uiState.weather,
+                eventsPagingItems = eventsPagingItems
             )
         }
     }
@@ -70,6 +75,7 @@ fun Content(
     city: City,
     navHostController: NavHostController,
     weather: UiState<List<CityWeather>>,
+    eventsPagingItems: LazyPagingItems<CityEvent>,
 ) {
     Column(
         modifier = modifier
@@ -94,6 +100,7 @@ fun Content(
         )
 
         Events(
+            events = eventsPagingItems,
             onClick = { cityId, eventId ->
                 navHostController.navigate(
                     NavScreen.Event.createRoute(cityId, eventId)
