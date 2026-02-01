@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
@@ -27,6 +28,7 @@ import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.screen.city.components.ColumnOfTwoLongInfoCards
 import denys.diomaxius.newzealandguide.ui.screen.city.components.weather.WeatherForecastFiveDays
 import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 
 @Composable
 fun CityScreen(
@@ -37,7 +39,7 @@ fun CityScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     UiStateHandler(
-        state = uiState,
+        state = uiState.city,
         loading = { ScreenLoading() }
     ) { city ->
         Scaffold(
@@ -55,7 +57,8 @@ fun CityScreen(
             Content(
                 modifier = Modifier.padding(innerPadding),
                 city = city,
-                navHostController = navHostController
+                navHostController = navHostController,
+                weather = uiState.weather
             )
         }
     }
@@ -66,6 +69,7 @@ fun Content(
     modifier: Modifier = Modifier,
     city: City,
     navHostController: NavHostController,
+    weather: UiState<List<CityWeather>>,
 ) {
     Column(
         modifier = modifier
@@ -81,7 +85,9 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        WeatherForecastFiveDays()
+        WeatherForecastFiveDays(
+            weatherUiState = weather
+        )
 
         Spacer(
             modifier = Modifier.height(16.dp)

@@ -5,33 +5,65 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 @HiltViewModel
 class CityScreenViewModel @Inject constructor(
+    private val getCityWeatherByCityIdUseCase: GetCityWeatherByCityIdUseCase,
     private val getCityByIdUseCase: GetCityByIdUseCase,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState<City>>(UiState.Loading)
-    val uiState = _uiState.asStateFlow()
-
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
-    init {
-        loadCity()
+    private val _uiState = MutableStateFlow(CityScreenUiState())
+    val uiState: StateFlow<CityScreenUiState> = _uiState.asStateFlow()
 
+    init {
+        loadAll()
     }
 
-    private fun loadCity() = viewModelScope.launch {
-        _uiState.value = try {
-            UiState.Success(getCityByIdUseCase(cityId))
-        } catch (e: Exception) {
-            UiState.Error(e)
+    private fun loadAll() {
+        // Запускаем загрузку city и weather параллельно.
+        viewModelScope.launch {
+            supervisorScope {
+                launch { loadCity() }
+                launch { loadWeather() }
+            }
         }
     }
+
+    private suspend fun loadCity() {
+        _uiState.update { it.copy(city = UiState.Loading) }
+        try {
+            val city = getCityByIdUseCase(cityId)
+            _uiState.update { it.copy(city = UiState.Success(city)) }
+        } catch (e: Exception) {
+            _uiState.update { it.copy(city = UiState.Error(e)) }
+        }
+    }
+
+    private suspend fun loadWeather() {
+        _uiState.update { it.copy(weather = UiState.Loading) }
+        try {
+            val weather = getCityWeatherByCityIdUseCase(cityId)
+            _uiState.update { it.copy(weather = UiState.Success(weather)) }
+        } catch (e: Exception) {
+            _uiState.update { it.copy(weather = UiState.Error(e)) }
+        }
+    }
+
+    data class CityScreenUiState(
+        val city: UiState<City> = UiState.Loading,
+        val weather: UiState<List<CityWeather>> = UiState.Loading,
+    )
 }

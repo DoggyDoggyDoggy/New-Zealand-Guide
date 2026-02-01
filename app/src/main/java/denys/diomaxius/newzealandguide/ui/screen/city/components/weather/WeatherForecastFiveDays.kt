@@ -10,27 +10,21 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
+import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
-fun WeatherForecastFiveDays(
-    viewModel: WeatherForecastFiveDaysViewModel = hiltViewModel()
-) {
-    val cityWeatherUiState by viewModel.uiState.collectAsState()
-
+fun WeatherForecastFiveDays(weatherUiState: UiState<List<CityWeather>>) {
     UiStateHandler(
-        cityWeatherUiState,
+        weatherUiState,
         loading = { WeatherForecastFiveDaysLoading() },
     ) {weatherForecast ->
         Content(weatherForecast)
