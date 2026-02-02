@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -17,16 +18,25 @@ import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
-fun WeatherForecastFiveDays(weatherUiState: UiState<List<CityWeather>>) {
+fun WeatherForecastFiveDays(
+    weatherUiState: UiState<List<CityWeather>>,
+    hasInternetConnection: Boolean,
+) {
     UiStateHandler(
         weatherUiState,
         loading = { WeatherForecastFiveDaysLoading() },
-    ) {weatherForecast ->
+        error = {
+            if (!hasInternetConnection) {
+                NoLocalCacheCard(modifier = Modifier.height(64.dp))
+            }
+        }
+    ) { weatherForecast ->
         Content(weatherForecast)
     }
 }
@@ -50,7 +60,7 @@ fun Content(weatherForecast: List<CityWeather>) {
 @Composable
 fun WeatherForecastCard(
     modifier: Modifier = Modifier,
-    weather: CityWeather
+    weather: CityWeather,
 ) {
     Card(
         modifier = modifier,

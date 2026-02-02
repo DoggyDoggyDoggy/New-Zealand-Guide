@@ -95,7 +95,8 @@ fun Content(
         )
 
         WeatherForecastFiveDays(
-            weatherUiState = weather
+            weatherUiState = weather,
+            hasInternetConnection = hasInternetConnection
         )
 
         Spacer(

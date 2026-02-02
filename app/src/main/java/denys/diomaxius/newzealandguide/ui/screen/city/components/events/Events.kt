@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,6 +26,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
+import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 
 @Composable
 fun Events(
@@ -48,10 +50,7 @@ fun Events(
 
     if (events.loadState.refresh is LoadState.Error && events.itemCount == 0) {
         if (!hasInternetConnection) {
-            Text(
-                text = "You are offline. Check your settings.",
-                color = MaterialTheme.colorScheme.error,
-            )
+            NoLocalCacheCard(modifier = Modifier.height(175.dp))
         }
     }
 }
