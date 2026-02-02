@@ -11,9 +11,12 @@ import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventsByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
+import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserver
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
@@ -24,6 +27,7 @@ class CityScreenViewModel @Inject constructor(
     private val getCityWeatherByCityIdUseCase: GetCityWeatherByCityIdUseCase,
     private val getCityByIdUseCase: GetCityByIdUseCase,
     getCityEventsIdUseCase: GetCityEventsByIdUseCase,
+    connectivityObserver: ConnectivityObserver,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     data class CityScreenUiState(
@@ -37,6 +41,14 @@ class CityScreenViewModel @Inject constructor(
     val uiState: StateFlow<CityScreenUiState> = _uiState.asStateFlow()
 
     val events = getCityEventsIdUseCase(20, cityId).cachedIn(viewModelScope)
+
+    val hasInternetConnection: StateFlow<Boolean> =
+        connectivityObserver.hasInternetConnection
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = false
+            )
 
     init {
         loadAll()

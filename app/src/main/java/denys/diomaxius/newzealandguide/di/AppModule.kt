@@ -27,6 +27,8 @@ import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
+import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserver
+import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserverImpl
 import javax.inject.Singleton
 
 @Module
@@ -108,4 +110,10 @@ object AppModule {
     @Singleton
     fun provideNewZealandHistoryRepository(): NewZealandHistoryRepository =
         NewZealandHistoryRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideConnectivityObserver(
+        @ApplicationContext context: Context
+    ): ConnectivityObserver = ConnectivityObserverImpl(context)
 }
