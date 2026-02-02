@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,32 +24,18 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
-import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 
 @Composable
 fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
-    hasInternetConnection: Boolean,
 ) {
-    LaunchedEffect(hasInternetConnection) {
-        if (events.loadState.refresh is LoadState.Error && events.itemCount == 0 && hasInternetConnection) {
-            events.retry()
-        }
-    }
-
     if (events.itemCount > 0) {
         Content(events, onClick)
     }
 
     if (events.loadState.refresh is LoadState.Loading && events.itemCount == 0) {
         EventsLoadingRow()
-    }
-
-    if (events.loadState.refresh is LoadState.Error && events.itemCount == 0) {
-        if (!hasInternetConnection) {
-            NoLocalCacheCard(modifier = Modifier.height(175.dp))
-        }
     }
 }
 

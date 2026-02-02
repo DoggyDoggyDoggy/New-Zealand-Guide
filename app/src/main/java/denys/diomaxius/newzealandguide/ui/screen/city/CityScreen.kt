@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import denys.diomaxius.newzealandguide.domain.model.city.City
@@ -32,6 +34,7 @@ import denys.diomaxius.newzealandguide.ui.screen.city.components.ColumnOfTwoLong
 import denys.diomaxius.newzealandguide.ui.screen.city.components.weather.WeatherForecastFiveDays
 import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
+import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 
 @Composable
 fun CityScreen(
@@ -42,6 +45,15 @@ fun CityScreen(
     val uiState by viewModel.uiState.collectAsState()
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
+
+    LaunchedEffect(hasInternetConnection) {
+        if (eventsPagingItems.loadState.refresh is LoadState.Error &&
+            eventsPagingItems.itemCount == 0 && hasInternetConnection &&
+            uiState.weather is UiState.Error) {
+            eventsPagingItems.retry()
+            viewModel.loadWeather()
+        }
+    }
 
     UiStateHandler(
         state = uiState.city,
@@ -94,26 +106,32 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        WeatherForecastFiveDays(
-            weatherUiState = weather,
-            hasInternetConnection = hasInternetConnection
-        )
+        if (eventsPagingItems.loadState.refresh is LoadState.Error &&
+            eventsPagingItems.itemCount == 0 &&
+            weather is UiState.Error) {
+            if (!hasInternetConnection) {
+                NoLocalCacheCard(modifier = Modifier.height(175.dp))
+            }
+        } else {
+            WeatherForecastFiveDays(
+                weatherUiState = weather
+            )
 
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
 
-        Events(
-            events = eventsPagingItems,
-            onClick = { cityId, eventId ->
-                navHostController.navigate(
-                    NavScreen.Event.createRoute(cityId, eventId)
-                ) {
-                    launchSingleTop = true
+            Events(
+                events = eventsPagingItems,
+                onClick = { cityId, eventId ->
+                    navHostController.navigate(
+                        NavScreen.Event.createRoute(cityId, eventId)
+                    ) {
+                        launchSingleTop = true
+                    }
                 }
-            },
-            hasInternetConnection = hasInternetConnection
-        )
+            )
+        }
 
         Spacer(
             modifier = Modifier.height(16.dp)

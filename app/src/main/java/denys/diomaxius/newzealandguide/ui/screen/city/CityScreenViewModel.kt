@@ -73,7 +73,7 @@ class CityScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadWeather() {
+    suspend fun loadWeather() {
         _uiState.update { it.copy(weather = UiState.Loading) }
         try {
             val weather = getCityWeatherByCityIdUseCase(cityId)
