@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +32,12 @@ fun Events(
     onClick: (cityId: String, eventId: String) -> Unit,
     hasInternetConnection: Boolean,
 ) {
+    LaunchedEffect(hasInternetConnection) {
+        if (events.loadState.refresh is LoadState.Error && events.itemCount == 0 && hasInternetConnection) {
+            events.retry()
+        }
+    }
+
     if (events.itemCount > 0) {
         Content(events, onClick)
     }
@@ -46,12 +52,6 @@ fun Events(
                 text = "You are offline. Check your settings.",
                 color = MaterialTheme.colorScheme.error,
             )
-        } else {
-            Button(
-                onClick = {events.retry()}
-            ) {
-                Text("Retry")
-            }
         }
     }
 }
