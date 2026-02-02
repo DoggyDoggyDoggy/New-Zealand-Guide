@@ -27,8 +27,8 @@ import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
-import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserver
-import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserverImpl
+import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
+import denys.diomaxius.newzealandguide.data.repository.ConnectivityObserverImpl
 import javax.inject.Singleton
 
 @Module

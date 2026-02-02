@@ -11,7 +11,7 @@ import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventsByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
-import denys.diomaxius.newzealandguide.ui.network.ConnectivityObserver
+import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

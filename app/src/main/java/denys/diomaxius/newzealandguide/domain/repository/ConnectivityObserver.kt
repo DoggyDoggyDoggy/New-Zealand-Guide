@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.network
+package denys.diomaxius.newzealandguide.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 
