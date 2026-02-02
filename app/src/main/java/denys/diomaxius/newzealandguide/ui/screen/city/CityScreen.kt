@@ -41,6 +41,7 @@ fun CityScreen(
 
     val uiState by viewModel.uiState.collectAsState()
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
+    val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
 
     UiStateHandler(
         state = uiState.city,
@@ -63,7 +64,8 @@ fun CityScreen(
                 city = city,
                 navHostController = navHostController,
                 weather = uiState.weather,
-                eventsPagingItems = eventsPagingItems
+                eventsPagingItems = eventsPagingItems,
+                hasInternetConnection = hasInternetConnection
             )
         }
     }
@@ -76,6 +78,7 @@ fun Content(
     navHostController: NavHostController,
     weather: UiState<List<CityWeather>>,
     eventsPagingItems: LazyPagingItems<CityEvent>,
+    hasInternetConnection: Boolean,
 ) {
     Column(
         modifier = modifier
@@ -107,7 +110,8 @@ fun Content(
                 ) {
                     launchSingleTop = true
                 }
-            }
+            },
+            hasInternetConnection = hasInternetConnection
         )
 
         Spacer(

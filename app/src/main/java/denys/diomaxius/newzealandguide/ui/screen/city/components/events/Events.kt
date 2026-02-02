@@ -24,18 +24,13 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
+    hasInternetConnection: Boolean,
 ) {
-    val context = LocalContext.current
-
     if (events.itemCount > 0) {
         Content(events, onClick)
     }
@@ -45,22 +40,13 @@ fun Events(
     }
 
     if (events.loadState.refresh is LoadState.Error && events.itemCount == 0) {
-        if (isSystemOffline(context)) {
+        if (!hasInternetConnection) {
             Text(
                 text = "You are offline. Check your settings.",
                 color = MaterialTheme.colorScheme.error,
             )
         }
     }
-}
-
-fun isSystemOffline(context: Context): Boolean {
-    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val network = connectivityManager.activeNetwork ?: return true
-    val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return true
-
-    return !capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ||
-            !capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 }
 
 @Composable
