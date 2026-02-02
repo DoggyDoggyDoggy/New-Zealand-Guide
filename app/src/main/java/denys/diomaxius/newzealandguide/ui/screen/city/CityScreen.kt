@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
@@ -46,10 +48,26 @@ fun CityScreen(
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
 
+    val showNoLocalCacheCard by remember(
+        hasInternetConnection,
+        eventsPagingItems.loadState.refresh,
+        eventsPagingItems.itemCount,
+        uiState.weather
+    ) {
+        mutableStateOf(
+            !hasInternetConnection &&
+                    eventsPagingItems.loadState.refresh is LoadState.Error &&
+                    eventsPagingItems.itemCount == 0 &&
+                    uiState.weather is UiState.Error
+        )
+    }
+
+
     LaunchedEffect(hasInternetConnection) {
         if (eventsPagingItems.loadState.refresh is LoadState.Error &&
             eventsPagingItems.itemCount == 0 && hasInternetConnection &&
-            uiState.weather is UiState.Error) {
+            uiState.weather is UiState.Error
+        ) {
             eventsPagingItems.retry()
             viewModel.loadWeather()
         }
@@ -77,7 +95,7 @@ fun CityScreen(
                 navHostController = navHostController,
                 weather = uiState.weather,
                 eventsPagingItems = eventsPagingItems,
-                hasInternetConnection = hasInternetConnection
+                showNoLocalCacheCard = showNoLocalCacheCard
             )
         }
     }
@@ -90,7 +108,7 @@ fun Content(
     navHostController: NavHostController,
     weather: UiState<List<CityWeather>>,
     eventsPagingItems: LazyPagingItems<CityEvent>,
-    hasInternetConnection: Boolean,
+    showNoLocalCacheCard: Boolean,
 ) {
     Column(
         modifier = modifier
@@ -106,12 +124,8 @@ fun Content(
             modifier = Modifier.height(16.dp)
         )
 
-        if (eventsPagingItems.loadState.refresh is LoadState.Error &&
-            eventsPagingItems.itemCount == 0 &&
-            weather is UiState.Error) {
-            if (!hasInternetConnection) {
-                NoLocalCacheCard(modifier = Modifier.height(175.dp))
-            }
+        if (showNoLocalCacheCard) {
+            NoLocalCacheCard(modifier = Modifier.height(175.dp))
         } else {
             WeatherForecastFiveDays(
                 weatherUiState = weather
