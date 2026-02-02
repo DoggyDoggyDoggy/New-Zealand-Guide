@@ -3,9 +3,11 @@ package denys.diomaxius.newzealandguide.ui.screen.city.components.events
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
@@ -49,6 +51,10 @@ fun Content(
     LazyRow(
         state = listState
     ) {
+        item {
+            Spacer(modifier = Modifier.width(6.dp))
+        }
+
         items(
             count = events.itemCount,
             key = events.itemKey { it.eventId },
@@ -63,6 +69,10 @@ fun Content(
             item {
                 EventLoadingCard()
             }
+        }
+
+        item {
+            Spacer(modifier = Modifier.width(6.dp))
         }
     }
 }
