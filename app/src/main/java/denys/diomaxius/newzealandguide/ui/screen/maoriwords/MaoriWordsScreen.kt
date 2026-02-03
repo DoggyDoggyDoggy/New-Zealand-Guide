@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +62,7 @@ fun Content(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(horizontal = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(maoriWords.words.size) { index->
@@ -80,7 +82,11 @@ fun Word(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
+            .padding(vertical = 6.dp),
+        elevation = CardDefaults.cardElevation(5.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
+        )
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
@@ -95,7 +101,9 @@ fun Word(
                 fontSize = 24.sp
             )
 
-            HorizontalDivider()
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outline
+            )
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
