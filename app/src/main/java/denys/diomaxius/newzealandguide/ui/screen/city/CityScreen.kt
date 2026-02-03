@@ -148,7 +148,8 @@ fun Content(
             NoLocalCacheCard(modifier = Modifier.height(175.dp))
         } else {
             WeatherForecastFiveDays(
-                weatherUiState = weather
+                weatherUiState = weather,
+                waitEventsLoad = eventsPagingItems.loadState.refresh is LoadState.Loading
             )
 
             Spacer(

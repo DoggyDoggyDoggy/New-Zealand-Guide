@@ -24,10 +24,16 @@ import java.util.Locale
 @Composable
 fun WeatherForecastFiveDays(
     weatherUiState: UiState<List<CityWeather>>,
+    waitEventsLoad: Boolean,
 ) {
     UiStateHandler(
         weatherUiState,
-        loading = { WeatherForecastFiveDaysLoading() }
+        loading = { WeatherForecastFiveDaysLoading() },
+        error = {
+            if (!waitEventsLoad) {
+                Text("Something went wrong")
+            }
+        }
     ) { weatherForecast ->
         Content(weatherForecast)
     }
