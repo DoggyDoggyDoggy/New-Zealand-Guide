@@ -85,6 +85,9 @@ fun CityScreen(
                         PopBackArrowButton {
                             navHostController.navigateUp()
                         }
+                    },
+                    actions = {
+                        // dummy to center text
                     }
                 )
             }

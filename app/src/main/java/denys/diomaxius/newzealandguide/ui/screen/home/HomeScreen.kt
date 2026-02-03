@@ -33,9 +33,7 @@ fun HomeScreen(
         topBar = {
             TopBar(
                 text = stringResource(R.string.top_bar_home),
-                navigationButton = {
-                    MenuButton {}
-                }
+                navigationButton = { MenuButton { }}
             )
         }
     ) { innerPadding ->

@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 fun TopBar(
     text: String,
     navigationButton: @Composable () -> Unit,
+    actions: @Composable () -> Unit = { DummyAction() },
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -43,12 +44,7 @@ fun TopBar(
             navigationButton()
         },
         actions = {
-            // dummy to center text
-            Spacer(
-                modifier = Modifier
-                    .width(48.dp)
-                    .fillMaxWidth()
-            )
+            actions()
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
@@ -86,4 +82,14 @@ fun MenuButton(
             tint = Color.White
         )
     }
+}
+
+@Composable
+fun DummyAction() {
+    // dummy to center text
+    Spacer(
+        modifier = Modifier
+            .width(48.dp)
+            .fillMaxWidth()
+    )
 }
