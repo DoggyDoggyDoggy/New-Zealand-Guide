@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import denys.diomaxius.newzealandguide.R
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,6 +19,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -35,6 +40,7 @@ import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 import denys.diomaxius.newzealandguide.ui.screen.city.components.ColumnOfTwoLongInfoCards
 import denys.diomaxius.newzealandguide.ui.screen.city.components.weather.WeatherForecastFiveDays
 import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
+import denys.diomaxius.newzealandguide.ui.components.topbar.DummyAction
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 
@@ -87,7 +93,18 @@ fun CityScreen(
                         }
                     },
                     actions = {
-                        // dummy to center text
+                        if (!hasInternetConnection) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(end = 12.dp)
+                                    .size(32.dp),
+                                painter = painterResource(id = R.drawable.outline_android_wifi_3_bar_off_24),
+                                contentDescription = "No internet connection",
+                                tint = Color.White
+                            )
+                        } else {
+                            DummyAction()
+                        }
                     }
                 )
             }
