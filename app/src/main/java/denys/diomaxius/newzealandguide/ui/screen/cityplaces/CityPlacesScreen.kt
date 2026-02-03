@@ -90,7 +90,7 @@ fun CityPlace(topic: CityPlace) {
     Card(
         modifier = Modifier.padding(vertical = 8.dp),
         shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
