@@ -57,7 +57,7 @@ fun Content(
     Card(
         modifier = modifier.padding(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
