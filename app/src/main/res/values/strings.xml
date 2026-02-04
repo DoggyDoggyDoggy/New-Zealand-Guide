@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">New Zealand Guide</string>
-
     <string name="about_title">About</string>
     <string name="about_created">Created by Denys Pedan.</string>
     <string name="about_photos">Photos License:</string>
@@ -9,7 +8,6 @@
     <string name="about_contact">Contact: </string>
     <string name="app_version_label">App version: %1$s</string>
     <string name="email_for_reports">hiddenmax58@gmail.com</string>
-
 
     <string name="top_bar_city_history">History of %1$s</string>
     <string name="top_bar_attraction_in_city">Top Things to Do in %1$s</string>
@@ -46,4 +44,9 @@
 
     <string name="city_filter_all">All</string>
     <string name="city_filter_favorite">Favorite</string>
+
+    <string name="event_description">Description:</string>
+    <string name="event_address">Address</string>
+    <string name="event_buy_button">Buy Tickets</string>
+    <string name="event_top_bar">Event</string>
 </resources>

@@ -10,9 +10,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 
 @Composable
@@ -51,7 +53,7 @@ fun BuyTicketButton(
         }
     ) {
         Text(
-            text = "Buy Tickets",
+            text = stringResource(R.string.event_buy_button),
             fontSize = 20.sp
         )
     }

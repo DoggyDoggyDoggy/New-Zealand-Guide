@@ -9,7 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun EventAddress(
@@ -21,7 +23,7 @@ fun EventAddress(
     ) {
         Icon(
             imageVector = Icons.Default.LocationOn,
-            contentDescription = "Address"
+            contentDescription = stringResource(R.string.event_address)
         )
 
         Text(
