@@ -41,4 +41,6 @@
 
     <string name="no_local_cache_description">To find out the weather forecast and a list of upcoming events, connect to the internet.</string>
     <string name="no_local_cache_title">It\'s empty here for now</string>
+
+    <string name="add_your_favorite_cities">Add your favorite cities</string>
 </resources>

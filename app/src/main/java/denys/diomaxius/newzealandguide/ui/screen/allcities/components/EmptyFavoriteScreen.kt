@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun EmptyFavoriteScreen() {
@@ -35,7 +37,7 @@ fun EmptyFavoriteScreen() {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "Add your favorite cities",
+            text = stringResource(R.string.add_your_favorite_cities),
             fontSize = 24.sp,
             color = Color.Gray
         )
