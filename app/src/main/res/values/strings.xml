@@ -42,6 +42,7 @@
 
     <string name="add_your_favorite_cities">Add your favorite cities</string>
 
+    <string name="all_cities_top_bar">All cities</string>
     <string name="city_filter_all">All</string>
     <string name="city_filter_favorite">Favorite</string>
 

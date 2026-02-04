@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
@@ -34,7 +36,7 @@ fun AllCitiesScreen(
     Scaffold(
         topBar = {
             TopBar(
-                text = "All cities",
+                text = stringResource(R.string.all_cities_top_bar),
                 navigationButton = {
                     PopBackArrowButton {
                         navHostController.navigateUp()
