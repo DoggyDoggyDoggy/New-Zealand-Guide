@@ -75,7 +75,9 @@ fun Content(
     val allListState = remember { LazyListState() }
     val favoriteListState = remember { LazyListState() }
 
-    Column(modifier = modifier.fillMaxSize().padding(horizontal = 12.dp)) {
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(horizontal = 12.dp)) {
         FavoriteFilter(
             showFavorite = favoriteFilter,
             toggleFavorite = toggleFavoriteFilter
@@ -105,7 +107,9 @@ fun Content(
                         CityCard(
                             city = city,
                             navigateToCity = {
-                                navHostController.navigate(NavScreen.City.createRoute(city.id)) {
+                                navHostController.navigate(
+                                    NavScreen.City.createRoute(city.id)
+                                ) {
                                     launchSingleTop = true
                                 }
                             },
