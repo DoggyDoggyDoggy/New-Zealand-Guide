@@ -30,19 +30,17 @@ class CityEventsRemoteMediator(
     private val cityDao: CityDao,
 ) : RemoteMediator<Int, CityEventEntity>() {
 
-    // Настройка времени жизни кэша (7 дней)
+    // Setting cache lifetime (7 days)
     private val cacheTimeout = TimeUnit.DAYS.toMillis(7)
 
-    /**
-     * Эта функция решает, нужно ли запускать load() при старте.
-     */
+    // This function decides whether to run load() at startup.
     override suspend fun initialize(): InitializeAction {
         val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
         val lastUpdated = remoteKey?.lastUpdated ?: 0L
         val now = System.currentTimeMillis()
 
-        // Если ключа нет (первый запуск) ИЛИ время истекло -> LAUNCH (Запускаем REFRESH)
-        // Иначе -> SKIP (Показываем локальные данные)
+        // If there is no key (first launch) OR the time has expired -> LAUNCH (Launch REFRESH)
+        // Otherwise -> SKIP (Show local data)
         return if (remoteKey == null || (now - lastUpdated > cacheTimeout)) {
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
@@ -55,13 +53,13 @@ class CityEventsRemoteMediator(
         state: PagingState<Int, CityEventEntity>,
     ): MediatorResult {
         return try {
-            // 1. Определяем ключ (cursor) для загрузки
+            // Define the key (cursor) for loading
             val lastDocId = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
-                    // Если APPEND, но ключа нет — значит, мы достигли конца списка ранее
+                    // If APPEND, but there is no key, then we have reached the end of the list earlier
                     if (remoteKey?.lastDocId == null && remoteKey != null) {
                         return MediatorResult.Success(endOfPaginationReached = true)
                     }
@@ -69,18 +67,17 @@ class CityEventsRemoteMediator(
                 }
             }
 
-            // 2. Загружаем данные из сети
+            // Downloading data from the network
             val response = dataSource.getEvents(
                 cityId = cityId,
                 limit = pageSize,
                 lastDocId = lastDocId
             )
 
-            // Преобразуем DTO в Entity сразу
             val entities = response.map { it.toEntity(cityId) }
             val endOfPaginationReached = entities.size < pageSize
 
-            // 3. Сохраняем в БД (Транзакция)
+            // Save to DB (Transaction)
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     clearCache()
@@ -107,7 +104,7 @@ class CityEventsRemoteMediator(
         }
     }
 
-    // --- Вспомогательные методы для чистоты кода ---
+    // --- Helper methods for code cleanliness ---
 
     private suspend fun clearCache() {
         remoteCityEventsKeysDao.clearKeyByCityId(cityId)
@@ -117,21 +114,20 @@ class CityEventsRemoteMediator(
     private suspend fun saveEvents(newEvents: List<CityEventEntity>, loadType: LoadType) {
         if (newEvents.isEmpty()) return
 
-        // Вычисляем начальную позицию для сортировки
+        // Calculate the starting position for sorting
         val startPosition = if (loadType == LoadType.REFRESH) {
             0
         } else {
-            // Берем максимальную позицию + 1. Если базы нет, то 0.
+            // Take the maximum position + 1. If there is no base, then 0.
             (cityDao.getMaxPosition(cityId) ?: -1) + 1
         }
 
-        // Присваиваем позиции элементам
+        // Assigning positions to elements
         val eventsWithPosition = newEvents.mapIndexed { index, event ->
             event.copy(positionInList = startPosition + index)
         }
 
-        // Используем InsertOrReplace в DAO, чтобы не делать ручную проверку на дубликаты
-        // Это быстрее и чище. Room сам обновит данные, если ID совпадут.
+        // Use InsertOrReplace in the DAO to avoid manual duplicate checking.
         cityDao.insertOrReplaceCityEvents(eventsWithPosition)
     }
 
@@ -142,7 +138,7 @@ class CityEventsRemoteMediator(
     ) {
         val existingKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
 
-        // Если данные кончились — null, иначе — ID последнего ивента
+        // If the data runs out, null; otherwise, the ID of the last event.
         val nextKey = if (endOfPagination) null else (lastEvent?.eventId ?: existingKey?.lastDocId)
 
         val keyEntity = RemoteCityEventsKeysEntity(
@@ -160,12 +156,12 @@ class CityEventsRemoteMediator(
         entities.forEach { event ->
             val request = ImageRequest.Builder(context)
                 .data(event.imageUrl)
-                // Записываем только на диск, не занимая оперативную память (RAM)
+                //Write only to disk, without taking up random access memory (RAM)
                 .memoryCachePolicy(CachePolicy.DISABLED)
                 .diskCachePolicy(CachePolicy.ENABLED)
                 .build()
 
-            // Запускаем асинхронную загрузку
+            // Start asynchronous loading
             imageLoader.enqueue(request)
         }
     }
