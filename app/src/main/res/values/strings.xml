@@ -43,4 +43,7 @@
     <string name="no_local_cache_title">It\'s empty here for now</string>
 
     <string name="add_your_favorite_cities">Add your favorite cities</string>
+
+    <string name="city_filter_all">All</string>
+    <string name="city_filter_favorite">Favorite</string>
 </resources>

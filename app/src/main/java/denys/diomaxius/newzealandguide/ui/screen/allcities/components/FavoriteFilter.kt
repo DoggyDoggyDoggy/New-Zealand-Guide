@@ -7,8 +7,10 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun FavoriteFilter(
@@ -24,7 +26,7 @@ fun FavoriteFilter(
             onClick = if (showFavorite) toggleFavorite else ({}),
             label = {
                 Text(
-                    text = "All",
+                    text = stringResource(R.string.city_filter_all),
                     fontSize = 18.sp
                 )
             }
@@ -37,7 +39,7 @@ fun FavoriteFilter(
             onClick = if (!showFavorite) toggleFavorite else ({}),
             label = {
                 Text(
-                    text = "Favorite",
+                    text = stringResource(R.string.city_filter_favorite),
                     fontSize = 18.sp
                 )
             }
