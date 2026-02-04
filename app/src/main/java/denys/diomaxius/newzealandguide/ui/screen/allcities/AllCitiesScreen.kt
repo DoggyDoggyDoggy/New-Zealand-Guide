@@ -1,15 +1,17 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,8 +31,11 @@ import denys.diomaxius.newzealandguide.ui.screen.allcities.components.FavoriteFi
 fun AllCitiesScreen(
     viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
-    val cities by viewModel.cities.collectAsState()
+    val allCities by viewModel.allCities.collectAsState()
+    val favoriteCities by viewModel.favoriteCities.collectAsState()
+
     val favoriteFilter by viewModel.favoriteFilter.collectAsState()
+
     val navHostController = LocalNavController.current
 
     Scaffold(
@@ -47,7 +52,8 @@ fun AllCitiesScreen(
     ) { innerPadding ->
         Content(
             modifier = Modifier.padding(innerPadding),
-            cities = cities,
+            allCities = allCities,
+            favoriteCities = favoriteCities,
             navHostController = navHostController,
             toggleFavorite = viewModel::toggleFavorite,
             favoriteFilter = favoriteFilter,
@@ -61,35 +67,45 @@ fun Content(
     modifier: Modifier,
     navHostController: NavHostController,
     toggleFavorite: (String) -> Unit,
-    cities: List<City>,
     favoriteFilter: Boolean,
     toggleFavoriteFilter: () -> Unit,
+    allCities: List<City>,
+    favoriteCities: List<City>,
 ) {
-    Box (
-        modifier = modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp)
-        ) {
-            FavoriteFilter(
-                showFavorite = favoriteFilter,
-                toggleFavorite = toggleFavoriteFilter
-            )
+    val allListState = remember { LazyListState() }
+    val favoriteListState = remember { LazyListState() }
 
-            if (cities.isNotEmpty()){
-                LazyColumn {
+    Column(modifier = modifier.fillMaxSize().padding(horizontal = 12.dp)) {
+        FavoriteFilter(
+            showFavorite = favoriteFilter,
+            toggleFavorite = toggleFavoriteFilter
+        )
+
+        AnimatedContent(
+            targetState = favoriteFilter,
+            label = "list_transition"
+        ) { showFavorites ->
+            val (currentCities, currentState) = if (showFavorites) {
+                favoriteCities to favoriteListState
+            } else {
+                allCities to allListState
+            }
+
+            if (currentCities.isEmpty() && showFavorites) {
+                EmptyFavoriteScreen()
+            } else {
+                LazyColumn(
+                    state = currentState,
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     items(
-                        items = cities,
+                        items = currentCities,
                         key = { it.id }
                     ) { city ->
                         CityCard(
                             city = city,
                             navigateToCity = {
-                                navHostController.navigate(
-                                    NavScreen.City.createRoute(city.id)
-                                ) {
+                                navHostController.navigate(NavScreen.City.createRoute(city.id)) {
                                     launchSingleTop = true
                                 }
                             },
@@ -98,9 +114,6 @@ fun Content(
                     }
                 }
             }
-        }
-        if (cities.isEmpty() && favoriteFilter) {
-            EmptyFavoriteScreen()
         }
     }
 }

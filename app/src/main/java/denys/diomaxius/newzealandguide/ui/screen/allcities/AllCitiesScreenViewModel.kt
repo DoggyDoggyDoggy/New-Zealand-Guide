@@ -5,11 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetAllCitiesFlowUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.ToggleFavoriteUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,11 +20,14 @@ class AllCitiesScreenViewModel @Inject constructor(
     private val _favoriteFilter = MutableStateFlow(false)
     val favoriteFilter = _favoriteFilter.asStateFlow()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val cities = _favoriteFilter
-        .flatMapLatest { showOnlyFavorites ->
-            getAllCitiesFlowUseCase(showOnlyFavorites)
-        }
+    val allCities = getAllCitiesFlowUseCase(onlyFavorites = false)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    val favoriteCities = getAllCitiesFlowUseCase(onlyFavorites = true)
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
