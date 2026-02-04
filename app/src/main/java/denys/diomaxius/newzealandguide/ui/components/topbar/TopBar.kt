@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -63,22 +62,6 @@ fun PopBackArrowButton(
             modifier = Modifier.size(32.dp),
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Back",
-            tint = Color.White
-        )
-    }
-}
-
-@Composable
-fun MenuButton(
-    onClick: () -> Unit
-) {
-    IconButton(
-        onClick = onClick
-    ) {
-        Icon(
-            modifier = Modifier.size(32.dp),
-            imageVector = Icons.Filled.Menu,
-            contentDescription = "Menu",
             tint = Color.White
         )
     }
