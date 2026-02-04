@@ -12,10 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun NoLocalCacheCard(
@@ -27,13 +29,15 @@ fun NoLocalCacheCard(
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "It's empty here for now",
+                text = stringResource(R.string.no_local_cache_title),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
@@ -43,7 +47,7 @@ fun NoLocalCacheCard(
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "To find out the weather forecast and a list of upcoming events, connect to the internet.",
+                text = stringResource(R.string.no_local_cache_description),
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
             )

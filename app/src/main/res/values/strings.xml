@@ -38,4 +38,7 @@
     <string name="nz_history_heritage_subtitle">Dive into History</string>
     <string name="fun_facts_tips"><![CDATA[Fun Facts & Tips]]></string>
     <string name="fun_facts_tips_subtitle">Quick insights</string>
+
+    <string name="no_local_cache_description">To find out the weather forecast and a list of upcoming events, connect to the internet.</string>
+    <string name="no_local_cache_title">It\'s empty here for now</string>
 </resources>
