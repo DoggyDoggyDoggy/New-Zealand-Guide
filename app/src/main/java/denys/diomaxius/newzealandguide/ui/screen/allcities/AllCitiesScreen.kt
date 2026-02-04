@@ -36,7 +36,7 @@ fun AllCitiesScreen(
     Scaffold(
         topBar = {
             TopBar(
-                text = stringResource(R.string.all_cities_top_bar),
+                text = stringResource(R.string.top_bar_all_cities),
                 navigationButton = {
                     PopBackArrowButton {
                         navHostController.navigateUp()
