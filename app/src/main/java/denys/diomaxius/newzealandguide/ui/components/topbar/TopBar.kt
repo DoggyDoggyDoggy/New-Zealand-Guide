@@ -1,8 +1,10 @@
 package denys.diomaxius.newzealandguide.ui.components.topbar
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -47,7 +49,8 @@ fun TopBar(
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
-        )
+        ),
+        windowInsets = WindowInsets.statusBars
     )
 }
 
