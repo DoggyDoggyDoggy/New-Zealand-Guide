@@ -1,6 +1,10 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -75,9 +80,11 @@ fun Content(
     favoriteListState: LazyListState,
     allListState: LazyListState,
 ) {
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(horizontal = 12.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+    ) {
         FavoriteFilter(
             showFavorite = favoriteFilter,
             toggleFavorite = toggleFavoriteFilter
@@ -104,20 +111,45 @@ fun Content(
                         items = currentCities,
                         key = { it.id }
                     ) { city ->
-                        CityCard(
+                        AnimatedCityCard(
                             city = city,
-                            navigateToCity = {
+                            onClick = {
                                 navHostController.navigate(
                                     NavScreen.City.createRoute(city.id)
                                 ) {
                                     launchSingleTop = true
                                 }
                             },
-                            toggleFavorite = { toggleFavorite(city.id) }
+                            onFavoriteClick = { toggleFavorite(city.id) }
                         )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun AnimatedCityCard(
+    city: City,
+    onClick: () -> Unit,
+    onFavoriteClick: () -> Unit,
+) {
+    val visibleState = remember {
+        MutableTransitionState(false).apply { targetState = true }
+    }
+
+    AnimatedVisibility(
+        visibleState = visibleState,
+        enter = slideInHorizontally(
+            initialOffsetX = { it },
+            animationSpec = tween(800)
+        )
+    ) {
+        CityCard(
+            city = city,
+            navigateToCity = onClick,
+            toggleFavorite = onFavoriteClick
+        )
     }
 }
