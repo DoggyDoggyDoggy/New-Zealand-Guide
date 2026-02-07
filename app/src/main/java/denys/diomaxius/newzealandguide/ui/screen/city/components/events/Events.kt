@@ -24,8 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
+import denys.diomaxius.newzealandguide.ui.components.shimmer.shimmer
 
 @Composable
 fun Events(
@@ -95,11 +96,19 @@ fun CityEventCard(
         )
     ) {
         Column {
-            AsyncImage(
-                modifier = Modifier.size(175.dp, 130.dp),
+            val imageWidth = 175.dp
+            val imageHeight = 130.dp
+
+            SubcomposeAsyncImage(
+                modifier = Modifier.size(imageWidth, imageHeight),
                 model = event.imageUrl,
                 contentScale = ContentScale.FillBounds,
-                contentDescription = "Event image"
+                contentDescription = "Event image",
+                loading = {
+                    Box(
+                        modifier = Modifier.size(imageWidth,imageHeight).shimmer()
+                    )
+                }
             )
 
             Box(
