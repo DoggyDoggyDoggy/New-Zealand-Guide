@@ -149,7 +149,7 @@ fun Content(
         } else {
             WeatherForecastFiveDays(
                 weatherUiState = weather,
-                waitEventsLoad = eventsPagingItems.loadState.refresh is LoadState.Loading
+                isEventsLoading = eventsPagingItems.loadState.refresh is LoadState.Loading
             )
 
             Spacer(

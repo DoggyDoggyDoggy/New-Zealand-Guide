@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.ui.screen.city.components.weather
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,16 +24,15 @@ import java.util.Locale
 @Composable
 fun WeatherForecastFiveDays(
     weatherUiState: UiState<List<CityWeather>>,
-    waitEventsLoad: Boolean,
+    isEventsLoading: Boolean,
 ) {
     UiStateHandler(
         weatherUiState,
         loading = {
-            Log.d("WeatherForecastFiveDays", "Loading")
             WeatherForecastFiveDaysLoading()
         },
         error = {
-            if (!waitEventsLoad) {
+            if (!isEventsLoading) {
                 Text("Something went wrong")
             }
         }
