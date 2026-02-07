@@ -11,7 +11,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -57,7 +56,9 @@ fun AllCitiesScreen(
             navHostController = navHostController,
             toggleFavorite = viewModel::toggleFavorite,
             favoriteFilter = favoriteFilter,
-            toggleFavoriteFilter = viewModel::toggleFavoriteFilter
+            toggleFavoriteFilter = viewModel::toggleFavoriteFilter,
+            allListState = viewModel.allListState,
+            favoriteListState = viewModel.favoriteListState,
         )
     }
 }
@@ -71,10 +72,9 @@ fun Content(
     toggleFavoriteFilter: () -> Unit,
     allCities: List<City>,
     favoriteCities: List<City>,
+    favoriteListState: LazyListState,
+    allListState: LazyListState,
 ) {
-    val allListState = remember { LazyListState() }
-    val favoriteListState = remember { LazyListState() }
-
     Column(modifier = modifier
         .fillMaxSize()
         .padding(horizontal = 12.dp)) {

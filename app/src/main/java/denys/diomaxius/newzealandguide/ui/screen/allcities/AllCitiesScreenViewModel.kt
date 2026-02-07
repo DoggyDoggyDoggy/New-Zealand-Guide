@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.allcities
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,9 @@ class AllCitiesScreenViewModel @Inject constructor(
 ) : ViewModel() {
     private val _favoriteFilter = MutableStateFlow(false)
     val favoriteFilter = _favoriteFilter.asStateFlow()
+
+    val allListState = LazyListState()
+    val favoriteListState = LazyListState()
 
     val allCities = getAllCitiesFlowUseCase(onlyFavorites = false)
         .stateIn(
