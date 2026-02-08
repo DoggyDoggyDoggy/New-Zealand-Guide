@@ -115,7 +115,8 @@ fun CityScreen(
                 navHostController = navHostController,
                 weather = uiState.weather,
                 eventsPagingItems = eventsPagingItems,
-                showNoLocalCacheCard = showNoLocalCacheCard
+                showNoLocalCacheCard = showNoLocalCacheCard,
+                retryLoadWeather = viewModel::manuallyRetryLoadWeather
             )
         }
     }
@@ -129,6 +130,7 @@ fun Content(
     weather: UiState<List<CityWeather>>,
     eventsPagingItems: LazyPagingItems<CityEvent>,
     showNoLocalCacheCard: Boolean,
+    retryLoadWeather: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -149,7 +151,8 @@ fun Content(
         } else {
             WeatherForecastFiveDays(
                 weatherUiState = weather,
-                isEventsLoading = eventsPagingItems.loadState.refresh is LoadState.Loading
+                isEventsLoading = eventsPagingItems.loadState.refresh is LoadState.Loading,
+                retryLoadWeather = retryLoadWeather
             )
 
             Spacer(

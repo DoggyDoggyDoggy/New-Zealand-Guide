@@ -17,6 +17,7 @@ import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.screen.city.components.events.ErrorRetryCard
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -25,6 +26,7 @@ import java.util.Locale
 fun WeatherForecastFiveDays(
     weatherUiState: UiState<List<CityWeather>>,
     isEventsLoading: Boolean,
+    retryLoadWeather: () -> Unit,
 ) {
     UiStateHandler(
         weatherUiState,
@@ -33,7 +35,9 @@ fun WeatherForecastFiveDays(
         },
         error = {
             if (!isEventsLoading) {
-                Text("Something went wrong")
+                ErrorRetryCard(
+                    onClick = retryLoadWeather
+                )
             }
         }
     ) { weatherForecast ->

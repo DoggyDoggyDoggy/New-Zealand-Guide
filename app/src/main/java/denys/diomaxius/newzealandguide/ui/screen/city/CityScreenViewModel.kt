@@ -82,4 +82,14 @@ class CityScreenViewModel @Inject constructor(
             _uiState.update { it.copy(weather = UiState.Error(e)) }
         }
     }
+
+    fun manuallyRetryLoadWeather() = viewModelScope.launch {
+        _uiState.update { it.copy(weather = UiState.Loading) }
+        try {
+            val weather = getCityWeatherByCityIdUseCase(cityId)
+            _uiState.update { it.copy(weather = UiState.Success(weather)) }
+        } catch (e: Exception) {
+            _uiState.update { it.copy(weather = UiState.Error(e)) }
+        }
+    }
 }
