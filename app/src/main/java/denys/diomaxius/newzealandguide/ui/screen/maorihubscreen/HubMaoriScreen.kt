@@ -1,4 +1,4 @@
-package denys.diomaxius.playground.maoriwords
+package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-
-val fact = "There are still more sheep than people (though the ratio has fallen). New Zealand’s flock historically outnumbered humans by a large margin; recent stats still show multiple sheep per person."
+import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
+import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 
 @Composable
 fun HubMaoriScreen() {
@@ -45,7 +45,7 @@ fun Content(modifier: Modifier = Modifier) {
         )
 
         FactCard(
-            fact = fact
+            fact = ""
         )
     }
 }

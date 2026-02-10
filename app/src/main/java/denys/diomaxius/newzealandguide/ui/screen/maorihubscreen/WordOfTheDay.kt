@@ -1,4 +1,4 @@
-package denys.diomaxius.playground.maoriwords
+package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column

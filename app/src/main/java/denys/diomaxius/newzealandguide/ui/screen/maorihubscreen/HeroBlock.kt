@@ -1,4 +1,4 @@
-package denys.diomaxius.playground.maoriwords
+package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import denys.diomaxius.playground.R
+import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun HeroBlock() {
