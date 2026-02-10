@@ -16,7 +16,6 @@ import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
-import denys.diomaxius.newzealandguide.ui.screen.nzfacts.NewZealandFactsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzhistory.NewZealandHistoryScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
@@ -38,10 +37,6 @@ fun AppNavigation(
 
             composable(NavScreen.AllCities.route) {
                 AllCitiesScreen()
-            }
-
-            composable(NavScreen.NewZealandFacts.route) {
-                NewZealandFactsScreen()
             }
 
             composable(NavScreen.MaoriWords.route) {
