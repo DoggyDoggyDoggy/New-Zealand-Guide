@@ -69,17 +69,5 @@ fun LongCardNavigationMenu(
             },
             image = R.drawable.ic_scroll_outline
         )
-
-        LongInfoCard(
-            modifier = Modifier,
-            titleCardText = stringResource(R.string.fun_facts_tips),
-            subTitleCardText = stringResource(R.string.fun_facts_tips_subtitle),
-            onClick = {
-                navHostController.navigate(NavScreen.NewZealandFacts.route) {
-                    launchSingleTop = true
-                }
-            },
-            image = R.drawable.ic_leaf_outline
-        )
     }
 }
