@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.FactCard
@@ -48,7 +49,7 @@ fun MaoriHubScreen(
 fun Content(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    randomNZFact: String
+    randomNZFact: String,
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -59,12 +60,18 @@ fun Content(
 
         NavigationCard(
             name = "Kupu",
-            description = "Common maori words"
+            description = "Common maori words",
+            onClick = {
+                navHostController.navigate(NavScreen.MaoriWords.route) {
+                    launchSingleTop = true
+                }
+            }
         )
 
         NavigationCard(
             name = "Learning resources",
-            description = "Articles & Links"
+            description = "Articles & Links",
+            onClick = {}
         )
 
         FactCard(

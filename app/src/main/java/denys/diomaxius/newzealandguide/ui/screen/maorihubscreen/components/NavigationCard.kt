@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,10 +26,17 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun NavigationCard(
     name: String,
-    description: String
+    description: String,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(6.dp).height(120.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(6.dp)
+            .height(120.dp)
+            .clickable {
+                onClick()
+            },
         elevation = CardDefaults.cardElevation(6.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -43,7 +51,9 @@ fun NavigationCard(
             )
 
             Icon(
-                modifier = Modifier.size(64.dp).weight(0.3f),
+                modifier = Modifier
+                    .size(64.dp)
+                    .weight(0.3f),
                 imageVector = Icons.Default.Info,
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.tertiary
