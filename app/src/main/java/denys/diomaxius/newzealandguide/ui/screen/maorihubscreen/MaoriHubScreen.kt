@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
@@ -65,13 +67,15 @@ fun Content(
                 navHostController.navigate(NavScreen.MaoriWords.route) {
                     launchSingleTop = true
                 }
-            }
+            },
+            icon = painterResource(id = R.drawable.outline_dictionary_24)
         )
 
         NavigationCard(
             name = "Learning resources",
             description = "Articles & Links",
-            onClick = {}
+            onClick = {},
+            icon = painterResource(id = R.drawable.outline_newsstand_24)
         )
 
         FactCard(

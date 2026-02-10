@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -19,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +26,8 @@ import androidx.compose.ui.unit.sp
 fun NavigationCard(
     name: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    icon: Painter
 ) {
     Card(
         modifier = Modifier
@@ -54,7 +54,7 @@ fun NavigationCard(
                 modifier = Modifier
                     .size(64.dp)
                     .weight(0.3f),
-                imageVector = Icons.Default.Info,
+                painter = icon,
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.tertiary
             )
