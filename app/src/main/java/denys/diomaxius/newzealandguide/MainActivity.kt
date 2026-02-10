@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
 import denys.diomaxius.newzealandguide.navigation.AppNavigation
-import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideV2Theme
+import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NewZealandGuideV2Theme {
+            NewZealandGuideTheme {
                 AppNavigation()
             }
         }
