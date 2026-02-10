@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
+package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

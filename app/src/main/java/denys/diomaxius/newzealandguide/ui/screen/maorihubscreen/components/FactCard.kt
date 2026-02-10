@@ -1,6 +1,5 @@
-package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
+package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,19 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WordOfTheDay() {
-    Card (
+fun FactCard(fact: String) {
+    Card(
         modifier = Modifier.fillMaxWidth().padding(6.dp),
-        border = BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.tertiary
-        ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ),
         elevation = CardDefaults.cardElevation(6.dp),
-    ){
-        Column(
+    ) {
+        Column (
             modifier = Modifier.padding(12.dp)
         ) {
             Row (
@@ -53,23 +48,13 @@ fun WordOfTheDay() {
 
                 Text(
                     modifier = Modifier,
-                    text = "Word of the day",
-                    color = MaterialTheme.colorScheme.secondary,
+                    text = "Quick tip",
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
             }
             Text(
-                text = "Maori",
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp
-            )
-            Text(
-                text = "English",
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontWeight = FontWeight.Medium,
-                fontSize = 20.sp
+                text = fact
             )
         }
     }

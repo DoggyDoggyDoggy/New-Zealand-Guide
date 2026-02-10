@@ -8,6 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
+import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.FactCard
+import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.HeroBlock
+import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.NavigationCard
+import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.WordOfTheDay
 
 @Composable
 fun HubMaoriScreen() {
