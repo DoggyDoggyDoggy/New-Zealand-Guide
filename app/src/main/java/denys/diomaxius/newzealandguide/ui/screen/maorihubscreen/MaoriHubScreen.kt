@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.FactCard
@@ -14,13 +15,17 @@ import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.Navig
 import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components.WordOfTheDay
 
 @Composable
-fun HubMaoriScreen() {
+fun MaoriHubScreen() {
+    val navHostController = LocalNavController.current
+
     Scaffold(
         topBar = {
             TopBar(
                 text = "Te Reo Māori",
                 navigationButton = {
-                    PopBackArrowButton {}
+                    PopBackArrowButton {
+                        navHostController.navigateUp()
+                    }
                 }
             )
         }

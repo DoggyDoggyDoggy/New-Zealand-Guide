@@ -15,6 +15,7 @@ import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
+import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.MaoriHubScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzhistory.NewZealandHistoryScreen
 
@@ -37,6 +38,10 @@ fun AppNavigation(
 
             composable(NavScreen.AllCities.route) {
                 AllCitiesScreen()
+            }
+
+            composable(NavScreen.MaoriHub.route) {
+                MaoriHubScreen()
             }
 
             composable(NavScreen.MaoriWords.route) {
