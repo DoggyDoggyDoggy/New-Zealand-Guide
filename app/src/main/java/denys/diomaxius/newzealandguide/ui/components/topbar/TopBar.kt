@@ -37,7 +37,7 @@ fun TopBar(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = text,
-                color = MaterialTheme.colorScheme.onPrimary,
+                //color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
                 textAlign = TextAlign.Center
@@ -65,7 +65,7 @@ fun PopBackArrowButton(
             modifier = Modifier.size(32.dp),
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Back",
-            tint = Color.White
+            //tint = Color.White
         )
     }
 }
