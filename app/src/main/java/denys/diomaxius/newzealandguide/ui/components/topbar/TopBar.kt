@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,6 +30,7 @@ fun TopBar(
     text: String,
     navigationButton: @Composable () -> Unit,
     actions: @Composable () -> Unit = { DummyAction() },
+    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors()
 ) {
     CenterAlignedTopAppBar(
         title = {
@@ -47,16 +49,14 @@ fun TopBar(
         actions = {
             actions()
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
+        colors = colors,
         windowInsets = WindowInsets.statusBars
     )
 }
 
 @Composable
 fun PopBackArrowButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     IconButton(
         onClick = onClick

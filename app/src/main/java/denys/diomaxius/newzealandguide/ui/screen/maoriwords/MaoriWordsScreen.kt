@@ -16,6 +16,7 @@ import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.stringResource
@@ -27,6 +28,7 @@ import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaoriWordsScreen(
     viewModel: MaoriWordsScreenViewModel = hiltViewModel(),
