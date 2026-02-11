@@ -18,12 +18,10 @@ import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityEventsDataSourceImpl
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityWeatherDataSourceImpl
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
-import denys.diomaxius.newzealandguide.data.repository.HomeRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriWordsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandFactsRepositoryImpl
 import denys.diomaxius.newzealandguide.data.repository.NewZealandHistoryRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
-import denys.diomaxius.newzealandguide.domain.repository.HomeRepository
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsRepository
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
@@ -90,11 +88,6 @@ object AppModule {
             remoteCityEventsKeysDao,
             database
         )
-
-    @Provides
-    @Singleton
-    fun provideHomeRepository(): HomeRepository =
-        HomeRepositoryImpl()
 
     @Provides
     @Singleton
