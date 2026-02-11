@@ -18,15 +18,6 @@
     <string name="home_hero_block_title">Kia ora!</string>
     <string name="home_hero_block_subtitle">Explore New Zealand</string>
 
-    <string name="top_cities_towns"><![CDATA[Top Cities & Towns]]></string>
-    <string name="top_cities_towns_subtitle">Explore New Zealand</string>
-    <string name="te_reo_maori">Te Reo Māori</string>
-    <string name="te_reo_maori_subtitle">Learn Te Reo</string>
-    <string name="nz_history_heritage"><![CDATA[NZ History & Heritage]]></string>
-    <string name="nz_history_heritage_subtitle">Dive into History</string>
-    <string name="fun_facts_tips"><![CDATA[Fun Facts & Tips]]></string>
-    <string name="fun_facts_tips_subtitle">Quick insights</string>
-
     <string name="no_local_cache_description">To find out the weather forecast and a list of upcoming events, connect to the internet.</string>
     <string name="no_local_cache_title">It\'s empty here for now</string>
 
