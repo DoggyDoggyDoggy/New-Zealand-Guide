@@ -2,11 +2,14 @@ package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -40,7 +43,12 @@ fun MaoriHubScreen(
                     PopBackArrowButton {
                         navHostController.navigateUp()
                     }
-                }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                )
             )
         }
     ) {
@@ -58,21 +66,24 @@ fun Content(
     navHostController: NavHostController,
     randomNZFact: String,
 ) {
+    val horizontalPadding = 12.dp
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        Spacer(modifier = Modifier)
+
         HeroBlock(
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = horizontalPadding)
         )
 
         WordOfTheDay(
-            modifier = Modifier.padding(horizontal = 12.dp)
+            modifier = Modifier.padding(horizontal = horizontalPadding)
         )
 
         NavigationCard(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = horizontalPadding)
                 .height(90.dp),
             name = "Kupu",
             description = "Common maori words",
@@ -86,7 +97,7 @@ fun Content(
 
         NavigationCard(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = horizontalPadding)
                 .height(90.dp),
             name = "Learning resources",
             description = "Articles & Links",
@@ -95,7 +106,7 @@ fun Content(
         )
 
         FactCard(
-            modifier = Modifier.padding(horizontal = 12.dp),
+            modifier = Modifier.padding(horizontal = horizontalPadding),
             fact = randomNZFact
         )
     }
