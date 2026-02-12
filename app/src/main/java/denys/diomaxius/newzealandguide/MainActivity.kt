@@ -2,8 +2,11 @@ package denys.diomaxius.newzealandguide
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import dagger.hilt.android.AndroidEntryPoint
 import denys.diomaxius.newzealandguide.navigation.AppNavigation
 import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
@@ -12,7 +15,11 @@ import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            navigationBarStyle = SystemBarStyle.dark(
+                scrim = Color.Transparent.toArgb()
+            )
+        )
         setContent {
             NewZealandGuideTheme {
                 AppNavigation()
