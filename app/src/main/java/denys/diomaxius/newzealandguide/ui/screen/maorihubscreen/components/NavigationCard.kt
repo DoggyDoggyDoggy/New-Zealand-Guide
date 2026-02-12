@@ -1,13 +1,12 @@
 package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -24,58 +23,52 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun NavigationCard(
+    modifier: Modifier,
     name: String,
     description: String,
-    onClick: () -> Unit,
-    icon: Painter
+    icon: Painter,
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(6.dp)
-            .height(120.dp)
-            .clickable {
+            .clickable{
                 onClick()
             },
         elevation = CardDefaults.cardElevation(6.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         )
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Spacer(
-                modifier = Modifier.weight(0.1f)
+                modifier = Modifier
             )
 
             Icon(
-                modifier = Modifier
-                    .size(64.dp)
-                    .weight(0.3f),
+                modifier = Modifier.size(48.dp),
                 painter = icon,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.tertiary
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
             )
 
-            Spacer(
-                modifier = Modifier.weight(0.1f)
-            )
-
-            Column(
-                modifier = Modifier.weight(2f)
-            ) {
+            Column {
                 Text(
                     text = name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontSize = 28.sp,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
 
                 Text(
                     text = description,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 24.sp
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }

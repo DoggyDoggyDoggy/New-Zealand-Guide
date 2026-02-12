@@ -1,13 +1,16 @@
 package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
@@ -56,13 +59,21 @@ fun Content(
     randomNZFact: String,
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        HeroBlock()
+        HeroBlock(
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
 
-        WordOfTheDay()
+        WordOfTheDay(
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )
 
         NavigationCard(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .height(90.dp),
             name = "Kupu",
             description = "Common maori words",
             onClick = {
@@ -74,6 +85,9 @@ fun Content(
         )
 
         NavigationCard(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .height(90.dp),
             name = "Learning resources",
             description = "Articles & Links",
             onClick = {},
@@ -81,6 +95,7 @@ fun Content(
         )
 
         FactCard(
+            modifier = Modifier.padding(horizontal = 12.dp),
             fact = randomNZFact
         )
     }

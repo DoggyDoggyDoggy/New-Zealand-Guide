@@ -1,13 +1,15 @@
 package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,55 +27,54 @@ import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.R
 
 @Composable
-fun HeroBlock() {
+fun HeroBlock(modifier: Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(6.dp),
+            .height(180.dp),
         elevation = CardDefaults.cardElevation(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.8f)
+            containerColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
         Box(
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp),
-                painter = painterResource(R.drawable.maori),
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                colorFilter = ColorFilter.tint(
-                    MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f)
-                )
-            )
             Column(
                 modifier = Modifier
-                    .padding(6.dp)
-                    .background(
-                        shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.75f)
-                    ),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(12.dp)
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
+                    text = "Nau mai!",
                     textAlign = TextAlign.Center,
-                    text = "Welcome to Te Reo Māori",
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Text(
-                    textAlign = TextAlign.Center,
-                    text = "Explore the heart of Aotearoa's culture through its language",
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    text = "Discover the heart of Aotearoa\nculture through its language.",
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 24.sp
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
+
+            Image(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterEnd),
+                painter = painterResource(id = R.drawable.symbols),
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(
+                    MaterialTheme.colorScheme.onPrimary
+                )
+            )
         }
     }
 }

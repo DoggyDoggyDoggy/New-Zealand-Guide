@@ -23,17 +23,18 @@ import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.R
 
 @Composable
-fun WordOfTheDay() {
+fun WordOfTheDay(
+    modifier: Modifier
+) {
     Card (
-        modifier = Modifier.fillMaxWidth().padding(6.dp),
+        modifier = modifier.fillMaxWidth(),
         border = BorderStroke(
             width = 2.dp,
             color = MaterialTheme.colorScheme.tertiary
         ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(6.dp),
+        )
     ){
         Column(
             modifier = Modifier.padding(12.dp)
@@ -42,10 +43,10 @@ fun WordOfTheDay() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.size(28.dp),
+                    modifier = Modifier.size(24.dp),
                     painter = painterResource(id = R.drawable.outline_chat_bubble_24),
                     contentDescription = "",
-                    tint = MaterialTheme.colorScheme.tertiary
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
                 Spacer(
@@ -55,22 +56,22 @@ fun WordOfTheDay() {
                 Text(
                     modifier = Modifier,
                     text = "Word of the day",
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 18.sp
+                    fontSize = 16.sp
                 )
             }
             Text(
                 text = "Maori",
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 fontWeight = FontWeight.Bold,
-                fontSize = 32.sp
+                fontSize = 26.sp
             )
             Text(
                 text = "English",
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 fontWeight = FontWeight.Medium,
-                fontSize = 20.sp
+                fontSize = 16.sp
             )
         }
     }

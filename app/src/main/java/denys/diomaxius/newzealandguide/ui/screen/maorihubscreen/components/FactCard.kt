@@ -22,13 +22,15 @@ import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.R
 
 @Composable
-fun FactCard(fact: String) {
+fun FactCard(
+    modifier: Modifier,
+    fact: String
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(6.dp),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
-        ),
-        elevation = CardDefaults.cardElevation(6.dp),
+        )
     ) {
         Column (
             modifier = Modifier.padding(12.dp)
