@@ -2,7 +2,6 @@ package denys.diomaxius.newzealandguide.ui.screen.maorihubscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -66,15 +65,17 @@ fun Content(
     navHostController: NavHostController,
     randomNZFact: String,
 ) {
-    val horizontalPadding = 12.dp
+    val horizontalPadding = 16.dp
+
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Spacer(modifier = Modifier)
-
         HeroBlock(
-            modifier = Modifier.padding(horizontal = horizontalPadding)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .padding(horizontal = horizontalPadding / 2)
+                .height(240.dp)
         )
 
         WordOfTheDay(
@@ -84,7 +85,7 @@ fun Content(
         NavigationCard(
             modifier = Modifier
                 .padding(horizontal = horizontalPadding)
-                .height(90.dp),
+                .weight(1f),
             name = "Kupu",
             description = "Common maori words",
             onClick = {
@@ -98,7 +99,7 @@ fun Content(
         NavigationCard(
             modifier = Modifier
                 .padding(horizontal = horizontalPadding)
-                .height(90.dp),
+                .weight(1f),
             name = "Learning resources",
             description = "Articles & Links",
             onClick = {},
