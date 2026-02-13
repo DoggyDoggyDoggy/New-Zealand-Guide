@@ -87,7 +87,7 @@ fun Word(
             .padding(vertical = 6.dp),
         elevation = CardDefaults.cardElevation(5.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Column(
@@ -104,7 +104,7 @@ fun Word(
             )
 
             HorizontalDivider(
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.tertiary
             )
 
             Text(
