@@ -70,7 +70,7 @@ fun Content(
         modifier = modifier
             .padding(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
