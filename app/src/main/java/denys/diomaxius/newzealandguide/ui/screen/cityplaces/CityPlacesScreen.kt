@@ -46,7 +46,6 @@ fun CityPlacesScreen(
 
     val navHostController = LocalNavController.current
 
-    //Change to UiState later on
     UiStateHandler(
         state = uiState,
         loading = { ScreenLoading() }
@@ -92,7 +91,7 @@ fun CityPlace(topic: CityPlace) {
     Card(
         modifier = Modifier.padding(vertical = 8.dp),
         shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
