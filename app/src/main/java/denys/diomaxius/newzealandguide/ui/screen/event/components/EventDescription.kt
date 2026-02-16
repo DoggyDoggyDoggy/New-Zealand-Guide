@@ -39,7 +39,8 @@ fun EventDescription(
     ) {
         Text(
             modifier = Modifier.padding(12.dp),
-            text = description
+            text = description,
+            maxLines = 7
         )
     }
 }
