@@ -39,7 +39,7 @@ fun LongInfoCard(
             .clickable {
                 onClick()
             },
-        elevation = CardDefaults.cardElevation(6.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         )

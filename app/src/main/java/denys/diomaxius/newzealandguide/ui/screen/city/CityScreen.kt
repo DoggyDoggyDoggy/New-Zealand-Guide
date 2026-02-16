@@ -145,7 +145,7 @@ fun Content(
             photos = city.photos
         )
         Spacer(
-            modifier = Modifier.height(16.dp)
+            modifier = Modifier.height(12.dp)
         )
 
         if (showNoLocalCacheCard) {
@@ -158,7 +158,7 @@ fun Content(
             )
 
             Spacer(
-                modifier = Modifier.height(16.dp)
+                modifier = Modifier.height(12.dp)
             )
 
             Events(
@@ -174,7 +174,7 @@ fun Content(
         }
 
         Spacer(
-            modifier = Modifier.height(16.dp)
+            modifier = Modifier.height(12.dp)
         )
 
         ColumnOfTwoLongInfoCards(

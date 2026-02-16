@@ -54,7 +54,7 @@ fun Content(weatherForecast: List<CityWeather>) {
             WeatherForecastCard(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(6.dp),
+                    .padding(horizontal = 6.dp),
                 weather = weather
             )
         }
