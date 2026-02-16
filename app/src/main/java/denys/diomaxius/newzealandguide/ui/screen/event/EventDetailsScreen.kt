@@ -1,6 +1,14 @@
 package denys.diomaxius.newzealandguide.ui.screen.event
 
 import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -84,6 +92,12 @@ fun Content(
     Column(
         modifier = modifier
             .padding(horizontal = 12.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
     ) {
         Spacer(
             modifier = Modifier.height(12.dp)
@@ -98,28 +112,38 @@ fun Content(
             modifier = Modifier.height(12.dp)
         )
 
-        if (!expanded) {
-            EventDescription(
-                description = event.description
-            )
+        AnimatedVisibility(
+            visible = !expanded,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column {
+                EventDescription(
+                    description = event.description
+                )
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
 
-            EventAddress(
-                address = event.address
-            )
+                EventAddress(
+                    address = event.address
+                )
 
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+            }
         }
 
         EventDates(
             eventSession = event.sessions,
             expanded = expanded,
             toggleExpanded = { expanded = !expanded }
+        )
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
         )
     }
 }
