@@ -26,7 +26,7 @@
     <string name="city_filter_all">All</string>
     <string name="city_filter_favorite">Favorite</string>
 
-    <string name="event_description">Description:</string>
+    <string name="event_description">Description</string>
     <string name="event_address">Address</string>
     <string name="event_buy_button">Buy Tickets</string>
     <string name="event_top_bar">Event</string>
