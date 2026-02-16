@@ -8,13 +8,14 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -78,10 +79,11 @@ fun Content(
     modifier: Modifier,
     event: CityEvent,
 ) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .padding(horizontal = 12.dp)
-            .verticalScroll(rememberScrollState())
     ) {
         Spacer(
             modifier = Modifier.height(12.dp)
@@ -96,24 +98,28 @@ fun Content(
             modifier = Modifier.height(12.dp)
         )
 
-        EventDescription(
-            description = event.description
-        )
+        if (!expanded) {
+            EventDescription(
+                description = event.description
+            )
 
-        Spacer(
-            modifier = Modifier.height(12.dp)
-        )
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
 
-        EventAddress(
-            address = event.address
-        )
+            EventAddress(
+                address = event.address
+            )
 
-        Spacer(
-            modifier = Modifier.height(12.dp)
-        )
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+        }
 
         EventDates(
-            eventSession = event.sessions
+            eventSession = event.sessions,
+            expanded = expanded,
+            toggleExpanded = { expanded = !expanded }
         )
     }
 }
