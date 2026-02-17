@@ -80,7 +80,9 @@ class CityEventsRemoteMediator(
             // Save to DB (Transaction)
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    clearCache()
+                    if (entities.isNotEmpty()) {
+                        clearCache()
+                    }
                 }
 
                 if (entities.isNotEmpty()) {
