@@ -80,17 +80,23 @@ class CityEventsRemoteMediator(
             // Save to DB (Transaction)
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
+                    // Clear the cache ONLY if there is something to replace it with.
                     if (entities.isNotEmpty()) {
                         clearCache()
+                        saveEvents(entities, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                    } else {
+                        // If REFRESH and 0 data, nothing happened.
+                        // The old data remains in the database, but the last refresh time has NOT been updated.
+                        // Initialize() will return LAUNCH_REFRESH the next time it's run.
                     }
-                }
-
-                if (entities.isNotEmpty()) {
-                    saveEvents(entities, loadType)
-                }
-
-                if (loadType == LoadType.REFRESH || entities.isNotEmpty() || endOfPaginationReached) {
-                    saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                } else {
+                    if (entities.isNotEmpty()) {
+                        saveEvents(entities, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                    } else if (endOfPaginationReached) {
+                        saveRemoteKey(null, true, loadType)
+                    }
                 }
             }
 
