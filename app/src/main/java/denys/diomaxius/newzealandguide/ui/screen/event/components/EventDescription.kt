@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.ui.screen.event.components
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -31,7 +32,7 @@ fun EventDescription(
     )
 
     Card(
-        modifier = Modifier,
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),

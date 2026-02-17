@@ -3,6 +3,7 @@ package denys.diomaxius.newzealandguide.ui.screen.event.components
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,6 +36,7 @@ fun EventHeader(
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(max = 180.dp)
             .clip(RoundedCornerShape(8.dp)),
         model = image,
         contentScale = ContentScale.FillWidth,
