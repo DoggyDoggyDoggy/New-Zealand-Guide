@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
             navigationBarStyle = SystemBarStyle.dark(
-                scrim = Color.Transparent.toArgb()
+                scrim = Color(0xFF005048).toArgb()
             )
         )
         setContent {
