@@ -13,9 +13,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -91,6 +94,7 @@ fun Content(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
             .padding(horizontal = 12.dp)
             .animateContentSize(
                 animationSpec = spring(
@@ -98,6 +102,7 @@ fun Content(
                     stiffness = Spring.StiffnessLow
                 )
             )
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(
             modifier = Modifier.height(12.dp)
