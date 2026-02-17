@@ -33,12 +33,12 @@ fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
 ) {
-    if (events.itemCount > 0) {
-        Content(events, onClick)
-    }
-
     if (events.loadState.refresh is LoadState.Loading && events.itemCount == 0) {
         EventsLoadingRow()
+    } else if (events.itemCount > 0) {
+        Content(events, onClick)
+    } else if (events.itemCount == 0) {
+        EmptyEventsCard()
     }
 }
 
