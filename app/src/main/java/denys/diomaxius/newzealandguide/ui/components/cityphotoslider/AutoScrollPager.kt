@@ -20,24 +20,32 @@ fun AutoScrollPager(
     val pagerState = rememberPagerState(pageCount = { items.size })
 
     LaunchedEffect(pagerState) {
+        pagerState.scrollToPage(pagerState.currentPage)
+
         var goingForward = true
         while (true) {
             delay(intervalMs)
-            val next = when {
-                goingForward && pagerState.currentPage < items.lastIndex -> pagerState.currentPage + 1
-                !goingForward && pagerState.currentPage > 0 -> pagerState.currentPage - 1
-                else -> {
-                    goingForward = !goingForward
-                    pagerState.currentPage + if (goingForward) 1 else -1
+
+            if (!pagerState.isScrollInProgress) {
+                val next = when {
+                    goingForward && pagerState.currentPage < items.lastIndex -> pagerState.currentPage + 1
+                    !goingForward && pagerState.currentPage > 0 -> pagerState.currentPage - 1
+                    else -> {
+                        goingForward = !goingForward
+                        if (goingForward) pagerState.currentPage + 1 else pagerState.currentPage - 1
+                    }
                 }
-            }
-            pagerState.animateScrollToPage(
-                page = next,
-                animationSpec = tween(
-                    durationMillis = animationMillis,
-                    easing = FastOutSlowInEasing
+
+                val targetPage = next.coerceIn(0, items.size - 1)
+
+                pagerState.animateScrollToPage(
+                    page = targetPage,
+                    animationSpec = tween(
+                        durationMillis = animationMillis,
+                        easing = FastOutSlowInEasing
+                    )
                 )
-            )
+            }
         }
     }
 
