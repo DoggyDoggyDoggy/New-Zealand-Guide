@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import denys.diomaxius.newzealandguide.R
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -44,6 +45,7 @@ import denys.diomaxius.newzealandguide.ui.components.topbar.DummyAction
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.ui.screen.city.components.NoLocalCacheCard
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityScreen(
     viewModel: CityScreenViewModel = hiltViewModel(),
@@ -143,7 +145,7 @@ fun Content(
             photos = city.photos
         )
         Spacer(
-            modifier = Modifier.height(16.dp)
+            modifier = Modifier.height(12.dp)
         )
 
         if (showNoLocalCacheCard) {
@@ -156,7 +158,7 @@ fun Content(
             )
 
             Spacer(
-                modifier = Modifier.height(16.dp)
+                modifier = Modifier.height(12.dp)
             )
 
             Events(
@@ -172,7 +174,7 @@ fun Content(
         }
 
         Spacer(
-            modifier = Modifier.height(16.dp)
+            modifier = Modifier.height(12.dp)
         )
 
         ColumnOfTwoLongInfoCards(

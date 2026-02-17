@@ -43,7 +43,7 @@ fun ColumnOfTwoLongInfoCards(
             modifier = Modifier,
             titleCardText = stringResource(R.string.city_history_card_title),
             subTitleCardText = stringResource(R.string.city_history_card_subtitle),
-            image = R.drawable.ic_scroll_outline,
+            image = R.drawable.top_attractions,
             onClick = {
                 navHostController.navigate(
                     NavScreen.CityHistory.createRoute(city.id, city.name)

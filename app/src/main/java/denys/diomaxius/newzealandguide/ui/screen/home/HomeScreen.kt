@@ -1,46 +1,41 @@
 package denys.diomaxius.newzealandguide.ui.screen.home
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import denys.diomaxius.newzealandguide.R
-import denys.diomaxius.newzealandguide.domain.model.home.Home
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
-import denys.diomaxius.newzealandguide.ui.components.topbar.DummyAction
-import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
-import denys.diomaxius.newzealandguide.ui.screen.home.components.HeroBlock
-import denys.diomaxius.newzealandguide.ui.screen.home.components.NavigationMenu
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 
 @Composable
-fun HomeScreen(
-    viewModel: HomeScreenViewModel = hiltViewModel()
-) {
-    val homeData = viewModel.homeData
-
+fun HomeScreen() {
     val navHostController = LocalNavController.current
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                text = stringResource(R.string.top_bar_home),
-                navigationButton = { DummyAction() }
-            )
-        }
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         Content(
             modifier = Modifier.padding(innerPadding),
-            navHostController = navHostController,
-            homeData = homeData
+            navHostController = navHostController
         )
     }
 }
@@ -49,20 +44,86 @@ fun HomeScreen(
 fun Content(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    homeData: Home,
 ) {
+    Image(
+        modifier = Modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.home),
+        contentDescription = null,
+        contentScale = ContentScale.FillBounds
+    )
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .windowInsetsPadding(WindowInsets.systemBars)
+            .padding(horizontal = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HeroBlock(
-            photos = homeData.photos
+        Text(
+            text = "Kia ora!",
+            fontWeight = FontWeight.Bold,
+            fontSize = 52.sp,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = TextStyle(
+                shadow = Shadow(
+                    color = MaterialTheme.colorScheme.primary,
+                    offset = Offset(5.0f, 8f),
+                    blurRadius = 12f
+                )
+            )
         )
 
-        NavigationMenu(
-            navHostController = navHostController
+        Text(
+            text = "Explore New Zealand",
+            fontWeight = FontWeight.Normal,
+            fontSize = 32.sp,
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = TextStyle(
+                shadow = Shadow(
+                    color = MaterialTheme.colorScheme.primary,
+                    offset = Offset(5.0f, 8f),
+                    blurRadius = 12f
+                )
+            )
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        LongInfoCard(
+            titleCardText = "Top Cities & Towns",
+            subTitleCardText = "Explore New Zealand",
+            icon = painterResource(id = R.drawable.outline_location_city_24),
+            onClick = {
+                navHostController.navigate(NavScreen.AllCities.route) {
+                    launchSingleTop = true
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        LongInfoCard(
+            titleCardText = "Te Reo Māori",
+            subTitleCardText = "Learn Te Reo",
+            icon = painterResource(id = R.drawable.outline_book_3_24),
+            onClick = {
+                navHostController.navigate(NavScreen.MaoriHub.route) {
+                    launchSingleTop = true
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        LongInfoCard(
+            titleCardText = "NZ History & Heritage",
+            subTitleCardText = "Dive into History",
+            icon = painterResource(id = R.drawable.outline_book_ribbon_24),
+            onClick = {
+                navHostController.navigate(NavScreen.NewZealandHistory.route) {
+                    launchSingleTop = true
+                }
+            }
         )
     }
 }

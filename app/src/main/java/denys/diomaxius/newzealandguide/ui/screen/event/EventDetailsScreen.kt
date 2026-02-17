@@ -1,35 +1,33 @@
 package denys.diomaxius.newzealandguide.ui.screen.event
 
-import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
@@ -37,18 +35,19 @@ import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.screen.event.components.BuyTicketButton
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventAddress
-import denys.diomaxius.newzealandguide.ui.screen.event.components.EventBottomBar
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDates
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
+import denys.diomaxius.newzealandguide.ui.screen.event.components.EventHeader
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventDetailsScreen(
     viewModel: EventDetailsScreenViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navHostController = LocalNavController.current
-    val context: Context = LocalContext.current
 
     UiStateHandler(
         state = uiState,
@@ -63,13 +62,6 @@ fun EventDetailsScreen(
                             navHostController.navigateUp()
                         }
                     }
-                )
-            },
-            bottomBar = {
-                EventBottomBar(
-                    modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues()),
-                    event = event,
-                    context = context
                 )
             }
         ) { innerPadding ->
@@ -86,52 +78,78 @@ fun Content(
     modifier: Modifier,
     event: CityEvent,
 ) {
-    Card(
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Column(
         modifier = modifier
-            .padding(top = 12.dp)
-            .padding(horizontal = 12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        elevation = CardDefaults.cardElevation(6.dp)
+            .fillMaxSize()
+            .padding(horizontal = 12.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            .verticalScroll(rememberScrollState())
     ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .verticalScroll(rememberScrollState())
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        EventHeader(
+            name = event.name,
+            image = event.imageUrl
+        )
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        AnimatedVisibility(
+            visible = !expanded,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
         ) {
-            Spacer(modifier = Modifier.height(12.dp))
+            Column {
+                EventDescription(
+                    description = event.description
+                )
 
-            Text(
-                text = event.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
-            )
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
 
-            Spacer(modifier = Modifier.height(6.dp))
+                EventAddress(
+                    address = event.address
+                )
 
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp)),
-                model = event.imageUrl,
-                contentScale = ContentScale.FillWidth,
-                contentDescription = "Image"
-            )
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            EventDescription(event.description)
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            EventAddress(event.address)
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            EventDates(event.sessions)
-
-            Spacer(modifier = Modifier.height(12.dp))
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+            }
         }
+
+        EventDates(
+            eventSession = event.sessions,
+            expanded = expanded,
+            toggleExpanded = { expanded = !expanded }
+        )
+
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        BuyTicketButton(
+            event = event,
+            context = LocalContext.current
+        )
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
     }
 }

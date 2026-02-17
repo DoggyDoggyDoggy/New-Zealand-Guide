@@ -54,7 +54,7 @@ fun Content(weatherForecast: List<CityWeather>) {
             WeatherForecastCard(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(6.dp),
+                    .padding(horizontal = 6.dp),
                 weather = weather
             )
         }
@@ -72,7 +72,7 @@ fun WeatherForecastCard(
             defaultElevation = 4.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         )
     ) {
         Column(
@@ -80,7 +80,10 @@ fun WeatherForecastCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(dateFormatter(weather.dateTime))
+            Text(
+                text = dateFormatter(weather.dateTime),
+                color = MaterialTheme.colorScheme.onTertiaryContainer
+            )
 
             AsyncImage(
                 model = "file:///android_asset/weathericons/${weather.icon}.png",
@@ -88,7 +91,8 @@ fun WeatherForecastCard(
             )
 
             Text(
-                text = "${weather.temp.toInt()} °C"
+                text = "${weather.temp.toInt()} °C",
+                color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }
     }

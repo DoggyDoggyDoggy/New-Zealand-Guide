@@ -14,10 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,13 +29,17 @@ fun TopBar(
     text: String,
     navigationButton: @Composable () -> Unit,
     actions: @Composable () -> Unit = { DummyAction() },
+    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+    )
 ) {
     CenterAlignedTopAppBar(
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = text,
-                color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
                 textAlign = TextAlign.Center
@@ -47,16 +51,14 @@ fun TopBar(
         actions = {
             actions()
         },
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
+        colors = colors,
         windowInsets = WindowInsets.statusBars
     )
 }
 
 @Composable
 fun PopBackArrowButton(
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     IconButton(
         onClick = onClick
@@ -64,8 +66,7 @@ fun PopBackArrowButton(
         Icon(
             modifier = Modifier.size(32.dp),
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.White
+            contentDescription = "Back"
         )
     }
 }

@@ -2,7 +2,6 @@ package denys.diomaxius.newzealandguide.ui.screen.event.components
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,34 +17,16 @@ import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 
 @Composable
-fun EventBottomBar(
-    modifier: Modifier,
-    event: CityEvent,
-    context: Context,
-) {
-    Box(
-        modifier = modifier
-    ) {
-        BuyTicketButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .padding(vertical = 8.dp)
-                .height(50.dp),
-            event = event,
-            context = context
-        )
-    }
-}
-
-@Composable
 fun BuyTicketButton(
     modifier: Modifier = Modifier,
     event: CityEvent,
-    context: Context,
+    context: Context
 ) {
     Button(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp)
+            .height(50.dp),
         onClick = {
             context.startActivity(
                 Intent(Intent.ACTION_VIEW, event.url.toUri())

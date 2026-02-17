@@ -1,9 +1,11 @@
 package denys.diomaxius.newzealandguide.ui.screen.cityplaces
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,22 +13,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
@@ -35,6 +37,7 @@ import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityPlacesScreen(
     viewModel: CityPlacesScreenViewModel = hiltViewModel(),
@@ -44,7 +47,6 @@ fun CityPlacesScreen(
 
     val navHostController = LocalNavController.current
 
-    //Change to UiState later on
     UiStateHandler(
         state = uiState,
         loading = { ScreenLoading() }
@@ -90,43 +92,44 @@ fun CityPlace(topic: CityPlace) {
     Card(
         modifier = Modifier.padding(vertical = 8.dp),
         shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Min),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = topic.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
+            VerticalDivider(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(start = 16.dp)
+                    .padding(vertical = 16.dp)
+                    .clip(
+                        RoundedCornerShape(12.dp)
+                    ),
+                thickness = 10.dp,
+                color = MaterialTheme.colorScheme.primary
             )
 
-            Spacer(
-                modifier = Modifier.height(5.dp)
-            )
-
-            if (topic.image != "") {
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp)),
-                    model = "file:///android_asset/${topic.image}",
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth
+            Column (
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 12.dp)
+            ){
+                Text(
+                    text = topic.name,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
                 )
+
                 Spacer(
                     modifier = Modifier.height(5.dp)
                 )
-            }
 
-            Text(
-                text = topic.description,
-                fontSize = 16.sp
-            )
+                Text(
+                    text = topic.description,
+                    fontSize = 16.sp,
+                )
+            }
         }
     }
 }

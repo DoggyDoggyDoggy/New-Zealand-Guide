@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -17,18 +15,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.R
 
 @Composable
-fun FactCard(fact: String) {
+fun FactCard(
+    modifier: Modifier,
+    fact: String
+) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(6.dp),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.tertiaryContainer
-        ),
-        elevation = CardDefaults.cardElevation(6.dp),
+        )
     ) {
         Column (
             modifier = Modifier.padding(12.dp)
@@ -38,7 +40,7 @@ fun FactCard(fact: String) {
             ) {
                 Icon(
                     modifier = Modifier.size(28.dp),
-                    imageVector = Icons.Default.Favorite,
+                    painter = painterResource(id = R.drawable.outline_lightbulb_2_24),
                     contentDescription = ""
                 )
 
@@ -48,7 +50,7 @@ fun FactCard(fact: String) {
 
                 Text(
                     modifier = Modifier,
-                    text = "Quick tip",
+                    text = "Did you know?",
                     fontWeight = FontWeight.Medium,
                     fontSize = 18.sp
                 )
