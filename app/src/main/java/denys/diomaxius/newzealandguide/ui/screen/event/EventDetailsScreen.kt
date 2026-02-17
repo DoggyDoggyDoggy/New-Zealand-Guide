@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.ui.screen.event
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
@@ -11,11 +10,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -39,9 +35,9 @@ import denys.diomaxius.newzealandguide.ui.components.ScreenLoading
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiStateHandler
+import denys.diomaxius.newzealandguide.ui.screen.event.components.BuyTicketButton
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventAddress
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDates
-import denys.diomaxius.newzealandguide.ui.screen.event.components.EventBottomBar
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventHeader
 
@@ -52,7 +48,6 @@ fun EventDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navHostController = LocalNavController.current
-    val context: Context = LocalContext.current
 
     UiStateHandler(
         state = uiState,
@@ -67,13 +62,6 @@ fun EventDetailsScreen(
                             navHostController.navigateUp()
                         }
                     }
-                )
-            },
-            bottomBar = {
-                EventBottomBar(
-                    modifier = Modifier.padding(WindowInsets.navigationBars.asPaddingValues()),
-                    event = event,
-                    context = context
                 )
             }
         ) { innerPadding ->
@@ -145,6 +133,19 @@ fun Content(
             eventSession = event.sessions,
             expanded = expanded,
             toggleExpanded = { expanded = !expanded }
+        )
+
+        Spacer(
+            modifier = Modifier.weight(1f)
+        )
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        BuyTicketButton(
+            event = event,
+            context = LocalContext.current
         )
 
         Spacer(
