@@ -1,24 +1,14 @@
 package denys.diomaxius.newzealandguide.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterExitState
-import androidx.compose.animation.core.EaseInExpo
-import androidx.compose.animation.core.EaseOutExpo
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -167,38 +157,15 @@ fun AppNavigation(
 
             composable(
                 route = NavScreen.Event.route,
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) },
                 arguments = listOf(
                     navArgument("cityId") { type = NavType.StringType },
                     navArgument("eventId") { type = NavType.StringType }
                 )
             ) { backStackEntry ->
-                val progress by transition.animateFloat(
-                    label = "RevealProgress",
-                    transitionSpec = {
-                        if (targetState == EnterExitState.Visible) {
-                            tween(durationMillis = 500, easing = EaseInExpo)
-                        } else {
-                            tween(durationMillis = 800, easing = EaseOutExpo)
-                        }
-                    }
-                ) { state ->
-                    if (state == EnterExitState.Visible) 1f else 0f
-                }
-
-                EventDetailsScreen(
-                    modifier = Modifier.circularReveal(progress)
-                )
+                EventDetailsScreen()
             }
         }
     }
 }
-
-fun Modifier.circularReveal(progress: Float): Modifier =
-    this.graphicsLayer {
-        clip = true
-        shape = GenericShape { size, _ ->
-            val center = Offset(size.width / 2, size.height / 2)
-            val maxRadius = Math.hypot(size.width.toDouble(), size.height.toDouble()).toFloat()
-            addOval(Rect(center, maxRadius * progress))
-        }
-    }
