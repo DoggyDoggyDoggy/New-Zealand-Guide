@@ -33,12 +33,22 @@ fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
 ) {
-    if (events.loadState.refresh is LoadState.Loading && events.itemCount == 0) {
-        EventsLoadingRow()
-    } else if (events.itemCount > 0) {
-        Content(events, onClick)
-    } else if (events.itemCount == 0) {
-        EmptyEventsCard()
+    val refreshState = events.loadState.refresh
+
+    when {
+        refreshState is LoadState.Loading && events.itemCount == 0 -> {
+            EventsLoadingRow()
+        }
+        events.itemCount > 0 -> {
+            Content(events, onClick)
+        }
+        refreshState is LoadState.NotLoading && events.itemCount == 0 -> {
+            if (refreshState.endOfPaginationReached) {
+                EmptyEventsCard()
+            } else {
+                EventsLoadingRow()
+            }
+        }
     }
 }
 
