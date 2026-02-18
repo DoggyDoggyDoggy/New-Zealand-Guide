@@ -3,6 +3,7 @@ package denys.diomaxius.newzealandguide.ui.screen.allcities
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,8 +13,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,12 +33,20 @@ import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.EmptyFavoriteScreen
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.FavoriteFilter
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AllCitiesScreen(
     viewModel: AllCitiesScreenViewModel = hiltViewModel(),
 ) {
+    var isTransitionFinished by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        delay(200)
+        isTransitionFinished = true
+    }
+
     val allCities by viewModel.allCities.collectAsState()
     val favoriteCities by viewModel.favoriteCities.collectAsState()
 
@@ -53,17 +66,21 @@ fun AllCitiesScreen(
             )
         }
     ) { innerPadding ->
-        Content(
-            modifier = Modifier.padding(innerPadding),
-            allCities = allCities,
-            favoriteCities = favoriteCities,
-            navHostController = navHostController,
-            toggleFavorite = viewModel::toggleFavorite,
-            favoriteFilter = favoriteFilter,
-            toggleFavoriteFilter = viewModel::toggleFavoriteFilter,
-            allListState = viewModel.allListState,
-            favoriteListState = viewModel.favoriteListState,
-        )
+        if (isTransitionFinished) {
+            Content(
+                modifier = Modifier.padding(innerPadding),
+                allCities = allCities,
+                favoriteCities = favoriteCities,
+                navHostController = navHostController,
+                toggleFavorite = viewModel::toggleFavorite,
+                favoriteFilter = favoriteFilter,
+                toggleFavoriteFilter = viewModel::toggleFavoriteFilter,
+                allListState = viewModel.allListState,
+                favoriteListState = viewModel.favoriteListState,
+            )
+        } else {
+            Box(Modifier.fillMaxSize())
+        }
     }
 }
 
