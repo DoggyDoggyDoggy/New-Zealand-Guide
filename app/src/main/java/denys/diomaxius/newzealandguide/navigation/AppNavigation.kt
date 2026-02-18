@@ -32,6 +32,7 @@ import denys.diomaxius.newzealandguide.ui.screen.cityplaces.CityPlacesScreen
 import denys.diomaxius.newzealandguide.ui.screen.event.EventDetailsScreen
 import denys.diomaxius.newzealandguide.ui.screen.home.HomeScreen
 import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.MaoriHubScreen
+import denys.diomaxius.newzealandguide.ui.screen.maorilearningresources.MaoriLearningResourcesScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzhistory.NewZealandHistoryScreen
 
@@ -99,6 +100,14 @@ fun AppNavigation(
                 exitTransition = { fadeOut(animationSpec = tween(500)) }
             ) {
                 MaoriWordsScreen()
+            }
+
+            composable(
+                route = NavScreen.MaoriLearningResources.route,
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                MaoriLearningResourcesScreen()
             }
 
             composable(

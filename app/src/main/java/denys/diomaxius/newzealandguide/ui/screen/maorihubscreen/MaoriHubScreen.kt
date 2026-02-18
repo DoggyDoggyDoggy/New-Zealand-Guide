@@ -99,7 +99,11 @@ fun Content(
                 .height(110.dp),
             name = "Learning resources",
             description = "Articles & Links",
-            onClick = {},
+            onClick = {
+                navHostController.navigate(NavScreen.MaoriLearningResources.route) {
+                    launchSingleTop = true
+                }
+            },
             icon = painterResource(id = R.drawable.outline_newsstand_24)
         )
 
