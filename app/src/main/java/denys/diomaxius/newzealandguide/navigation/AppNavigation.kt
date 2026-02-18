@@ -167,7 +167,7 @@ fun AppNavigation(
                     label = "RevealProgress",
                     transitionSpec = {
                         if (targetState == EnterExitState.Visible) {
-                            tween(durationMillis = 650, easing = EaseInExpo)
+                            tween(durationMillis = 500, easing = EaseInExpo)
                         } else {
                             tween(durationMillis = 800, easing = EaseOutExpo)
                         }
