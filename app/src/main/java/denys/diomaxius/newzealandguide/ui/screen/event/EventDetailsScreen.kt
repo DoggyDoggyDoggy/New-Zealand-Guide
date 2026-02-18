@@ -44,6 +44,7 @@ import denys.diomaxius.newzealandguide.ui.screen.event.components.EventHeader
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventDetailsScreen(
+    modifier: Modifier = Modifier,
     viewModel: EventDetailsScreenViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -54,6 +55,7 @@ fun EventDetailsScreen(
         loading = { ScreenLoading() },
     ) { event ->
         Scaffold(
+            modifier = modifier,
             topBar = {
                 TopBar(
                     text = stringResource(R.string.event_top_bar),
