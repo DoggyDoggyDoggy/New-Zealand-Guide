@@ -16,9 +16,11 @@ It provides users with information about cities, events, and weather, featuring 
 </a>
 
 ## Screenshots
-<img width="31%" height="625" alt="Screenshot#1"  src="https://github.com/user-attachments/assets/56b29edd-775d-4943-ae71-6692ce7b7ee8" />
-<img width="31%" height="625" alt="Screenshot#2" src="https://github.com/user-attachments/assets/f56714df-f6dc-4df0-9cca-006f5304fcf2" />
-<img width="31%" height="625" alt="Screenshot#3" src="https://github.com/user-attachments/assets/933416b0-c5fd-4079-a6cd-c61032b3518a" />
+<img width="18%" height="625" alt="Slice 2" src="https://github.com/user-attachments/assets/f48042cf-fc45-461a-b4d3-23c148675d93" />
+<img width="18%" height="625" alt="Slice 3" src="https://github.com/user-attachments/assets/8e177497-1951-4240-be5e-69664b15f821" />
+<img width="18%" height="625" alt="Slice 4" src="https://github.com/user-attachments/assets/6cc3b924-da79-45ec-b4f9-61ef5ee633dd" />
+<img width="18%" height="625" alt="Slice 5" src="https://github.com/user-attachments/assets/28a774be-4773-44aa-aba1-8a27f6a8f8fd" />
+<img width="18%" height="625" alt="Slice 6" src="https://github.com/user-attachments/assets/a0cdb0a7-d91b-4851-950c-004f5db9d7f1" />
 
 ## Project Overview
 
