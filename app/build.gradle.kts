@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 android {
@@ -71,6 +72,9 @@ dependencies {
     //App Check
     implementation(libs.firebase.appcheck.playintegrity)
     debugImplementation (libs.firebase.appcheck.debug) // Debug App Check
+
+    //Crashlytics
+    implementation(libs.firebase.crashlytics)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

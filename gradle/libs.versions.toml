@@ -19,6 +19,8 @@ pagingRuntime = "3.3.0"
 roomKtx = "2.8.1"
 hiltAndroidCompiler = "2.57.1"
 firebaseAppCheck = "19.0.0"
+firebaseCrashlytics = "20.0.4"
+googleFirebaseCrashlytics = "3.0.6"
 
 [libraries]
 #Paging3
@@ -50,6 +52,9 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebaseAppCheck" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebaseAppCheck" }
 
+#Crashlytics
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+
 #ksp
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
@@ -74,3 +79,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidCompiler" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
