@@ -16,6 +16,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
+import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.util.concurrent.TimeUnit
 
@@ -90,7 +91,12 @@ class CityEventsRemoteMediator(
                         // If REFRESH and 0 data, nothing happened.
                         // The old data remains in the database, but the last refresh time has NOT been updated.
                         // Initialize() will return LAUNCH_REFRESH the next time it's run.
-                        logger.logMessage("There is no data on the server for the city $cityId")
+                        val errorMsg = "Server returned empty events for city $cityId"
+                        logger.logMessage(errorMsg)
+                        logger.logException(
+                            MissingServerDataException(errorMsg),
+                            mapOf("cityId" to cityId)
+                        )
                     }
                 } else {
                     if (entities.isNotEmpty()) {
