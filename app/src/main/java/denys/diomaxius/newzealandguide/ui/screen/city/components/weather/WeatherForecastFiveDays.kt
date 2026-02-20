@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.ui.screen.city.components.weather
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,8 @@ fun WeatherForecastFiveDays(
     isEventsLoading: Boolean,
     retryLoadWeather: () -> Unit,
 ) {
+    Log.d("WeatherForecastFiveDays", "$weatherUiState")
+
     UiStateHandler(
         weatherUiState,
         loading = {
