@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.data.remote.datasource
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.model.CityWeatherDto
 import kotlinx.coroutines.tasks.await
@@ -18,7 +19,7 @@ class CityWeatherDataSourceImpl(
             .document(cityId)
             .collection("weather")
             .document("forecast")
-            .get()
+            .get(Source.SERVER)
             .await()
 
         return snap.toObject(ForecastDocument::class.java)
