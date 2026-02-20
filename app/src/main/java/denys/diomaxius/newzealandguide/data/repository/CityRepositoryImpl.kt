@@ -43,7 +43,7 @@ class CityRepositoryImpl(
     private val eventsDataSource: CityEventsDataSource,
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
-    private val logger: ErrorLogger
+    private val logger: ErrorLogger,
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
@@ -77,85 +77,44 @@ class CityRepositoryImpl(
         cityDao.toggleFavorite(cityId)
     }
 
-    override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult = withContext(Dispatchers.IO) {
-        try {
-            if (shouldFetchNewWeather(cityId)) {
-                try {
-                    val weatherDto = weatherDataSource.fetchForecast(cityId)
-                    if (weatherDto.isNotEmpty()) {
-                        cityDao.replaceWeatherForecast(
-                            cityId,
-                            weatherDto.map { it.toEntity(cityId) },
-                            WeatherCacheInfo(cityId, Instant.now())
-                        )
-                    }
-                } catch (e: FirebaseFirestoreException) {
-                    if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
-                        logger.logException(e, mapOf("cityId" to cityId))
-                    }
-                }
-            }
-
-            val entities = cityDao.getCityWeatherForecast(cityId)
-
-            if (entities.isEmpty()) {
-                WeatherResult.NoInternetAndNoCache
-            } else {
-                val domainData = entities.map { it.toDomain() }
-                WeatherResult.Success(domainData)
-            }
-
-        } catch (e: Exception) {
-            if (e is CancellationException) throw e
-            logger.logException(e, mapOf("cityId" to cityId))
-            WeatherResult.Error(e)
-        }
-    }
-
-/*
-    override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult {
-        val shouldFetch = shouldFetchNewWeather(cityId)
-
-        if (shouldFetch) {
-
-            Log.i("CityRepositoryImpl", "Fetching new weather")
-
+    override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult =
+        withContext(Dispatchers.IO) {
             try {
-                val weatherDto = weatherDataSource.fetchForecast(cityId)
+                if (shouldFetchNewWeather(cityId)) {
+                    try {
+                        val weatherDto = weatherDataSource.fetchForecast(cityId)
+                        if (weatherDto.isEmpty()) {
+                            logger.logMessage("No weather data for city $cityId")
+                        } else {
+                            cityDao.replaceWeatherForecast(
+                                cityId,
+                                weatherDto.map { it.toEntity(cityId) },
+                                WeatherCacheInfo(cityId, Instant.now())
+                            )
+                        }
+                    } catch (e: FirebaseFirestoreException) {
+                        if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
+                            logger.logException(e, mapOf("cityId" to cityId))
+                        }
+                    }
+                }
 
-                if (weatherDto.isEmpty()) {
-                    logger.logMessage("No weather data for city $cityId")
+                val entities = cityDao.getCityWeatherForecast(cityId)
+
+                if (entities.isEmpty()) {
+                    WeatherResult.NoInternetAndNoCache
                 } else {
-                    val newForecastEntities = weatherDto.map { dto -> dto.toEntity(cityId) }
-
-                    val newCacheInfo = WeatherCacheInfo(cityId, Instant.now())
-
-                    withContext(Dispatchers.IO) {
-                        cityDao.replaceWeatherForecast(cityId, newForecastEntities, newCacheInfo)
-                    }
+                    val domainData = entities.map { it.toDomain() }
+                    WeatherResult.Success(domainData)
                 }
-            } catch (e: FirebaseFirestoreException) {
-                when (e.code) {
-                    FirebaseFirestoreException.Code.UNAVAILABLE -> {
-                        Log.d("CityRepositoryImpl", "Offline, using cache")
-                    }
 
-                    else -> {
-                        logger.logException(e, mapOf("cityId" to cityId))
-                    }
-                }
             } catch (e: Exception) {
+                if (e is CancellationException) throw e
                 logger.logException(e, mapOf("cityId" to cityId))
-                throw e
+                WeatherResult.Error(e)
             }
         }
 
-        return withContext(Dispatchers.IO) {
-            cityDao.getCityWeatherForecast(cityId)
-                .map(CityWeatherEntity::toDomain)
-        }
-    }
-*/
     @OptIn(ExperimentalPagingApi::class)
     override fun cityEventsPagerFlow(
         pageSize: Int,
