@@ -17,6 +17,7 @@ import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
+import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
@@ -84,7 +85,12 @@ class CityRepositoryImpl(
                     try {
                         val weatherDto = weatherDataSource.fetchForecast(cityId)
                         if (weatherDto.isEmpty()) {
-                            logger.logMessage("No weather data for city $cityId")
+                            val errorMsg = "Server returned empty forecast for city $cityId"
+                            logger.logMessage(errorMsg)
+                            logger.logException(
+                                MissingServerDataException(errorMsg),
+                                mapOf("cityId" to cityId)
+                            )
                         } else {
                             cityDao.replaceWeatherForecast(
                                 cityId,
