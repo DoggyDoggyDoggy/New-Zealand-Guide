@@ -4,7 +4,6 @@ import android.content.Context
 import coil3.imageLoader
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -17,6 +16,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
+import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
@@ -28,6 +28,7 @@ class CityEventsRemoteMediator(
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
     private val cityDao: CityDao,
+    private val logger: ErrorLogger,
 ) : RemoteMediator<Int, CityEventEntity>() {
 
     // Setting cache lifetime (7 days)
@@ -89,6 +90,7 @@ class CityEventsRemoteMediator(
                         // If REFRESH and 0 data, nothing happened.
                         // The old data remains in the database, but the last refresh time has NOT been updated.
                         // Initialize() will return LAUNCH_REFRESH the next time it's run.
+                        logger.logMessage("There is no data on the server for the city $cityId")
                     }
                 } else {
                     if (entities.isNotEmpty()) {
@@ -107,7 +109,7 @@ class CityEventsRemoteMediator(
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
         } catch (e: Exception) {
-            Log.e("CityEventsRemoteMediator", "Error loading data", e)
+            logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
             MediatorResult.Error(e)
         }
     }

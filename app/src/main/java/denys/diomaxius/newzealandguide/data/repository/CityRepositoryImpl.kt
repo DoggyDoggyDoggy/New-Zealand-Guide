@@ -134,7 +134,8 @@ class CityRepositoryImpl(
                 dataSource = eventsDataSource,
                 remoteCityEventsKeysDao = remoteCityEventsKeysDao,
                 cityDao = cityDao,
-                database = database
+                database = database,
+                logger = logger
             ),
             pagingSourceFactory = { cityDao.getCityEventsPagingSource(cityId) }
         ).flow
