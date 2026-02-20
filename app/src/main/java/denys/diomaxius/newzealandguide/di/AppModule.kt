@@ -13,6 +13,7 @@ import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
+import denys.diomaxius.newzealandguide.data.logging.ErrorLoggerImpl
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityEventsDataSourceImpl
@@ -27,6 +28,7 @@ import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsReposito
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
 import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
 import denys.diomaxius.newzealandguide.data.repository.ConnectivityObserverImpl
+import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import javax.inject.Singleton
 
 @Module
@@ -107,6 +109,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideConnectivityObserver(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): ConnectivityObserver = ConnectivityObserverImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideErrorLogger(): ErrorLogger = ErrorLoggerImpl()
 }
