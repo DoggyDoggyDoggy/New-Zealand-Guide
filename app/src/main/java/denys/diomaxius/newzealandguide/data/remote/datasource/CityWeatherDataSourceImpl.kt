@@ -23,7 +23,6 @@ class CityWeatherDataSourceImpl(
             .await()
 
         return snap.toObject(ForecastDocument::class.java)
-            ?.entries
-            ?: throw Exception("Weather not found")
+            ?.entries ?: emptyList()
     }
 }
