@@ -92,6 +92,12 @@ class CityScreenViewModel @Inject constructor(
             is WeatherResult.NoInternetAndNoCache -> {
                 UiState.Error(NoInternetException())
             }
+            else -> {
+                // IDEA glitch redundant else branch
+                // Cannot remove this branch
+                // Cannot start without this branch
+                UiState.Error(Exception("Unknown error"))
+            }
         }
 
         _uiState.update { it.copy(weather = nextWeatherState) }
@@ -113,6 +119,13 @@ class CityScreenViewModel @Inject constructor(
 
             is WeatherResult.NoInternetAndNoCache -> {
                 UiState.Error(NoInternetException())
+            }
+
+            else -> {
+                // IDEA glitch redundant else branch
+                // Cannot remove this branch
+                // Cannot start without this branch
+                UiState.Error(Exception("Unknown error"))
             }
         }
 
