@@ -19,6 +19,7 @@ import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
 class CityEventsRemoteMediator(
@@ -115,7 +116,10 @@ class CityEventsRemoteMediator(
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
         } catch (e: Exception) {
+            if (e is CancellationException) throw e
+
             logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
+
             MediatorResult.Error(e)
         }
     }
