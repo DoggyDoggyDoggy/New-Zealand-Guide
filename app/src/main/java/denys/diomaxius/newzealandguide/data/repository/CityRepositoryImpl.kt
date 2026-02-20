@@ -7,6 +7,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.google.firebase.firestore.FirebaseFirestoreException
 import denys.diomaxius.newzealandguide.data.local.room.mapper.toDomain
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
@@ -24,6 +25,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
+import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -42,6 +44,7 @@ class CityRepositoryImpl(
     private val eventsDataSource: CityEventsDataSource,
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
+    private val logger: ErrorLogger
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
@@ -80,15 +83,35 @@ class CityRepositoryImpl(
 
         if (shouldFetch) {
 
-            Log.i("WeatherRepositoryImpl", "Fetching new weather")
+            Log.i("CityRepositoryImpl", "Fetching new weather")
 
-            val weatherDto = weatherDataSource.fetchForecast(cityId)
-            val newForecastEntities = weatherDto.map { dto -> dto.toEntity(cityId) }
+            try {
+                val weatherDto = weatherDataSource.fetchForecast(cityId)
 
-            val newCacheInfo = WeatherCacheInfo(cityId, Instant.now())
+                if (weatherDto.isEmpty()) {
+                    logger.logMessage("No weather data for city $cityId")
+                } else {
+                    val newForecastEntities = weatherDto.map { dto -> dto.toEntity(cityId) }
 
-            withContext(Dispatchers.IO) {
-                cityDao.replaceWeatherForecast(cityId, newForecastEntities, newCacheInfo)
+                    val newCacheInfo = WeatherCacheInfo(cityId, Instant.now())
+
+                    withContext(Dispatchers.IO) {
+                        cityDao.replaceWeatherForecast(cityId, newForecastEntities, newCacheInfo)
+                    }
+                }
+            } catch (e: FirebaseFirestoreException) {
+                when (e.code) {
+                    FirebaseFirestoreException.Code.UNAVAILABLE -> {
+                        Log.d("CityRepositoryImpl", "Offline, using cache")
+                    }
+
+                    else -> {
+                        logger.logException(e, mapOf("cityId" to cityId))
+                    }
+                }
+            } catch (e: Exception) {
+                logger.logException(e, mapOf("cityId" to cityId))
+                throw e
             }
         }
 

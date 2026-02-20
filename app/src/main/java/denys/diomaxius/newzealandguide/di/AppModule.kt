@@ -81,6 +81,7 @@ object AppModule {
         cityEventsDataSource: CityEventsDataSource,
         remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
         database: CityDatabase,
+        logger: ErrorLogger
     ): CityRepository =
         CityRepositoryImpl(
             context,
@@ -88,7 +89,8 @@ object AppModule {
             cityWeatherDataSource,
             cityEventsDataSource,
             remoteCityEventsKeysDao,
-            database
+            database,
+            logger
         )
 
     @Provides
