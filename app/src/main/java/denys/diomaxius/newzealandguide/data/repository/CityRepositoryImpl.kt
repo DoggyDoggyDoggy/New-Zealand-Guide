@@ -1,7 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -14,7 +13,6 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysD
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
-import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
@@ -23,7 +21,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
-import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
+import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
 import denys.diomaxius.newzealandguide.domain.repository.CityRepository
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +31,7 @@ import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import kotlin.collections.map
+import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.map as flowMap
 
 private const val MAX_CACHE_AGE_HOURS = 36L
@@ -78,7 +77,43 @@ class CityRepositoryImpl(
         cityDao.toggleFavorite(cityId)
     }
 
-    override suspend fun getCityWeatherByCityId(cityId: String): List<CityWeather> {
+    override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult = withContext(Dispatchers.IO) {
+        try {
+            if (shouldFetchNewWeather(cityId)) {
+                try {
+                    val weatherDto = weatherDataSource.fetchForecast(cityId)
+                    if (weatherDto.isNotEmpty()) {
+                        cityDao.replaceWeatherForecast(
+                            cityId,
+                            weatherDto.map { it.toEntity(cityId) },
+                            WeatherCacheInfo(cityId, Instant.now())
+                        )
+                    }
+                } catch (e: FirebaseFirestoreException) {
+                    if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
+                        logger.logException(e, mapOf("cityId" to cityId))
+                    }
+                }
+            }
+
+            val entities = cityDao.getCityWeatherForecast(cityId)
+
+            if (entities.isEmpty()) {
+                WeatherResult.NoInternetAndNoCache
+            } else {
+                val domainData = entities.map { it.toDomain() }
+                WeatherResult.Success(domainData)
+            }
+
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            logger.logException(e, mapOf("cityId" to cityId))
+            WeatherResult.Error(e)
+        }
+    }
+
+/*
+    override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult {
         val shouldFetch = shouldFetchNewWeather(cityId)
 
         if (shouldFetch) {
@@ -120,7 +155,7 @@ class CityRepositoryImpl(
                 .map(CityWeatherEntity::toDomain)
         }
     }
-
+*/
     @OptIn(ExperimentalPagingApi::class)
     override fun cityEventsPagerFlow(
         pageSize: Int,

@@ -5,7 +5,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
 import denys.diomaxius.newzealandguide.domain.model.city.CityPlace
-import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
+import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
 import kotlinx.coroutines.flow.Flow
 
 interface CityRepository {
@@ -13,7 +13,7 @@ interface CityRepository {
     suspend fun getCityById(cityId: String): City
     suspend fun getPlacesForCityById(cityId: String) : List<CityPlace>
     suspend fun getCityHistoryByCityId(cityId: String): CityHistory
-    suspend fun getCityWeatherByCityId(cityId: String): List<CityWeather>
+    suspend fun getCityWeatherByCityId(cityId: String): WeatherResult
     suspend fun getCityEvent(cityId: String, eventId: String): CityEvent
     suspend fun toggleFavorite(cityId: String)
     fun cityEventsPagerFlow(pageSize: Int, cityId: String): Flow<PagingData<CityEvent>>

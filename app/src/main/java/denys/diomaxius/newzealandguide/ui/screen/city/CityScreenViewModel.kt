@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
+import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventsByIdUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
@@ -73,23 +74,54 @@ class CityScreenViewModel @Inject constructor(
         }
     }
 
+    //suspend fun loadWeather() {
+    //    _uiState.update { it.copy(weather = UiState.Loading) }
+//
+    //    try {
+    //        val weather = getCityWeatherByCityIdUseCase(cityId)
+    //        _uiState.update { it.copy(weather = UiState.Success(weather)) }
+    //    } catch (e: Exception) {
+    //        _uiState.update { it.copy(weather = UiState.Error(e)) }
+    //    }
+    //}
+
     suspend fun loadWeather() {
-        _uiState.update { it.copy(weather = UiState.Loading) }
-        try {
-            val weather = getCityWeatherByCityIdUseCase(cityId)
-            _uiState.update { it.copy(weather = UiState.Success(weather)) }
-        } catch (e: Exception) {
-            _uiState.update { it.copy(weather = UiState.Error(e)) }
-        }
+            _uiState.update { it.copy(weather = UiState.Loading) }
+
+            val result = getCityWeatherByCityIdUseCase(cityId)
+
+            val nextWeatherState = when (result) {
+                is WeatherResult.Success -> {
+                    UiState.Success(result.data)
+                }
+                is WeatherResult.Error -> {
+                    UiState.Error(result.exception)
+                }
+                is WeatherResult.NoInternetAndNoCache -> {
+                    UiState.Error(Exception("Check your connection"))
+                }
+            }
+
+            _uiState.update { it.copy(weather = nextWeatherState) }
     }
 
     fun manuallyRetryLoadWeather() = viewModelScope.launch {
         _uiState.update { it.copy(weather = UiState.Loading) }
-        try {
-            val weather = getCityWeatherByCityIdUseCase(cityId)
-            _uiState.update { it.copy(weather = UiState.Success(weather)) }
-        } catch (e: Exception) {
-            _uiState.update { it.copy(weather = UiState.Error(e)) }
+
+        val result = getCityWeatherByCityIdUseCase(cityId)
+
+        val nextWeatherState = when (result) {
+            is WeatherResult.Success -> {
+                UiState.Success(result.data)
+            }
+            is WeatherResult.Error -> {
+                UiState.Error(result.exception)
+            }
+            is WeatherResult.NoInternetAndNoCache -> {
+                UiState.Error(Exception("Check your connection"))
+            }
         }
+
+        _uiState.update { it.copy(weather = nextWeatherState) }
     }
 }
