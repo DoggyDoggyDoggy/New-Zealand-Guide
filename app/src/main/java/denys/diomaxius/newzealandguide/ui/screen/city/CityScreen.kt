@@ -68,13 +68,12 @@ fun CityScreen(
 
     LaunchedEffect(hasInternetConnection) {
         if (hasInternetConnection) {
-            val isEventsError = eventsPagingItems.loadState.refresh is LoadState.Error
+            val isEventsError = eventsPagingItems.loadState.refresh is LoadState.Error ||
+                    eventsPagingItems.loadState.append is LoadState.Error
             val isWeatherError = uiState.weather is UiState.Error
 
-            if (isEventsError || isWeatherError) {
-                eventsPagingItems.retry()
-                viewModel.loadWeather()
-            }
+            if (isEventsError) eventsPagingItems.retry()
+            if (isWeatherError) viewModel.loadWeather()
         }
     }
 
