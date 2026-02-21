@@ -141,7 +141,10 @@ class CityEventsRemoteMediator(
                 logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
             }
 
-            MediatorResult.Error(e)
+            if (cityDao.getEventsCount(cityId) == 0)
+                MediatorResult.Error(NoDataAvailableException())
+            else
+                MediatorResult.Error(e)
         }
     }
 
