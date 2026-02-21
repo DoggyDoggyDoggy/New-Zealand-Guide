@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.ui.screen.city
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,8 +61,6 @@ fun CityScreen(
         derivedStateOf {
             val eventsError = (eventsPagingItems.loadState.refresh as? LoadState.Error)?.error
             val weatherError = (uiState.weather as? UiState.Error)?.error
-
-            Log.d("CacheCard", "$eventsError, $weatherError")
 
             eventsError is NoDataAvailableException && weatherError is NoDataAvailableException
         }
