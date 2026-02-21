@@ -8,11 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import dagger.hilt.android.AndroidEntryPoint
+import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.navigation.AppNavigation
 import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var analyticsHelper: AnalyticsHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -22,7 +26,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             NewZealandGuideTheme {
-                AppNavigation()
+                AppNavigation(analyticsHelper = analyticsHelper)
             }
         }
     }

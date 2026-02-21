@@ -8,13 +8,16 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
@@ -33,7 +36,26 @@ val LocalNavController = compositionLocalOf<NavHostController> {
 @Composable
 fun AppNavigation(
     navHostController: NavHostController = rememberNavController(),
+    analyticsHelper: AnalyticsHelper
 ) {
+    DisposableEffect(navHostController) {
+        val listener = NavController.OnDestinationChangedListener { _, destination, arguments ->
+            val route = destination.route ?: return@OnDestinationChangedListener
+
+            // Screen viewing log
+            analyticsHelper.logScreenView(route)
+
+            // If this is a city screen, log the specific cityId
+            if (route == NavScreen.City.route) {
+                val cityId = arguments?.getString("cityId")
+                analyticsHelper.logEvent("view_city", mapOf("city_id" to (cityId ?: "unknown")))
+            }
+        }
+
+        navHostController.addOnDestinationChangedListener(listener)
+        onDispose { navHostController.removeOnDestinationChangedListener(listener) }
+    }
+
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
             navController = navHostController,

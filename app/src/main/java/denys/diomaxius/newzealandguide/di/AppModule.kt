@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import denys.diomaxius.newzealandguide.data.analytics.FirebaseAnalyticsHelper
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
@@ -28,6 +29,7 @@ import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsReposito
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
 import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
 import denys.diomaxius.newzealandguide.data.repository.ConnectivityObserverImpl
+import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import javax.inject.Singleton
 
@@ -81,7 +83,7 @@ object AppModule {
         cityEventsDataSource: CityEventsDataSource,
         remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
         database: CityDatabase,
-        logger: ErrorLogger
+        logger: ErrorLogger,
     ): CityRepository =
         CityRepositoryImpl(
             context,
@@ -117,4 +119,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideErrorLogger(): ErrorLogger = ErrorLoggerImpl()
+
+    @Provides
+    @Singleton
+    fun provideAnalyticsHelper(
+        @ApplicationContext context: Context
+    ): AnalyticsHelper = FirebaseAnalyticsHelper(context)
 }

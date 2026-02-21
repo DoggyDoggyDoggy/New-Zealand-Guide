@@ -76,6 +76,9 @@ dependencies {
     //Crashlytics
     implementation(libs.firebase.crashlytics)
 
+    //Analytics
+    implementation(libs.firebase.analytics)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -21,6 +21,7 @@ hiltAndroidCompiler = "2.57.1"
 firebaseAppCheck = "19.0.0"
 firebaseCrashlytics = "20.0.4"
 googleFirebaseCrashlytics = "3.0.6"
+firebaseAnalytics = "23.0.0"
 
 [libraries]
 #Paging3
@@ -54,6 +55,9 @@ firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appch
 
 #Crashlytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+
+#Analytics
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 
 #ksp
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
