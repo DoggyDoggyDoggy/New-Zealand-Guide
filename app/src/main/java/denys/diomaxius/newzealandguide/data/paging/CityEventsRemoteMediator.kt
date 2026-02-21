@@ -9,6 +9,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.google.firebase.firestore.FirebaseFirestoreException
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
@@ -19,6 +20,7 @@ import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
 import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -129,7 +131,15 @@ class CityEventsRemoteMediator(
         } catch (e: Exception) {
             if (e is CancellationException) throw e
 
-            logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
+            val isIgnoreLog = when (e) {
+                is FirebaseFirestoreException -> e.code == FirebaseFirestoreException.Code.UNAVAILABLE
+                is IOException -> false // Probably change later to "true"
+                else -> false
+            }
+
+            if (isIgnoreLog) {
+                logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
+            }
 
             MediatorResult.Error(e)
         }
