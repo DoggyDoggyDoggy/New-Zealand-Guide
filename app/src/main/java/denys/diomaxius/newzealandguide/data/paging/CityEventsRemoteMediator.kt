@@ -17,6 +17,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCi
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
+import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.cancellation.CancellationException
@@ -80,24 +81,24 @@ class CityEventsRemoteMediator(
             val entities = response.map { it.toEntity(cityId) }
             val endOfPaginationReached = entities.size < pageSize
 
+            var shouldLogEmptyServer = false
+
             // Save to DB (Transaction)
-            database.withTransaction {
+            val result = database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    // Clear the cache ONLY if there is something to replace it with.
                     if (entities.isNotEmpty()) {
                         clearCache()
                         saveEvents(entities, loadType)
                         saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                     } else {
-                        // If REFRESH and 0 data, nothing happened.
-                        // The old data remains in the database, but the last refresh time has NOT been updated.
-                        // Initialize() will return LAUNCH_REFRESH the next time it's run.
-                        val errorMsg = "Server returned empty events for city $cityId"
-                        logger.logMessage(errorMsg)
-                        logger.logException(
-                            MissingServerDataException(errorMsg),
-                            mapOf("cityId" to cityId)
-                        )
+                        shouldLogEmptyServer = true
+
+                        if (cityDao.getEventsCount(cityId) == 0) {
+                            MediatorResult.Error(NoDataAvailableException())
+                        } else {
+                            MediatorResult.Success(endOfPaginationReached = true)
+                        }
                     }
                 } else {
                     if (entities.isNotEmpty()) {
@@ -106,14 +107,24 @@ class CityEventsRemoteMediator(
                     } else if (endOfPaginationReached) {
                         saveRemoteKey(null, true, loadType)
                     }
+                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
+            }
+
+            if (shouldLogEmptyServer) {
+                val errorMsg = "Server returned empty events for city $cityId"
+                logger.logMessage(errorMsg)
+                logger.logException(
+                    MissingServerDataException(errorMsg),
+                    mapOf("cityId" to cityId)
+                )
             }
 
             if (entities.isNotEmpty()) {
                 prefetchImages(entities)
             }
 
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            result
 
         } catch (e: Exception) {
             if (e is CancellationException) throw e
