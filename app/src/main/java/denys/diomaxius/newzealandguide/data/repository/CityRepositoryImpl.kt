@@ -18,6 +18,7 @@ import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
+import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityHistory
@@ -108,7 +109,7 @@ class CityRepositoryImpl(
                 val entities = cityDao.getCityWeatherForecast(cityId)
 
                 if (entities.isEmpty()) {
-                    WeatherResult.NoInternetAndNoCache
+                    WeatherResult.Error(NoDataAvailableException())
                 } else {
                     val domainData = entities.map { it.toDomain() }
                     WeatherResult.Success(domainData)

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import denys.diomaxius.newzealandguide.domain.exception.NoInternetException
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
@@ -89,10 +88,6 @@ class CityScreenViewModel @Inject constructor(
                 UiState.Error(result.exception)
             }
 
-            is WeatherResult.NoInternetAndNoCache -> {
-                UiState.Error(NoInternetException())
-            }
-
             else -> {
                 // IDEA glitch redundant else branch
                 // Cannot remove this branch
@@ -116,10 +111,6 @@ class CityScreenViewModel @Inject constructor(
 
             is WeatherResult.Error -> {
                 UiState.Error(result.exception)
-            }
-
-            is WeatherResult.NoInternetAndNoCache -> {
-                UiState.Error(NoInternetException())
             }
 
             else -> {
