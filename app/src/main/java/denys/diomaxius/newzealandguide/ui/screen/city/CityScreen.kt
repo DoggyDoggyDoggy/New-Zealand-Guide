@@ -15,8 +15,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
@@ -56,28 +57,24 @@ fun CityScreen(
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
 
-    val showNoLocalCacheCard by remember(
-        hasInternetConnection,
-        eventsPagingItems.loadState.refresh,
-        eventsPagingItems.itemCount,
-        uiState.weather
-    ) {
-        mutableStateOf(
-            !hasInternetConnection &&
-                    eventsPagingItems.loadState.refresh is LoadState.Error &&
-                    eventsPagingItems.itemCount == 0 &&
-                    uiState.weather is UiState.Error
-        )
+    val showNoLocalCacheCard by remember(eventsPagingItems.loadState.refresh, uiState.weather) {
+        derivedStateOf {
+            val eventsError = (eventsPagingItems.loadState.refresh as? LoadState.Error)?.error
+            val weatherError = (uiState.weather as? UiState.Error)?.error
+
+            eventsError is NoDataAvailableException && weatherError is NoDataAvailableException
+        }
     }
 
-
     LaunchedEffect(hasInternetConnection) {
-        if (eventsPagingItems.loadState.refresh is LoadState.Error &&
-            eventsPagingItems.itemCount == 0 && hasInternetConnection &&
-            uiState.weather is UiState.Error
-        ) {
-            eventsPagingItems.retry()
-            viewModel.loadWeather()
+        if (hasInternetConnection) {
+            val isEventsError = eventsPagingItems.loadState.refresh is LoadState.Error
+            val isWeatherError = uiState.weather is UiState.Error
+
+            if (isEventsError || isWeatherError) {
+                eventsPagingItems.retry()
+                viewModel.loadWeather()
+            }
         }
     }
 
