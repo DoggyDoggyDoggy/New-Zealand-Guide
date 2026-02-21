@@ -4,12 +4,12 @@ import android.content.Context
 import coil3.imageLoader
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.google.firebase.firestore.FirebaseFirestoreException
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
@@ -17,7 +17,12 @@ import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntit
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
+import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
+import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
+import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
+import java.io.IOException
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
 class CityEventsRemoteMediator(
@@ -28,6 +33,7 @@ class CityEventsRemoteMediator(
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
     private val cityDao: CityDao,
+    private val logger: ErrorLogger,
 ) : RemoteMediator<Int, CityEventEntity>() {
 
     // Setting cache lifetime (7 days)
@@ -77,18 +83,24 @@ class CityEventsRemoteMediator(
             val entities = response.map { it.toEntity(cityId) }
             val endOfPaginationReached = entities.size < pageSize
 
+            var shouldLogEmptyServer = false
+
             // Save to DB (Transaction)
-            database.withTransaction {
+            val result = database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    // Clear the cache ONLY if there is something to replace it with.
                     if (entities.isNotEmpty()) {
                         clearCache()
                         saveEvents(entities, loadType)
                         saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                     } else {
-                        // If REFRESH and 0 data, nothing happened.
-                        // The old data remains in the database, but the last refresh time has NOT been updated.
-                        // Initialize() will return LAUNCH_REFRESH the next time it's run.
+                        shouldLogEmptyServer = true
+
+                        if (cityDao.getEventsCount(cityId) == 0) {
+                            MediatorResult.Error(NoDataAvailableException())
+                        } else {
+                            MediatorResult.Success(endOfPaginationReached = true)
+                        }
                     }
                 } else {
                     if (entities.isNotEmpty()) {
@@ -97,18 +109,42 @@ class CityEventsRemoteMediator(
                     } else if (endOfPaginationReached) {
                         saveRemoteKey(null, true, loadType)
                     }
+                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
+            }
+
+            if (shouldLogEmptyServer) {
+                val errorMsg = "Server returned empty events for city $cityId"
+                logger.logMessage(errorMsg)
+                logger.logException(
+                    MissingServerDataException(errorMsg),
+                    mapOf("cityId" to cityId)
+                )
             }
 
             if (entities.isNotEmpty()) {
                 prefetchImages(entities)
             }
 
-            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            result
 
         } catch (e: Exception) {
-            Log.e("CityEventsRemoteMediator", "Error loading data", e)
-            MediatorResult.Error(e)
+            if (e is CancellationException) throw e
+
+            val isIgnoreLog = when (e) {
+                is FirebaseFirestoreException -> e.code == FirebaseFirestoreException.Code.UNAVAILABLE
+                is IOException -> false // Probably change later to "true"
+                else -> false
+            }
+
+            if (isIgnoreLog) {
+                logger.logException(e, mapOf("cityId" to cityId, "loadType" to loadType.toString()))
+            }
+
+            if (cityDao.getEventsCount(cityId) == 0)
+                MediatorResult.Error(NoDataAvailableException())
+            else
+                MediatorResult.Error(e)
         }
     }
 

@@ -85,4 +85,7 @@ interface CityDao {
 
     @Query("SELECT eventId FROM city_events WHERE cityId = :cityId")
     suspend fun getStoredEventIds(cityId: String): List<String>
+
+    @Query("SELECT COUNT(*) FROM city_events WHERE cityId = :cityId")
+    suspend fun getEventsCount(cityId: String): Int
 }

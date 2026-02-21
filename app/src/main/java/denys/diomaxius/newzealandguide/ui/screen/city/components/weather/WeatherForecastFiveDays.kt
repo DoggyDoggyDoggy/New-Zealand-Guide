@@ -42,6 +42,7 @@ fun WeatherForecastFiveDays(
                     onClick = retryLoadWeather
                 )
             }
+            if (isEventsLoading) WeatherForecastFiveDaysLoading()
         }
     ) { weatherForecast ->
         Content(weatherForecast)
