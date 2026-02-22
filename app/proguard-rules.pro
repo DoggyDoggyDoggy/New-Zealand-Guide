@@ -10,3 +10,9 @@
 # Room
 -keep class * extends androidx.room.RoomDatabase
 -dontwarn androidx.room.paging.**
+
+-keep class denys.diomaxius.newzealandguide.data.model.** { *; }
+-keepclassmembers class denys.diomaxius.newzealandguide.data.model.** {
+    public <init>(...);
+    public <fields>;
+}
