@@ -43,24 +43,34 @@ fun AppNavigation(
         val listener = NavController.OnDestinationChangedListener { _, destination, arguments ->
             val route = destination.route ?: return@OnDestinationChangedListener
 
-            // Screen viewing log
-            analyticsHelper.logScreenView(route)
-
-            when (route) {
+            // build human readable screen name
+            val screenName = when (route) {
+                NavScreen.Home.route -> "Home"
+                NavScreen.AllCities.route -> "All cities"
+                NavScreen.MaoriHub.route -> "Maori hub"
+                NavScreen.MaoriWords.route -> "Maori words"
+                NavScreen.MaoriLearningResources.route -> "Maori learning resources"
+                NavScreen.NewZealandHistory.route -> "New Zealand history"
                 NavScreen.City.route -> {
-                    val id = arguments?.getString("cityId")
-                    val cityName = CityIdMapper.getNameById(id)
-                    analyticsHelper.logEvent("view_city", mapOf("city_name" to cityName))
+                    val cityName = arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) } ?: "Unknown city"
+                    cityName
                 }
                 NavScreen.CityHistory.route -> {
-                    val name = arguments?.getString("cityName")
-                    analyticsHelper.logEvent("view_city_history", mapOf("city_name" to (name ?: "unknown")))
+                    val cityName = arguments?.getString("cityName") ?: "Unknown city history"
+                    cityName + " history"
                 }
                 NavScreen.CityPlaces.route -> {
-                    val name = arguments?.getString("cityName")
-                    analyticsHelper.logEvent("view_city_places", mapOf("city_name" to (name ?: "unknown")))
+                    val cityName = arguments?.getString("cityName") ?: "Unknown city places"
+                    cityName + " places"
                 }
+                NavScreen.Event.route -> {
+                    val cityName = arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) } ?: "Unknown city event"
+                    cityName + " event"
+                }
+                else -> "Unknown screen" // fallback
             }
+
+            analyticsHelper.logScreenView(screenName)
         }
 
         navHostController.addOnDestinationChangedListener(listener)
