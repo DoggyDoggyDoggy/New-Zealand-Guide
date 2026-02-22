@@ -1,5 +1,8 @@
 package denys.diomaxius.newzealandguide.data.remote.model
 
+import androidx.annotation.Keep
+
+@Keep
 data class CityEventDto(
     val address: String = "",
     val description: String = "",
