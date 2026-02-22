@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import denys.diomaxius.newzealandguide.data.utils.CityIdMapper
 import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
@@ -45,10 +46,20 @@ fun AppNavigation(
             // Screen viewing log
             analyticsHelper.logScreenView(route)
 
-            // If this is a city screen, log the specific cityId
-            if (route == NavScreen.City.route) {
-                val cityId = arguments?.getString("cityId")
-                analyticsHelper.logEvent("view_city", mapOf("city_id" to (cityId ?: "unknown")))
+            when (route) {
+                NavScreen.City.route -> {
+                    val id = arguments?.getString("cityId")
+                    val cityName = CityIdMapper.getNameById(id)
+                    analyticsHelper.logEvent("view_city", mapOf("city_name" to cityName))
+                }
+                NavScreen.CityHistory.route -> {
+                    val name = arguments?.getString("cityName")
+                    analyticsHelper.logEvent("view_city_history", mapOf("city_name" to (name ?: "unknown")))
+                }
+                NavScreen.CityPlaces.route -> {
+                    val name = arguments?.getString("cityName")
+                    analyticsHelper.logEvent("view_city_places", mapOf("city_name" to (name ?: "unknown")))
+                }
             }
         }
 
