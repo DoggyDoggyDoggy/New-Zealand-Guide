@@ -25,6 +25,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import coil3.compose.SubcomposeAsyncImage
+import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.ui.components.shimmer.shimmer
 
@@ -36,18 +37,17 @@ fun Events(
     val refreshState = events.loadState.refresh
 
     when {
+        refreshState is LoadState.Error -> {
+            val error = refreshState.error
+            if (error is NoDataAvailableException) {
+                EmptyEventsCard()
+            }
+        }
         refreshState is LoadState.Loading && events.itemCount == 0 -> {
             EventsLoadingRow()
         }
         events.itemCount > 0 -> {
             Content(events, onClick)
-        }
-        refreshState is LoadState.NotLoading && events.itemCount == 0 -> {
-            if (refreshState.endOfPaginationReached) {
-                EmptyEventsCard()
-            } else {
-                EventsLoadingRow()
-            }
         }
     }
 }
