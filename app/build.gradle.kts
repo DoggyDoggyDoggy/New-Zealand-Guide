@@ -50,6 +50,9 @@ android {
 }
 
 dependencies {
+    //Browser
+    implementation(libs.androidx.browser)
+
     //GSON
     implementation(libs.gson)
 
