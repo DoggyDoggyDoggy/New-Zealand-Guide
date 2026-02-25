@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.domain.usecase.maoriwords
+package denys.diomaxius.newzealandguide.domain.usecase.maorihub
 
 import denys.diomaxius.newzealandguide.domain.model.maorihub.MaoriWords
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
