@@ -6,9 +6,14 @@ import denys.diomaxius.newzealandguide.domain.repository.MaoriLearningResourcesR
 class MaoriLearningResourcesRepositoryImpl : MaoriLearningResourcesRepository {
     private val maoriLearningResources = listOf(
         MaoriLearningResources(
-            title = "",
-            description = "",
-            url = ""
+            title = "Te Aka Māori Dictionary",
+            description = "Comprehensive Māori–English dictionary with pronunciation, examples, and detailed word explanations",
+            url = "https://maoridictionary.co.nz/"
+        ),
+        MaoriLearningResources(
+            title = "Māori Language Learning",
+            description = "Free online lessons to help you learn basic te reo Māori, including greetings, pronunciation, and everyday phrases.",
+            url = "https://www.maorilanguage.net/"
         )
     )
 
