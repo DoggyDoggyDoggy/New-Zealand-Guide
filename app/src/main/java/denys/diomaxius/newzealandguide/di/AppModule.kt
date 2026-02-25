@@ -29,8 +29,10 @@ import denys.diomaxius.newzealandguide.domain.repository.NewZealandFactsReposito
 import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryRepository
 import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
 import denys.diomaxius.newzealandguide.data.repository.ConnectivityObserverImpl
+import denys.diomaxius.newzealandguide.data.repository.MaoriLearningResourcesRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
+import denys.diomaxius.newzealandguide.domain.repository.MaoriLearningResourcesRepository
 import javax.inject.Singleton
 
 @Module
@@ -104,6 +106,11 @@ object AppModule {
     @Singleton
     fun provideMaoriWordsRepository(): MaoriWordsRepository =
         MaoriWordsRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideMaoriLearningResourcesRepository(): MaoriLearningResourcesRepository =
+        MaoriLearningResourcesRepositoryImpl()
 
     @Provides
     @Singleton
