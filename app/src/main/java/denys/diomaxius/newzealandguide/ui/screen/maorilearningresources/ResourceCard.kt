@@ -30,7 +30,10 @@ import androidx.core.net.toUri
 @Composable
 fun ResourceCard(
     modifier: Modifier = Modifier,
-    context: Context
+    title: String,
+    description: String,
+    url: String,
+    context: Context,
 ) {
     Card(
         modifier = modifier.padding(vertical = 8.dp),
@@ -61,7 +64,7 @@ fun ResourceCard(
                     .padding(top = 24.dp)
             ) {
                 Text(
-                    text = "Māori Language Learning",
+                    text = title,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -71,7 +74,7 @@ fun ResourceCard(
                 )
 
                 Text(
-                    text = "Free online lessons to help you learn basic te reo Māori, including greetings, pronunciation, and everyday phrases.",
+                    text = description,
                     fontSize = 16.sp,
                 )
 
@@ -85,7 +88,7 @@ fun ResourceCard(
                         defaultElevation = 4.dp
                     ),
                     onClick = {
-                        openCustomTab(context, "https://maoridictionary.co.nz/word/845")
+                        openCustomTab(context, url)
                     },
                 ) {
                     Text(
