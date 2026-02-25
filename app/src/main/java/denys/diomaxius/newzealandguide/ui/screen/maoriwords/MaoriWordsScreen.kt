@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
+import denys.diomaxius.newzealandguide.domain.model.maorihub.MaoriWords
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults

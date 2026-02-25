@@ -1,6 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
-import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
+import denys.diomaxius.newzealandguide.domain.model.maorihub.MaoriWords
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 
 class MaoriWordsRepositoryImpl(

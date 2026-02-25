@@ -1,6 +1,6 @@
 package denys.diomaxius.newzealandguide.domain.usecase.maoriwords
 
-import denys.diomaxius.newzealandguide.domain.model.maoriwords.MaoriWords
+import denys.diomaxius.newzealandguide.domain.model.maorihub.MaoriWords
 import denys.diomaxius.newzealandguide.domain.repository.MaoriWordsRepository
 import javax.inject.Inject
 
