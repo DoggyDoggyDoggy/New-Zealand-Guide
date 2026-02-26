@@ -114,7 +114,8 @@ fun CityScreen(
                 weather = uiState.weather,
                 eventsPagingItems = eventsPagingItems,
                 showNoLocalCacheCard = showNoLocalCacheCard,
-                retryLoadWeather = viewModel::manuallyRetryLoadWeather
+                retryLoadWeather = viewModel::manuallyRetryLoadWeather,
+                hasInternetConnection = hasInternetConnection
             )
         }
     }
@@ -129,6 +130,7 @@ fun Content(
     eventsPagingItems: LazyPagingItems<CityEvent>,
     showNoLocalCacheCard: Boolean,
     retryLoadWeather: () -> Unit,
+    hasInternetConnection: Boolean,
 ) {
     Column(
         modifier = modifier
@@ -165,7 +167,8 @@ fun Content(
                     ) {
                         launchSingleTop = true
                     }
-                }
+                },
+                hasInternetConnection = hasInternetConnection
             )
         }
 

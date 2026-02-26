@@ -33,6 +33,7 @@ import denys.diomaxius.newzealandguide.ui.components.shimmer.shimmer
 fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
+    hasInternetConnection: Boolean,
 ) {
     val refreshState = events.loadState.refresh
 
@@ -40,12 +41,17 @@ fun Events(
         refreshState is LoadState.Error -> {
             val error = refreshState.error
             if (error is NoDataAvailableException) {
-                EmptyEventsCard()
+                if (hasInternetConnection)
+                    EmptyEventsCard()
+                else
+                    EmptyEventsAndInternetIssuesCard()
             }
         }
+
         refreshState is LoadState.Loading && events.itemCount == 0 -> {
             EventsLoadingRow()
         }
+
         events.itemCount > 0 -> {
             Content(events, onClick)
         }
@@ -116,7 +122,9 @@ fun CityEventCard(
                 contentDescription = "Event image",
                 loading = {
                     Box(
-                        modifier = Modifier.size(imageWidth,imageHeight).shimmer()
+                        modifier = Modifier
+                            .size(imageWidth, imageHeight)
+                            .shimmer()
                     )
                 }
             )

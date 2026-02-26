@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun EmptyEventsCard() {
+fun EmptyEventsAndInternetIssuesCard() {
     Card(
         modifier = Modifier
             .padding(horizontal = 12.dp)
@@ -43,6 +43,39 @@ fun EmptyEventsCard() {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Check your internet connection or try again later",
+                fontSize = 24.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun EmptyEventsCard() {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .fillMaxWidth()
+            .height(175.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "No events found",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "There are no events this week",
                 fontSize = 24.sp,
                 color = Color.Gray,
                 textAlign = TextAlign.Center
