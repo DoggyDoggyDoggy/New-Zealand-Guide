@@ -37,7 +37,8 @@ fun ResourceCard(
 ) {
     Card(
         modifier = modifier.padding(vertical = 8.dp),
-        shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
         elevation = CardDefaults.cardElevation(6.dp)
@@ -98,7 +99,7 @@ fun ResourceCard(
                 }
 
                 Spacer(
-                    modifier = Modifier.height(12.dp)
+                    modifier = Modifier.height(6.dp)
                 )
             }
         }

@@ -1,7 +1,9 @@
 package denys.diomaxius.newzealandguide.ui.screen.maorilearningresources
 
 import android.content.Context
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -67,6 +69,9 @@ fun Content(
                 url = it.url,
                 context = context
             )
+        }
+        item{
+            Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
