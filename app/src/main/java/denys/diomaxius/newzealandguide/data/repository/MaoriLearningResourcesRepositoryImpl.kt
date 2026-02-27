@@ -13,7 +13,7 @@ class MaoriLearningResourcesRepositoryImpl : MaoriLearningResourcesRepository {
         MaoriLearningResources(
             title = "Te Whanake",
             description = "Structured Māori language learning programme with textbooks, online exercises, audio resources, and interactive activities",
-            url = "https://maoridictionary.co.nz/"
+            url = "https://tewhanake.maori.nz/"
         ),
         MaoriLearningResources(
             title = "Māori Language Learning",
@@ -28,7 +28,7 @@ class MaoriLearningResourcesRepositoryImpl : MaoriLearningResourcesRepository {
         MaoriLearningResources(
             title = "Kupu Māori",
             description = "Get a new Māori word every day to grow your vocabulary and strengthen your grammar skills",
-            url = "https://www.tetaurawhiri.govt.nz/"
+            url = "https://kupu.maori.nz/"
         )
     )
 
