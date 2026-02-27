@@ -34,7 +34,7 @@ It provides users with information about cities, events, and weather, featuring 
 
 ## Tech Stack
 
-- **Android**: Jetpack Compose, Room, RemoteMediator, Hilt, Paging 3, Coil, MVVM  
+- **Android**: Jetpack Compose, Room, RemoteMediator, Hilt, Paging 3, Coil, MVVM, Firebase Analytics, Firebase Crashlytics
 - **Backend**: Firebase Firestore, Firebase Functions, App Check
 
 ---
