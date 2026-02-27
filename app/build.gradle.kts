@@ -16,8 +16,8 @@ android {
         applicationId = "denys.diomaxius.newzealandguide"
         minSdk = 26
         targetSdk = 36
-        versionCode = 12
-        versionName = "3.4"
+        versionCode = 13
+        versionName = "3.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
