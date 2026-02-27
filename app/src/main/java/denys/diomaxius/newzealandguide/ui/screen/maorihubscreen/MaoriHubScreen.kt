@@ -33,6 +33,7 @@ fun MaoriHubScreen(
     val navHostController = LocalNavController.current
 
     val randomNZFact = viewModel.randomNzFact
+    val wordOfTheDay = viewModel.wordOfTheDay
 
     Scaffold(
         topBar = {
@@ -49,7 +50,8 @@ fun MaoriHubScreen(
         Content(
             modifier = Modifier.padding(it),
             navHostController = navHostController,
-            randomNZFact = randomNZFact
+            randomNZFact = randomNZFact,
+            wordOfTheDay = wordOfTheDay
         )
     }
 }
@@ -59,6 +61,7 @@ fun Content(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
     randomNZFact: String,
+    wordOfTheDay: Pair<String, String>,
 ) {
     val horizontalPadding = 16.dp
 
@@ -76,7 +79,8 @@ fun Content(
         )
 
         WordOfTheDay(
-            modifier = Modifier.padding(horizontal = horizontalPadding)
+            modifier = Modifier.padding(horizontal = horizontalPadding),
+            wordOfTheDay = wordOfTheDay
         )
 
         NavigationCard(

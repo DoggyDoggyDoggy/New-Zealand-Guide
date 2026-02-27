@@ -27,7 +27,8 @@ import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun WordOfTheDay(
-    modifier: Modifier
+    modifier: Modifier,
+    wordOfTheDay: Pair<String, String>
 ) {
     Card (
         modifier = modifier
@@ -73,13 +74,13 @@ fun WordOfTheDay(
                 )
             }
             Text(
-                text = "Maori",
+                text = wordOfTheDay.first,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 fontWeight = FontWeight.Bold,
                 fontSize = 26.sp
             )
             Text(
-                text = "English",
+                text = wordOfTheDay.second,
                 color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp
