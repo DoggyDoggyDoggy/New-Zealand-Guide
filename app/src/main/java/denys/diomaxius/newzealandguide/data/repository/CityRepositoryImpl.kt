@@ -47,6 +47,8 @@ class CityRepositoryImpl(
 ) : CityRepository {
 
     private suspend fun shouldFetchNewWeather(cityId: String, serverTag: String): Boolean {
+        if (serverTag.isEmpty() || serverTag == "0") return false
+
         val cacheInfo = withContext(Dispatchers.IO) {
             cityDao.getWeatherCacheInfo(cityId)
         }
@@ -81,29 +83,33 @@ class CityRepositoryImpl(
                 val serverTag = appConfigDataSource.getWeatherUpdateTag()
 
                 if (shouldFetchNewWeather(cityId, serverTag)) {
-                    try {
-                        val weatherDto = weatherDataSource.fetchForecast(cityId)
-                        if (weatherDto.isEmpty()) {
-                            val errorMsg = "Server returned empty forecast for city $cityId"
-                            logger.logMessage(errorMsg)
-                            logger.logException(
-                                MissingServerDataException(errorMsg),
-                                mapOf("cityId" to cityId)
-                            )
-                        } else {
-                            cityDao.replaceWeatherForecast(
-                                cityId,
-                                weatherDto.map { it.toEntity(cityId) },
-                                WeatherCacheInfo(cityId, serverTag)
-                            )
-                        }
-                    } catch (e: FirebaseFirestoreException) {
-                        if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
-                            logger.logException(e, mapOf("cityId" to cityId))
-                        }
+                    val weatherDto = weatherDataSource.fetchForecast(cityId)
+
+                    if (weatherDto.isEmpty()) {
+                        val errorMsg = "Server returned empty forecast for city $cityId"
+                        logger.logMessage(errorMsg)
+                        logger.logException(
+                            MissingServerDataException(errorMsg),
+                            mapOf("cityId" to cityId)
+                        )
+                    } else {
+                        cityDao.replaceWeatherForecast(
+                            cityId,
+                            weatherDto.map { it.toEntity(cityId) },
+                            WeatherCacheInfo(cityId, serverTag)
+                        )
                     }
                 }
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                if (e is FirebaseFirestoreException && e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
+                    logger.logException(e, mapOf("cityId" to cityId))
+                } else if (e !is FirebaseFirestoreException) {
+                    logger.logException(e, mapOf("cityId" to cityId, "phase" to "network_sync"))
+                }
+            }
 
+            return@withContext try {
                 val entities = cityDao.getCityWeatherForecast(cityId)
 
                 if (entities.isEmpty()) {
@@ -112,10 +118,10 @@ class CityRepositoryImpl(
                     val domainData = entities.map { it.toDomain() }
                     WeatherResult.Success(domainData)
                 }
-
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
-                logger.logException(e, mapOf("cityId" to cityId))
+
+                logger.logException(e, mapOf("cityId" to cityId, "phase" to "local_db_read"))
                 WeatherResult.Error(e)
             }
         }
