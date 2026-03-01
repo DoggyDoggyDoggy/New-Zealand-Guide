@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.data.paging
 
 import android.content.Context
+import android.util.Log
 import coil3.imageLoader
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
@@ -21,7 +22,7 @@ import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataExcepti
 import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.io.IOException
-import java.util.concurrent.TimeUnit
+import java.time.Instant
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -35,19 +36,28 @@ class CityEventsRemoteMediator(
     private val cityDao: CityDao,
     private val logger: ErrorLogger,
 ) : RemoteMediator<Int, CityEventEntity>() {
-
-    // Setting cache lifetime (7 days)
-    private val cacheTimeout = TimeUnit.DAYS.toMillis(7)
-
-    // This function decides whether to run load() at startup.
     override suspend fun initialize(): InitializeAction {
-        val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
-        val lastUpdated = remoteKey?.lastUpdated ?: 0L
-        val now = System.currentTimeMillis()
+        val remoteUpdateAt: Instant? = try {
+            dataSource.fetchLastUpdatedAt(cityId)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            Log.d("CityEventsMediator", "Network offline, can't check remote update time.")
+            null
+        }
 
-        // If there is no key (first launch) OR the time has expired -> LAUNCH (Launch REFRESH)
-        // Otherwise -> SKIP (Show local data)
-        return if (remoteKey == null || (now - lastUpdated > cacheTimeout)) {
+        if (remoteUpdateAt == null) {
+            return InitializeAction.SKIP_INITIAL_REFRESH
+        }
+
+        val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
+
+        if (remoteKey == null) {
+            return InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+
+        val localUpdatedAt: Instant = remoteKey.lastSyncedTimestamp
+
+        return if (remoteUpdateAt.isAfter(localUpdatedAt)) {
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else {
             InitializeAction.SKIP_INITIAL_REFRESH
@@ -80,8 +90,21 @@ class CityEventsRemoteMediator(
                 lastDocId = lastDocId
             )
 
+
+
             val entities = response.map { it.toEntity(cityId) }
             val endOfPaginationReached = entities.size < pageSize
+
+            val remoteUpdateTime: Instant? = if (loadType == LoadType.REFRESH) {
+                try {
+                    dataSource.fetchLastUpdatedAt(cityId)
+                } catch (e: Exception) {
+                    if (e is CancellationException) throw e
+                    null
+                }
+            } else {
+                null
+            }
 
             var shouldLogEmptyServer = false
 
@@ -91,7 +114,7 @@ class CityEventsRemoteMediator(
                     if (entities.isNotEmpty()) {
                         clearCache()
                         saveEvents(entities, loadType)
-                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType, remoteUpdateTime)
                         MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                     } else {
                         shouldLogEmptyServer = true
@@ -105,9 +128,9 @@ class CityEventsRemoteMediator(
                 } else {
                     if (entities.isNotEmpty()) {
                         saveEvents(entities, loadType)
-                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType, remoteUpdateTime)
                     } else if (endOfPaginationReached) {
-                        saveRemoteKey(null, true, loadType)
+                        saveRemoteKey(null, true, loadType, remoteUpdateTime)
                     }
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
@@ -179,17 +202,23 @@ class CityEventsRemoteMediator(
         lastEvent: CityEventEntity?,
         endOfPagination: Boolean,
         loadType: LoadType,
+        remoteUpdateTime: Instant?
     ) {
         val existingKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
 
         // If the data runs out, null; otherwise, the ID of the last event.
         val nextKey = if (endOfPagination) null else (lastEvent?.eventId ?: existingKey?.lastDocId)
 
+        val updateTime: Instant = if (loadType == LoadType.REFRESH) {
+            remoteUpdateTime ?: Instant.now()
+        } else {
+            existingKey?.lastSyncedTimestamp ?: Instant.now()
+        }
+
         val keyEntity = RemoteCityEventsKeysEntity(
             cityId = cityId,
             lastDocId = nextKey,
-            lastUpdated = if (loadType == LoadType.REFRESH) System.currentTimeMillis() else (existingKey?.lastUpdated
-                ?: System.currentTimeMillis())
+            lastSyncedTimestamp = updateTime
         )
         remoteCityEventsKeysDao.insertKey(keyEntity)
     }
