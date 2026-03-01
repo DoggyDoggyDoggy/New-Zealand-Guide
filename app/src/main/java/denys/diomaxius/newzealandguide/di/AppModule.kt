@@ -137,7 +137,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAnalyticsHelper(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): AnalyticsHelper = FirebaseAnalyticsHelper(context)
 
     @Provides
@@ -149,7 +149,12 @@ object AppModule {
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
 
-        remoteConfig.setDefaultsAsync(mapOf("weather_update_tag" to "0"))
+        remoteConfig.setDefaultsAsync(
+            mapOf(
+                "weather_update_tag" to "0",
+                "events_update_tag" to "0"
+            )
+        )
 
         return remoteConfig
     }
@@ -157,6 +162,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppConfigDataSource(
-        remoteConfig: FirebaseRemoteConfig
+        remoteConfig: FirebaseRemoteConfig,
     ): AppConfigDataSource = AppConfigDataSourceImpl(remoteConfig)
 }
