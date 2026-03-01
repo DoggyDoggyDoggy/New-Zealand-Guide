@@ -76,6 +76,12 @@ class CityEventsRemoteMediator(
                 lastDocId = lastDocId
             )
 
+            val currentServerTag = if (loadType == LoadType.REFRESH) {
+                appConfigDataSource.getEventsUpdateTag()
+            } else {
+                remoteCityEventsKeysDao.getKeyByCityId(cityId)?.updateTag ?: "0"
+            }
+
             val entities = response.map { it.toEntity(cityId) }
             val endOfPaginationReached = entities.size < pageSize
 
@@ -87,7 +93,7 @@ class CityEventsRemoteMediator(
                     if (entities.isNotEmpty()) {
                         clearCache()
                         saveEvents(entities, loadType)
-                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, currentServerTag)
                         MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                     } else {
                         shouldLogEmptyServer = true
@@ -101,9 +107,9 @@ class CityEventsRemoteMediator(
                 } else {
                     if (entities.isNotEmpty()) {
                         saveEvents(entities, loadType)
-                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, loadType)
+                        saveRemoteKey(entities.lastOrNull(), endOfPaginationReached, currentServerTag)
                     } else if (endOfPaginationReached) {
-                        saveRemoteKey(null, true, loadType)
+                        saveRemoteKey(null, true, currentServerTag)
                     }
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
@@ -174,7 +180,7 @@ class CityEventsRemoteMediator(
     private suspend fun saveRemoteKey(
         lastEvent: CityEventEntity?,
         endOfPagination: Boolean,
-        loadType: LoadType,
+        currentServerTag: String
     ) {
         val existingKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
 
@@ -184,9 +190,7 @@ class CityEventsRemoteMediator(
         val keyEntity = RemoteCityEventsKeysEntity(
             cityId = cityId,
             lastDocId = nextKey,
-            updateTag =
-                if (loadType == LoadType.REFRESH) appConfigDataSource.getEventsUpdateTag()
-                else remoteCityEventsKeysDao.getKeyByCityId(cityId)?.updateTag ?: "0"
+            updateTag = currentServerTag
         )
         remoteCityEventsKeysDao.insertKey(keyEntity)
     }
