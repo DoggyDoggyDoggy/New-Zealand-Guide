@@ -15,13 +15,13 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysD
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCityEventsKeysEntity
+import denys.diomaxius.newzealandguide.data.remote.api.AppConfigDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
 import denys.diomaxius.newzealandguide.domain.exception.MissingServerDataException
 import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -30,26 +30,22 @@ class CityEventsRemoteMediator(
     private val cityId: String,
     private val pageSize: Int,
     private val dataSource: CityEventsDataSource,
+    private val appConfigDataSource: AppConfigDataSource,
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
     private val cityDao: CityDao,
     private val logger: ErrorLogger,
 ) : RemoteMediator<Int, CityEventEntity>() {
-
-    // Setting cache lifetime (7 days)
-    private val cacheTimeout = TimeUnit.DAYS.toMillis(7)
-
     // This function decides whether to run load() at startup.
     override suspend fun initialize(): InitializeAction {
-        val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)
-        val lastUpdated = remoteKey?.lastUpdated ?: 0L
-        val now = System.currentTimeMillis()
+        return try {
+            val localUpdateTag = remoteCityEventsKeysDao.getKeyByCityId(cityId)?.updateTag ?: "0"
+            val serverUpdateTag = appConfigDataSource.getEventsUpdateTag()
 
-        // If there is no key (first launch) OR the time has expired -> LAUNCH (Launch REFRESH)
-        // Otherwise -> SKIP (Show local data)
-        return if (remoteKey == null || (now - lastUpdated > cacheTimeout)) {
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        } else {
+            if (localUpdateTag != serverUpdateTag || localUpdateTag == "0") {
+                InitializeAction.LAUNCH_INITIAL_REFRESH
+            } else InitializeAction.SKIP_INITIAL_REFRESH
+        } catch (_: Exception) {
             InitializeAction.SKIP_INITIAL_REFRESH
         }
     }
@@ -188,8 +184,9 @@ class CityEventsRemoteMediator(
         val keyEntity = RemoteCityEventsKeysEntity(
             cityId = cityId,
             lastDocId = nextKey,
-            lastUpdated = if (loadType == LoadType.REFRESH) System.currentTimeMillis() else (existingKey?.lastUpdated
-                ?: System.currentTimeMillis())
+            updateTag =
+                if (loadType == LoadType.REFRESH) appConfigDataSource.getEventsUpdateTag()
+                else remoteCityEventsKeysDao.getKeyByCityId(cityId)?.updateTag ?: "0"
         )
         remoteCityEventsKeysDao.insertKey(keyEntity)
     }

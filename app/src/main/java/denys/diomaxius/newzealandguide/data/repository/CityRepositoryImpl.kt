@@ -129,7 +129,7 @@ class CityRepositoryImpl(
     @OptIn(ExperimentalPagingApi::class)
     override fun cityEventsPagerFlow(
         pageSize: Int,
-        cityId: String,
+        cityId: String
     ): Flow<PagingData<CityEvent>> {
         return Pager(
             config = PagingConfig(
@@ -143,6 +143,7 @@ class CityRepositoryImpl(
                 cityId = cityId,
                 pageSize = pageSize,
                 dataSource = eventsDataSource,
+                appConfigDataSource = appConfigDataSource,
                 remoteCityEventsKeysDao = remoteCityEventsKeysDao,
                 cityDao = cityDao,
                 database = database,
