@@ -88,9 +88,6 @@ dependencies {
     //Analytics
     implementation(libs.firebase.analytics)
 
-    //Remote Config
-    implementation(libs.firebase.config)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -23,7 +23,6 @@ firebaseCrashlytics = "20.0.4"
 googleFirebaseCrashlytics = "3.0.6"
 firebaseAnalytics = "23.0.0"
 browser = "1.9.0"
-firebaseConfig = "23.0.1"
 
 [libraries]
 #Browser
@@ -63,9 +62,6 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 
 #Analytics
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
-
-#Remote Config
-firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
 
 #ksp
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

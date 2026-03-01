@@ -5,9 +5,6 @@ import androidx.room.Room
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.remoteConfig
-import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +15,8 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.logging.ErrorLoggerImpl
-import denys.diomaxius.newzealandguide.data.remote.api.AppConfigDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
-import denys.diomaxius.newzealandguide.data.remote.datasource.AppConfigDataSourceImpl
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityEventsDataSourceImpl
 import denys.diomaxius.newzealandguide.data.remote.datasource.CityWeatherDataSourceImpl
 import denys.diomaxius.newzealandguide.data.repository.CityRepositoryImpl
@@ -88,7 +83,6 @@ object AppModule {
         cityDao: CityDao,
         cityWeatherDataSource: CityWeatherDataSource,
         cityEventsDataSource: CityEventsDataSource,
-        appConfigDataSource: AppConfigDataSource,
         remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
         database: CityDatabase,
         logger: ErrorLogger,
@@ -98,7 +92,6 @@ object AppModule {
             cityDao,
             cityWeatherDataSource,
             cityEventsDataSource,
-            appConfigDataSource,
             remoteCityEventsKeysDao,
             database,
             logger
@@ -137,31 +130,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAnalyticsHelper(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): AnalyticsHelper = FirebaseAnalyticsHelper(context)
-
-    @Provides
-    @Singleton
-    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
-        val remoteConfig = Firebase.remoteConfig
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600 // For debug mode set 0
-        }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-
-        remoteConfig.setDefaultsAsync(
-            mapOf(
-                "weather_update_tag" to "0",
-                "events_update_tag" to "0"
-            )
-        )
-
-        return remoteConfig
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppConfigDataSource(
-        remoteConfig: FirebaseRemoteConfig,
-    ): AppConfigDataSource = AppConfigDataSourceImpl(remoteConfig)
 }
