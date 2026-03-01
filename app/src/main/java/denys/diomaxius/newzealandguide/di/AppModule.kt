@@ -145,7 +145,7 @@ object AppModule {
     fun provideFirebaseRemoteConfig(): FirebaseRemoteConfig {
         val remoteConfig = Firebase.remoteConfig
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = 3600 // For debug mode set 0
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
 
