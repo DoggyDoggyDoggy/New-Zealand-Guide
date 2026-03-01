@@ -14,6 +14,7 @@ import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
+import denys.diomaxius.newzealandguide.data.remote.api.AppConfigDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
@@ -30,34 +31,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import kotlin.collections.map
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.map as flowMap
-
-private const val MAX_CACHE_AGE_HOURS = 36L
 
 class CityRepositoryImpl(
     private val context: Context,
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
     private val eventsDataSource: CityEventsDataSource,
+    private val appConfigDataSource: AppConfigDataSource,
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
     private val logger: ErrorLogger,
 ) : CityRepository {
 
-    private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
+    private suspend fun shouldFetchNewWeather(cityId: String, serverTag: String): Boolean {
         val cacheInfo = withContext(Dispatchers.IO) {
             cityDao.getWeatherCacheInfo(cityId)
         }
 
-        val lastSynced: Instant = cacheInfo?.lastSyncedTimestamp ?: return true
+        val localTag = cacheInfo?.updateTag ?: "0"
 
-        val hoursPassed = ChronoUnit.HOURS.between(lastSynced, Instant.now())
-
-        return hoursPassed >= MAX_CACHE_AGE_HOURS
+        return serverTag != localTag
     }
 
     override fun getAllCitiesFlow(onlyFavorites: Boolean): Flow<List<City>> =
@@ -82,7 +78,9 @@ class CityRepositoryImpl(
     override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult =
         withContext(Dispatchers.IO) {
             try {
-                if (shouldFetchNewWeather(cityId)) {
+                val serverTag = appConfigDataSource.getWeatherUpdateTag()
+
+                if (shouldFetchNewWeather(cityId, serverTag)) {
                     try {
                         val weatherDto = weatherDataSource.fetchForecast(cityId)
                         if (weatherDto.isEmpty()) {
@@ -96,7 +94,7 @@ class CityRepositoryImpl(
                             cityDao.replaceWeatherForecast(
                                 cityId,
                                 weatherDto.map { it.toEntity(cityId) },
-                                WeatherCacheInfo(cityId, Instant.now())
+                                WeatherCacheInfo(cityId, serverTag)
                             )
                         }
                     } catch (e: FirebaseFirestoreException) {
