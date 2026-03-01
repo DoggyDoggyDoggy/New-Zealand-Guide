@@ -52,7 +52,13 @@ class CityRepositoryImpl(
         }
 
         val localUpdatedAt: Instant = cacheInfo?.lastSyncedTimestamp ?: return true
-        val remoteUpdateAt: Instant? = weatherDataSource.fetchLastUpdatedAt(cityId)
+        val remoteUpdateAt: Instant? = try {
+            weatherDataSource.fetchLastUpdatedAt(cityId)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            Log.d("CityRepositoryImpl", "Network offline, can't check remote update time.")
+            return false
+        }
 
         Log.d("CityRepositoryImpl", "Local: $localUpdatedAt, Remote: $remoteUpdateAt")
 
@@ -84,42 +90,52 @@ class CityRepositoryImpl(
         withContext(Dispatchers.IO) {
             try {
                 if (shouldFetchNewWeather(cityId)) {
-                    try {
-                        val weatherDto = weatherDataSource.fetchForecast(cityId)
-                        if (weatherDto.isEmpty()) {
-                            val errorMsg = "Server returned empty forecast for city $cityId"
-                            logger.logMessage(errorMsg)
-                            logger.logException(
-                                MissingServerDataException(errorMsg),
-                                mapOf("cityId" to cityId)
-                            )
-                        } else {
-                            cityDao.replaceWeatherForecast(
-                                cityId,
-                                weatherDto.map { it.toEntity(cityId) },
-                                WeatherCacheInfo(cityId, Instant.now())
-                            )
+                    val weatherDto = weatherDataSource.fetchForecast(cityId)
+
+                    if (weatherDto.isEmpty()) {
+                        val errorMsg = "Server returned empty forecast for city $cityId"
+                        logger.logMessage(errorMsg)
+                        logger.logException(
+                            MissingServerDataException(errorMsg),
+                            mapOf("cityId" to cityId)
+                        )
+                    } else {
+                        val remoteTime = try {
+                            weatherDataSource.fetchLastUpdatedAt(cityId) ?: Instant.now()
+                        } catch (e: Exception) {
+                            if (e is CancellationException) throw e
+                            Instant.now()
                         }
-                    } catch (e: FirebaseFirestoreException) {
-                        if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
-                            logger.logException(e, mapOf("cityId" to cityId))
-                        }
+
+                        cityDao.replaceWeatherForecast(
+                            cityId,
+                            weatherDto.map { it.toEntity(cityId) },
+                            WeatherCacheInfo(cityId, remoteTime)
+                        )
                     }
                 }
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
 
+                if (e !is FirebaseFirestoreException || e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
+                    logger.logException(e, mapOf("cityId" to cityId))
+                } else {
+                    Log.d("CityRepositoryImpl", "No internet for city $cityId, falling back to cache.")
+                }
+            }
+
+            try {
                 val entities = cityDao.getCityWeatherForecast(cityId)
 
-                if (entities.isEmpty()) {
+                return@withContext if (entities.isEmpty()) {
                     WeatherResult.Error(NoDataAvailableException())
                 } else {
-                    val domainData = entities.map { it.toDomain() }
-                    WeatherResult.Success(domainData)
+                    WeatherResult.Success(entities.map { it.toDomain() })
                 }
-
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 logger.logException(e, mapOf("cityId" to cityId))
-                WeatherResult.Error(e)
+                return@withContext WeatherResult.Error(e)
             }
         }
 
