@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class RemoteCityEventsKeysEntity(
     @PrimaryKey val cityId: String,
     val lastDocId: String?,
-    val lastUpdated: Long = System.currentTimeMillis()
+    val updateTag: String
 )

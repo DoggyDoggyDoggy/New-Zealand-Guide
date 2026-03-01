@@ -5,7 +5,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
-import java.time.Instant
 
 @Entity(
     tableName = "weather_cache_info",
@@ -22,5 +21,5 @@ import java.time.Instant
 
 data class WeatherCacheInfo(
     @PrimaryKey val cityId: String,
-    val lastSyncedTimestamp: Instant
+    val updateTag: String
 )

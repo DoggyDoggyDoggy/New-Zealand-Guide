@@ -14,6 +14,7 @@ import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
+import denys.diomaxius.newzealandguide.data.remote.api.AppConfigDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
 import denys.diomaxius.newzealandguide.data.remote.mapper.toEntity
@@ -30,34 +31,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import kotlin.collections.map
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.map as flowMap
-
-private const val MAX_CACHE_AGE_HOURS = 36L
 
 class CityRepositoryImpl(
     private val context: Context,
     private val cityDao: CityDao,
     private val weatherDataSource: CityWeatherDataSource,
     private val eventsDataSource: CityEventsDataSource,
+    private val appConfigDataSource: AppConfigDataSource,
     private val remoteCityEventsKeysDao: RemoteCityEventsKeysDao,
     private val database: CityDatabase,
     private val logger: ErrorLogger,
 ) : CityRepository {
 
-    private suspend fun shouldFetchNewWeather(cityId: String): Boolean {
+    private suspend fun shouldFetchNewWeather(cityId: String, serverTag: String): Boolean {
+        if (serverTag.isEmpty() || serverTag == "0") return false
+
         val cacheInfo = withContext(Dispatchers.IO) {
             cityDao.getWeatherCacheInfo(cityId)
         }
 
-        val lastSynced: Instant = cacheInfo?.lastSyncedTimestamp ?: return true
+        val localTag = cacheInfo?.updateTag ?: "0"
 
-        val hoursPassed = ChronoUnit.HOURS.between(lastSynced, Instant.now())
-
-        return hoursPassed >= MAX_CACHE_AGE_HOURS
+        return serverTag != localTag
     }
 
     override fun getAllCitiesFlow(onlyFavorites: Boolean): Flow<List<City>> =
@@ -82,30 +80,36 @@ class CityRepositoryImpl(
     override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult =
         withContext(Dispatchers.IO) {
             try {
-                if (shouldFetchNewWeather(cityId)) {
-                    try {
-                        val weatherDto = weatherDataSource.fetchForecast(cityId)
-                        if (weatherDto.isEmpty()) {
-                            val errorMsg = "Server returned empty forecast for city $cityId"
-                            logger.logMessage(errorMsg)
-                            logger.logException(
-                                MissingServerDataException(errorMsg),
-                                mapOf("cityId" to cityId)
-                            )
-                        } else {
-                            cityDao.replaceWeatherForecast(
-                                cityId,
-                                weatherDto.map { it.toEntity(cityId) },
-                                WeatherCacheInfo(cityId, Instant.now())
-                            )
-                        }
-                    } catch (e: FirebaseFirestoreException) {
-                        if (e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
-                            logger.logException(e, mapOf("cityId" to cityId))
-                        }
+                val serverTag = appConfigDataSource.getWeatherUpdateTag()
+
+                if (shouldFetchNewWeather(cityId, serverTag)) {
+                    val weatherDto = weatherDataSource.fetchForecast(cityId)
+
+                    if (weatherDto.isEmpty()) {
+                        val errorMsg = "Server returned empty forecast for city $cityId"
+                        logger.logMessage(errorMsg)
+                        logger.logException(
+                            MissingServerDataException(errorMsg),
+                            mapOf("cityId" to cityId)
+                        )
+                    } else {
+                        cityDao.replaceWeatherForecast(
+                            cityId,
+                            weatherDto.map { it.toEntity(cityId) },
+                            WeatherCacheInfo(cityId, serverTag)
+                        )
                     }
                 }
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                if (e is FirebaseFirestoreException && e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
+                    logger.logException(e, mapOf("cityId" to cityId))
+                } else if (e !is FirebaseFirestoreException) {
+                    logger.logException(e, mapOf("cityId" to cityId, "phase" to "network_sync"))
+                }
+            }
 
+            return@withContext try {
                 val entities = cityDao.getCityWeatherForecast(cityId)
 
                 if (entities.isEmpty()) {
@@ -114,10 +118,10 @@ class CityRepositoryImpl(
                     val domainData = entities.map { it.toDomain() }
                     WeatherResult.Success(domainData)
                 }
-
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
-                logger.logException(e, mapOf("cityId" to cityId))
+
+                logger.logException(e, mapOf("cityId" to cityId, "phase" to "local_db_read"))
                 WeatherResult.Error(e)
             }
         }
@@ -125,7 +129,7 @@ class CityRepositoryImpl(
     @OptIn(ExperimentalPagingApi::class)
     override fun cityEventsPagerFlow(
         pageSize: Int,
-        cityId: String,
+        cityId: String
     ): Flow<PagingData<CityEvent>> {
         return Pager(
             config = PagingConfig(
@@ -139,6 +143,7 @@ class CityRepositoryImpl(
                 cityId = cityId,
                 pageSize = pageSize,
                 dataSource = eventsDataSource,
+                appConfigDataSource = appConfigDataSource,
                 remoteCityEventsKeysDao = remoteCityEventsKeysDao,
                 cityDao = cityDao,
                 database = database,
