@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -31,12 +32,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 import kotlin.collections.map
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.flow.map as flowMap
-
-private const val MAX_CACHE_AGE_HOURS = 36L
 
 class CityRepositoryImpl(
     private val context: Context,
@@ -53,11 +51,14 @@ class CityRepositoryImpl(
             cityDao.getWeatherCacheInfo(cityId)
         }
 
-        val lastSynced: Instant = cacheInfo?.lastSyncedTimestamp ?: return true
+        val localUpdatedAt: Instant = cacheInfo?.lastSyncedTimestamp ?: return true
+        val remoteUpdateAt: Instant? = weatherDataSource.fetchLastUpdatedAt(cityId)
 
-        val hoursPassed = ChronoUnit.HOURS.between(lastSynced, Instant.now())
+        Log.d("CityRepositoryImpl", "Local: $localUpdatedAt, Remote: $remoteUpdateAt")
 
-        return hoursPassed >= MAX_CACHE_AGE_HOURS
+        if (remoteUpdateAt == null) return false
+
+        return remoteUpdateAt.isAfter(localUpdatedAt)
     }
 
     override fun getAllCitiesFlow(onlyFavorites: Boolean): Flow<List<City>> =
