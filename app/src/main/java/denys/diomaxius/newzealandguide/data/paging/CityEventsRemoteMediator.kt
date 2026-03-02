@@ -96,12 +96,7 @@ class CityEventsRemoteMediator(
             val endOfPaginationReached = entities.size < pageSize
 
             val remoteUpdateTime: Instant? = if (loadType == LoadType.REFRESH) {
-                try {
-                    dataSource.fetchLastUpdatedAt(cityId)
-                } catch (e: Exception) {
-                    if (e is CancellationException) throw e
-                    null
-                }
+                dataSource.fetchLastUpdatedAt(cityId)
             } else {
                 null
             }
