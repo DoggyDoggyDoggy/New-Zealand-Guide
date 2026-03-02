@@ -120,18 +120,21 @@ class CityRepositoryImpl(
                 if (e !is FirebaseFirestoreException || e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
                     logger.logException(e, mapOf("cityId" to cityId))
                 } else {
-                    Log.d("CityRepositoryImpl", "No internet for city $cityId, falling back to cache.")
+                    Log.d(
+                        "CityRepositoryImpl",
+                        "No internet for city $cityId, falling back to cache."
+                    )
                 }
             }
 
             try {
                 val entities = cityDao.getCityWeatherForecast(cityId)
 
-                return@withContext if (entities.isEmpty()) {
+                return@withContext if (entities.isEmpty())
                     WeatherResult.Error(NoDataAvailableException())
-                } else {
+                else
                     WeatherResult.Success(entities.map { it.toDomain() })
-                }
+
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 logger.logException(e, mapOf("cityId" to cityId))
