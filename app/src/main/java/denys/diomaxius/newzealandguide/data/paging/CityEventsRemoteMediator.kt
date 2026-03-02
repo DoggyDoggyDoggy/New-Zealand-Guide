@@ -46,7 +46,7 @@ class CityEventsRemoteMediator(
         }
 
         if (remoteUpdateAt == null) {
-            return InitializeAction.SKIP_INITIAL_REFRESH
+            return InitializeAction.LAUNCH_INITIAL_REFRESH
         }
 
         val remoteKey = remoteCityEventsKeysDao.getKeyByCityId(cityId)

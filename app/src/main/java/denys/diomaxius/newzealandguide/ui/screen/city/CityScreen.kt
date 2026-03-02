@@ -60,10 +60,7 @@ fun CityScreen(
     val showNoLocalCacheCard by remember(eventsPagingItems.loadState, uiState.weather) {
         derivedStateOf {
             val refreshState = eventsPagingItems.loadState.refresh
-
-            val noEvents = (refreshState as? LoadState.Error)?.error is NoDataAvailableException ||
-                    (refreshState is LoadState.NotLoading && eventsPagingItems.itemCount == 0)
-
+            val noEvents = (refreshState as? LoadState.Error)?.error is NoDataAvailableException
             val noWeather = (uiState.weather as? UiState.Error)?.error is NoDataAvailableException
 
             noEvents && noWeather
