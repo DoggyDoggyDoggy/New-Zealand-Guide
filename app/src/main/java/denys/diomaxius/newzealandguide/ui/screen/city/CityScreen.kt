@@ -57,12 +57,16 @@ fun CityScreen(
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
 
-    val showNoLocalCacheCard by remember(eventsPagingItems.loadState.refresh, uiState.weather) {
+    val showNoLocalCacheCard by remember(eventsPagingItems.loadState, uiState.weather) {
         derivedStateOf {
-            val eventsError = (eventsPagingItems.loadState.refresh as? LoadState.Error)?.error
-            val weatherError = (uiState.weather as? UiState.Error)?.error
+            val refreshState = eventsPagingItems.loadState.refresh
 
-            eventsError is NoDataAvailableException && weatherError is NoDataAvailableException
+            val noEvents = (refreshState as? LoadState.Error)?.error is NoDataAvailableException ||
+                    (refreshState is LoadState.NotLoading && eventsPagingItems.itemCount == 0)
+
+            val noWeather = (uiState.weather as? UiState.Error)?.error is NoDataAvailableException
+
+            noEvents && noWeather
         }
     }
 
