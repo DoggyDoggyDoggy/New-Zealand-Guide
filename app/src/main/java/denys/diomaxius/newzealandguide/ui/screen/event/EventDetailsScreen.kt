@@ -13,9 +13,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,7 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.R
@@ -56,10 +60,35 @@ fun EventDetailsScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    text = stringResource(R.string.event_top_bar),
+                    text = "",
                     navigationButton = {
                         PopBackArrowButton {
                             navHostController.navigateUp()
+                        }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                            }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(32.dp),
+                                painter = painterResource(R.drawable.outline_kid_star_24),
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                contentDescription = ""
+                            )
+                        }
+
+                        IconButton(
+                            onClick = {
+                            }
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(32.dp),
+                                painter = painterResource(R.drawable.outline_send_24),
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                contentDescription = ""
+                            )
                         }
                     }
                 )
