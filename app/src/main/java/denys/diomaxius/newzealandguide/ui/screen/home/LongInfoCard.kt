@@ -51,7 +51,7 @@ fun LongInfoCard(
             Icon(
                 modifier = Modifier.size(48.dp),
                 painter = icon,
-                contentDescription = "Leaf",
+                contentDescription = "",
                 tint = MaterialTheme.colorScheme.onSurface
             )
 
