@@ -44,6 +44,7 @@ import denys.diomaxius.newzealandguide.ui.screen.event.components.EventAddress
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDates
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventHeader
+import denys.diomaxius.newzealandguide.ui.screen.event.components.shareEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,6 +53,7 @@ fun EventDetailsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navHostController = LocalNavController.current
+    val context = LocalContext.current
 
     UiStateHandler(
         state = uiState,
@@ -81,6 +83,7 @@ fun EventDetailsScreen(
 
                         IconButton(
                             onClick = {
+                                shareEvent(context, event)
                             }
                         ) {
                             Icon(
