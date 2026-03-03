@@ -20,10 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import denys.diomaxius.newzealandguide.R
 
 @Composable
 fun LongInfoCard(
@@ -75,18 +73,4 @@ fun LongInfoCard(
             }
         }
     }
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-fun LongInfoCardPreview() {
-    LongInfoCard(
-        modifier = Modifier,
-        titleCardText = "Top Cities & Towns",
-        subTitleCardText = "Explore New Zealand",
-        onClick = {},
-        image = R.drawable.top_attractions
-    )
 }
