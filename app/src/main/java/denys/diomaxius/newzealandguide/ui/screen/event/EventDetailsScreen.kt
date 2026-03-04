@@ -76,7 +76,8 @@ fun EventDetailsScreen(
                         ) {
                             Icon(
                                 modifier = Modifier.size(32.dp),
-                                painter = painterResource(R.drawable.outline_kid_star_24),
+                                painter = if (event.favorite) painterResource(R.drawable.filled_kid_star_24)
+                                            else painterResource(R.drawable.outline_kid_star_24),
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 contentDescription = ""
                             )
