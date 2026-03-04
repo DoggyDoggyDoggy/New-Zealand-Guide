@@ -34,6 +34,7 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
+import denys.diomaxius.newzealandguide.ui.components.FavoriteFilter
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.screen.city.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
@@ -55,7 +56,10 @@ fun CityScreen(
 
     val uiState by viewModel.uiState.collectAsState()
     val eventsPagingItems = viewModel.events.collectAsLazyPagingItems()
+
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
+
+    val favoriteFilter by viewModel.favoriteFilter.collectAsState()
 
     val showNoLocalCacheCard by remember(eventsPagingItems.loadState, uiState.weather) {
         derivedStateOf {
@@ -116,7 +120,9 @@ fun CityScreen(
                 eventsPagingItems = eventsPagingItems,
                 showNoLocalCacheCard = showNoLocalCacheCard,
                 retryLoadWeather = viewModel::manuallyRetryLoadWeather,
-                hasInternetConnection = hasInternetConnection
+                hasInternetConnection = hasInternetConnection,
+                favoriteFilter = favoriteFilter,
+                toggleFavoriteFilter = viewModel::toggleFavoriteFilter
             )
         }
     }
@@ -132,6 +138,8 @@ fun Content(
     showNoLocalCacheCard: Boolean,
     retryLoadWeather: () -> Unit,
     hasInternetConnection: Boolean,
+    favoriteFilter: Boolean,
+    toggleFavoriteFilter: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -157,7 +165,13 @@ fun Content(
             )
 
             Spacer(
-                modifier = Modifier.height(12.dp)
+                modifier = Modifier.height(6.dp)
+            )
+
+            FavoriteFilter(
+                modifier = Modifier.padding(start = 6.dp),
+                showFavorite = favoriteFilter,
+                toggleFavorite = { toggleFavoriteFilter() }
             )
 
             Events(

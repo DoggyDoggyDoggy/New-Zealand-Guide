@@ -38,6 +38,9 @@ class CityScreenViewModel @Inject constructor(
 
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
+    private val _favoriteFilter = MutableStateFlow(false)
+    val favoriteFilter = _favoriteFilter.asStateFlow()
+
     private val _uiState = MutableStateFlow(CityScreenUiState())
     val uiState: StateFlow<CityScreenUiState> = _uiState.asStateFlow()
 
@@ -122,5 +125,9 @@ class CityScreenViewModel @Inject constructor(
         }
 
         _uiState.update { it.copy(weather = nextWeatherState) }
+    }
+
+    fun toggleFavoriteFilter() {
+        _favoriteFilter.value = !_favoriteFilter.value
     }
 }
