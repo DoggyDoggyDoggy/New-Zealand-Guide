@@ -71,6 +71,7 @@ fun EventDetailsScreen(
                     actions = {
                         IconButton(
                             onClick = {
+                                viewModel.toggleFavorite()
                             }
                         ) {
                             Icon(

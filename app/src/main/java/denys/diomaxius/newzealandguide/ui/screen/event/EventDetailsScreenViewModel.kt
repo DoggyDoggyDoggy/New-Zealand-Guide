@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventUseCase
+import denys.diomaxius.newzealandguide.domain.usecase.city.ToggleEventFavoriteUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventDetailsScreenViewModel @Inject constructor(
     private val getCityEventUseCase: GetCityEventUseCase,
+    private val toggleEventFavoriteUseCase: ToggleEventFavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _uiState =
@@ -26,6 +28,10 @@ class EventDetailsScreenViewModel @Inject constructor(
 
     init {
         loadEvent()
+    }
+
+    fun toggleFavorite() = viewModelScope.launch {
+        toggleEventFavoriteUseCase(cityId, eventId)
     }
 
     private fun loadEvent() = viewModelScope.launch {
