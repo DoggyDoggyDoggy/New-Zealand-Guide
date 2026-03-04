@@ -86,6 +86,10 @@ class CityRepositoryImpl(
         cityDao.toggleFavorite(cityId)
     }
 
+    override suspend fun toggleEventFavorite(cityId: String, eventId: String) {
+        cityDao.toggleEventFavorite(cityId, eventId)
+    }
+
     override suspend fun getCityWeatherByCityId(cityId: String): WeatherResult =
         withContext(Dispatchers.IO) {
             try {
