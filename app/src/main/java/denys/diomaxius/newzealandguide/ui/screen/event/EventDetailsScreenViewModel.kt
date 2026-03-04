@@ -8,37 +8,37 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.ToggleEventFavoriteUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventDetailsScreenViewModel @Inject constructor(
-    private val getCityEventUseCase: GetCityEventUseCase,
+    getCityEventUseCase: GetCityEventUseCase,
     private val toggleEventFavoriteUseCase: ToggleEventFavoriteUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _uiState =
-        MutableStateFlow<UiState<CityEvent>>(UiState.Loading)
-    val uiState = _uiState.asStateFlow()
-
     private val eventId: String = checkNotNull(savedStateHandle["eventId"])
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
-    init {
-        loadEvent()
-    }
+    val uiState: StateFlow<UiState<CityEvent>> = getCityEventUseCase(cityId, eventId)
+        .map { event ->
+            UiState.Success(event)
+        }
+        .catch { e ->
+            UiState.Error(e)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = UiState.Loading
+        )
 
     fun toggleFavorite() = viewModelScope.launch {
         toggleEventFavoriteUseCase(cityId, eventId)
-    }
-
-    private fun loadEvent() = viewModelScope.launch {
-        _uiState.value = try {
-            UiState.Success(getCityEventUseCase(cityId = cityId, eventId = eventId))
-        } catch (e: Exception) {
-            UiState.Error(e)
-        }
     }
 }

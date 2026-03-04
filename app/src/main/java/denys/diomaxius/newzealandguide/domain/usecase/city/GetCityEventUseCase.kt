@@ -6,6 +6,6 @@ import javax.inject.Inject
 class GetCityEventUseCase @Inject constructor(
     private val cityRepository: CityRepository,
 ) {
-    suspend operator fun invoke(cityId: String, eventId: String) =
+    operator fun invoke(cityId: String, eventId: String) =
         cityRepository.getCityEvent(cityId, eventId)
 }
