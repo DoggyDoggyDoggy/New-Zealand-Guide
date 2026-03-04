@@ -34,7 +34,6 @@ import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
-import denys.diomaxius.newzealandguide.ui.components.FavoriteFilter
 import denys.diomaxius.newzealandguide.ui.components.cityphotoslider.CityPhotoSlider
 import denys.diomaxius.newzealandguide.ui.screen.city.components.events.Events
 import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
@@ -60,6 +59,8 @@ fun CityScreen(
     val hasInternetConnection by viewModel.hasInternetConnection.collectAsState()
 
     val favoriteFilter by viewModel.favoriteFilter.collectAsState()
+
+    val favoriteEvents by viewModel.favoriteEvents.collectAsState()
 
     val showNoLocalCacheCard by remember(eventsPagingItems.loadState, uiState.weather) {
         derivedStateOf {
@@ -121,6 +122,7 @@ fun CityScreen(
                 showNoLocalCacheCard = showNoLocalCacheCard,
                 retryLoadWeather = viewModel::manuallyRetryLoadWeather,
                 hasInternetConnection = hasInternetConnection,
+                favoriteEvents = favoriteEvents,
                 favoriteFilter = favoriteFilter,
                 toggleFavoriteFilter = viewModel::toggleFavoriteFilter
             )
@@ -140,6 +142,7 @@ fun Content(
     hasInternetConnection: Boolean,
     favoriteFilter: Boolean,
     toggleFavoriteFilter: () -> Unit,
+    favoriteEvents: List<CityEvent>,
 ) {
     Column(
         modifier = modifier
@@ -168,12 +171,6 @@ fun Content(
                 modifier = Modifier.height(6.dp)
             )
 
-            FavoriteFilter(
-                modifier = Modifier.padding(start = 6.dp),
-                showFavorite = favoriteFilter,
-                toggleFavorite = { toggleFavoriteFilter() }
-            )
-
             Events(
                 events = eventsPagingItems,
                 onClick = { cityId, eventId ->
@@ -183,7 +180,10 @@ fun Content(
                         launchSingleTop = true
                     }
                 },
-                hasInternetConnection = hasInternetConnection
+                hasInternetConnection = hasInternetConnection,
+                favoriteFilter = favoriteFilter,
+                toggleFavoriteFilter = toggleFavoriteFilter,
+                favoriteEvents = favoriteEvents
             )
         }
 

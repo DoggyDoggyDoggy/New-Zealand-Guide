@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.model.city.CityWeather
 import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityByIdUseCase
@@ -13,6 +14,7 @@ import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventsByIdUseC
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityWeatherByCityIdUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
+import denys.diomaxius.newzealandguide.domain.usecase.city.GetFavoriteCityEventsFlowUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +30,7 @@ class CityScreenViewModel @Inject constructor(
     private val getCityWeatherByCityIdUseCase: GetCityWeatherByCityIdUseCase,
     private val getCityByIdUseCase: GetCityByIdUseCase,
     getCityEventsIdUseCase: GetCityEventsByIdUseCase,
+    getFavoriteCityEventsFlowUseCase: GetFavoriteCityEventsFlowUseCase,
     connectivityObserver: ConnectivityObserver,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -53,6 +56,13 @@ class CityScreenViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = false
             )
+
+    val favoriteEvents: StateFlow<List<CityEvent>> = getFavoriteCityEventsFlowUseCase(cityId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     init {
         loadAll()

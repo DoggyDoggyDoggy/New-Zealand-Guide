@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,6 +28,7 @@ import androidx.paging.compose.itemKey
 import coil3.compose.SubcomposeAsyncImage
 import denys.diomaxius.newzealandguide.domain.exception.NoDataAvailableException
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
+import denys.diomaxius.newzealandguide.ui.components.FavoriteFilter
 import denys.diomaxius.newzealandguide.ui.components.shimmer.shimmer
 
 @Composable
@@ -34,6 +36,9 @@ fun Events(
     events: LazyPagingItems<CityEvent>,
     onClick: (cityId: String, eventId: String) -> Unit,
     hasInternetConnection: Boolean,
+    favoriteFilter: Boolean,
+    toggleFavoriteFilter: () -> Unit,
+    favoriteEvents: List<CityEvent>,
 ) {
     val refreshState = events.loadState.refresh
 
@@ -53,7 +58,13 @@ fun Events(
         }
 
         events.itemCount > 0 -> {
-            Content(events, onClick)
+            Content(
+                events = events,
+                onClick = onClick,
+                favoriteFilter = favoriteFilter,
+                toggleFavoriteFilter = toggleFavoriteFilter,
+                favoriteEvents = favoriteEvents
+            )
         }
     }
 }
@@ -62,36 +73,60 @@ fun Events(
 fun Content(
     events: LazyPagingItems<CityEvent>,
     onClick: (String, String) -> Unit,
+    favoriteFilter: Boolean,
+    toggleFavoriteFilter: () -> Unit,
+    favoriteEvents: List<CityEvent>,
 ) {
     val listState = rememberLazyListState()
 
-    LazyRow(
-        state = listState
-    ) {
-        item {
-            Spacer(modifier = Modifier.width(6.dp))
-        }
+    FavoriteFilter(
+        modifier = Modifier.padding(start = 6.dp),
+        showFavorite = favoriteFilter,
+        toggleFavorite = { toggleFavoriteFilter() }
+    )
 
-        items(
-            count = events.itemCount,
-            key = events.itemKey { it.eventId },
-            contentType = { "event_item" }
-        ) { index ->
-            events[index]?.let {
+    if (!favoriteFilter)
+        LazyRow(
+            state = listState
+        ) {
+            item {
+                Spacer(modifier = Modifier.width(6.dp))
+            }
+
+            items(
+                count = events.itemCount,
+                key = events.itemKey { it.eventId },
+                contentType = { "event_item" }
+            ) { index ->
+                events[index]?.let {
+                    CityEventCard(it, onClick)
+                }
+            }
+
+            if (events.loadState.append is LoadState.Loading) {
+                item {
+                    EventLoadingCard()
+                }
+            }
+
+            item {
+                Spacer(modifier = Modifier.width(6.dp))
+            }
+        }
+    else
+        LazyRow {
+            item {
+                Spacer(modifier = Modifier.width(6.dp))
+            }
+
+            items(favoriteEvents) {
                 CityEventCard(it, onClick)
             }
-        }
 
-        if (events.loadState.append is LoadState.Loading) {
             item {
-                EventLoadingCard()
+                Spacer(modifier = Modifier.width(6.dp))
             }
         }
-
-        item {
-            Spacer(modifier = Modifier.width(6.dp))
-        }
-    }
 }
 
 @Composable
