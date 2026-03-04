@@ -24,5 +24,6 @@ data class CityEventEntity(
     val address: String,
     val imageUrl: String,
     val sessions: List<String>,
-    val positionInList: Int = 0
+    val positionInList: Int = 0,
+    val favorite: Boolean = false
 )

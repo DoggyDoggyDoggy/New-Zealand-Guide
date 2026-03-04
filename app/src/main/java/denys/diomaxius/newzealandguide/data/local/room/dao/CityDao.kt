@@ -88,4 +88,7 @@ interface CityDao {
 
     @Query("SELECT COUNT(*) FROM city_events WHERE cityId = :cityId")
     suspend fun getEventsCount(cityId: String): Int
+
+    @Query("UPDATE city_events SET favorite = NOT favorite WHERE cityId = :cityId AND eventId = :eventId")
+    suspend fun toggleEventFavorite(cityId: String, eventId: String)
 }
