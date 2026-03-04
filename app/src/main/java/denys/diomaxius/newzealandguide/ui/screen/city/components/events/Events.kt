@@ -114,19 +114,22 @@ fun Content(
             }
         }
     else
-        LazyRow {
-            item {
-                Spacer(modifier = Modifier.width(6.dp))
-            }
+        if (favoriteEvents.isNotEmpty())
+            LazyRow {
+                item {
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
 
-            items(favoriteEvents) {
-                CityEventCard(it, onClick)
-            }
+                items(favoriteEvents) {
+                    CityEventCard(it, onClick)
+                }
 
-            item {
-                Spacer(modifier = Modifier.width(6.dp))
+                item {
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
             }
-        }
+        else
+            EmptyFavoriteEventsCard()
 }
 
 @Composable
