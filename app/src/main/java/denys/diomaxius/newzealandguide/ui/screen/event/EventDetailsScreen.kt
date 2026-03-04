@@ -2,8 +2,10 @@ package denys.diomaxius.newzealandguide.ui.screen.event
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -25,9 +27,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -45,6 +50,7 @@ import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDates
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventDescription
 import denys.diomaxius.newzealandguide.ui.screen.event.components.EventHeader
 import denys.diomaxius.newzealandguide.ui.screen.event.components.shareEvent
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,13 +75,27 @@ fun EventDetailsScreen(
                         }
                     },
                     actions = {
+                        val scale = remember { Animatable(1f) }
+                        val scope = rememberCoroutineScope()
+
                         IconButton(
                             onClick = {
                                 viewModel.toggleFavorite()
+                                if (!event.favorite) {
+                                    scope.launch {
+                                        scale.animateTo(1.2f, animationSpec = tween(delayMillis = 120))
+                                        scale.animateTo(1f, animationSpec = spring(
+                                            dampingRatio = Spring.DampingRatioMediumBouncy,
+                                            stiffness = Spring.StiffnessLow
+                                        ))
+                                    }
+                                }
                             }
                         ) {
                             Icon(
-                                modifier = Modifier.size(32.dp),
+                                modifier = Modifier
+                                    .size(32.dp)
+                                    .scale(scale.value),
                                 painter = if (event.favorite) painterResource(R.drawable.filled_kid_star_24)
                                             else painterResource(R.drawable.outline_kid_star_24),
                                 tint = MaterialTheme.colorScheme.onPrimary,
