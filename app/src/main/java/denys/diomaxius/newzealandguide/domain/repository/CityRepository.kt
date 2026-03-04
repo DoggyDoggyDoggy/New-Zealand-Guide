@@ -18,4 +18,5 @@ interface CityRepository {
     suspend fun toggleFavorite(cityId: String)
     suspend fun toggleEventFavorite(cityId: String, eventId: String)
     fun cityEventsPagerFlow(pageSize: Int, cityId: String): Flow<PagingData<CityEvent>>
+    fun getFavoriteCityEventsFlow(cityId: String): Flow<List<CityEvent>>
 }

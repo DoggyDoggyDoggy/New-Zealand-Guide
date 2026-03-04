@@ -71,6 +71,9 @@ interface CityDao {
     @Query("SELECT * FROM city_events WHERE cityId = :cityId AND eventId = :eventId")
     fun getCityEvent(cityId: String, eventId: String): Flow<CityEventEntity>
 
+    @Query("SELECT * FROM city_events WHERE cityId = :cityId AND favorite = 1 ORDER BY positionInList ASC")
+    fun getFavoriteCityEventsFlow(cityId: String): Flow<List<CityEventEntity>>
+
     @Query("SELECT * FROM city_events WHERE cityId = :cityId ORDER BY positionInList ASC")
     fun getCityEventsPagingSource(cityId: String): PagingSource<Int, CityEventEntity>
 

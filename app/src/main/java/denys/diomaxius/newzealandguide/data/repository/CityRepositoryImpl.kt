@@ -14,6 +14,7 @@ import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysD
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
 import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntity
 import denys.diomaxius.newzealandguide.data.paging.CityEventsRemoteMediator
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
@@ -174,4 +175,7 @@ class CityRepositoryImpl(
                 pagingData.map { entity -> entity.toDomain() }
             }
     }
+
+    override fun getFavoriteCityEventsFlow(cityId: String): Flow<List<CityEvent>> =
+        cityDao.getFavoriteCityEventsFlow(cityId).map { list -> list.map(CityEventEntity::toDomain) }
 }
