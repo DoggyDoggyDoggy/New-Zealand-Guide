@@ -79,8 +79,8 @@ class CityRepositoryImpl(
     override suspend fun getCityHistoryByCityId(cityId: String): CityHistory =
         cityDao.getCityHistoryByCityId(cityId).toDomain()
 
-    override suspend fun getCityEvent(cityId: String, eventId: String): CityEvent =
-        cityDao.getCityEvent(cityId, eventId).toDomain()
+    override fun getCityEvent(cityId: String, eventId: String): Flow<CityEvent> =
+        cityDao.getCityEvent(cityId, eventId).map { it.toDomain() }
 
     override suspend fun toggleFavorite(cityId: String) {
         cityDao.toggleFavorite(cityId)

@@ -14,7 +14,7 @@ interface CityRepository {
     suspend fun getPlacesForCityById(cityId: String) : List<CityPlace>
     suspend fun getCityHistoryByCityId(cityId: String): CityHistory
     suspend fun getCityWeatherByCityId(cityId: String): WeatherResult
-    suspend fun getCityEvent(cityId: String, eventId: String): CityEvent
+    fun getCityEvent(cityId: String, eventId: String): Flow<CityEvent>
     suspend fun toggleFavorite(cityId: String)
     suspend fun toggleEventFavorite(cityId: String, eventId: String)
     fun cityEventsPagerFlow(pageSize: Int, cityId: String): Flow<PagingData<CityEvent>>
