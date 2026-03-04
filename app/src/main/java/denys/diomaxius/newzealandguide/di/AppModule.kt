@@ -47,6 +47,7 @@ object AppModule {
         CityDatabase::class.java,
         CityDatabase.DATABASE_NAME
     ).createFromAsset("database/prepopulated.db")
+        .fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 
     @Provides
