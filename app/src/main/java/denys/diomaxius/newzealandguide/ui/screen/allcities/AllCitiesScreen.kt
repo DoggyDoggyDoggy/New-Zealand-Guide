@@ -27,7 +27,7 @@ import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
 import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.CityCard
 import denys.diomaxius.newzealandguide.ui.screen.allcities.components.EmptyFavoriteScreen
-import denys.diomaxius.newzealandguide.ui.screen.allcities.components.FavoriteFilter
+import denys.diomaxius.newzealandguide.ui.components.FavoriteFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
