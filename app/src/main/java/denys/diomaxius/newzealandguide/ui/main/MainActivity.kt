@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide
+package denys.diomaxius.newzealandguide.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -15,12 +15,13 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var analyticsHelper: AnalyticsHelper
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
-            navigationBarStyle = SystemBarStyle.dark(
+            navigationBarStyle = SystemBarStyle.Companion.dark(
                 scrim = Color(0xFF005048).toArgb()
             )
         )
