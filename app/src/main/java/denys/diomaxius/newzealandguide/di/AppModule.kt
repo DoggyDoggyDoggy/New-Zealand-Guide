@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.data.analytics.FirebaseAnalyticsHelper
+import denys.diomaxius.newzealandguide.data.local.datastore.OnboardingManager
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
@@ -30,9 +31,11 @@ import denys.diomaxius.newzealandguide.domain.repository.NewZealandHistoryReposi
 import denys.diomaxius.newzealandguide.domain.repository.ConnectivityObserver
 import denys.diomaxius.newzealandguide.data.repository.ConnectivityObserverImpl
 import denys.diomaxius.newzealandguide.data.repository.MaoriLearningResourcesRepositoryImpl
+import denys.diomaxius.newzealandguide.data.repository.OnboardingRepositoryImpl
 import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 import denys.diomaxius.newzealandguide.domain.repository.MaoriLearningResourcesRepository
+import denys.diomaxius.newzealandguide.domain.repository.OnboardingRepository
 import javax.inject.Singleton
 
 @Module
@@ -131,6 +134,18 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAnalyticsHelper(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): AnalyticsHelper = FirebaseAnalyticsHelper(context)
+
+    @Provides
+    @Singleton
+    fun provideOnboardingManager(@ApplicationContext context: Context): OnboardingManager =
+        OnboardingManager(context)
+
+
+    @Provides
+    @Singleton
+    fun provideOnboardingRepository(
+        onboardingManager: OnboardingManager
+    ): OnboardingRepository = OnboardingRepositoryImpl(onboardingManager)
 }
