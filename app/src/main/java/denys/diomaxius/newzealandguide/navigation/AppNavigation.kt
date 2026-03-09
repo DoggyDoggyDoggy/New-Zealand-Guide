@@ -29,6 +29,7 @@ import denys.diomaxius.newzealandguide.ui.screen.maorihubscreen.MaoriHubScreen
 import denys.diomaxius.newzealandguide.ui.screen.maorilearningresources.MaoriLearningResourcesScreen
 import denys.diomaxius.newzealandguide.ui.screen.maoriwords.MaoriWordsScreen
 import denys.diomaxius.newzealandguide.ui.screen.nzhistory.NewZealandHistoryScreen
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not initialized")
@@ -37,7 +38,7 @@ val LocalNavController = compositionLocalOf<NavHostController> {
 @Composable
 fun AppNavigation(
     navHostController: NavHostController = rememberNavController(),
-    analyticsHelper: AnalyticsHelper
+    analyticsHelper: AnalyticsHelper,
 ) {
     DisposableEffect(navHostController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, arguments ->
@@ -52,21 +53,29 @@ fun AppNavigation(
                 NavScreen.MaoriLearningResources.route -> "Maori learning resources"
                 NavScreen.NewZealandHistory.route -> "New Zealand history"
                 NavScreen.City.route -> {
-                    val cityName = arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) } ?: "Unknown city"
+                    val cityName =
+                        arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) }
+                            ?: "Unknown city"
                     cityName
                 }
+
                 NavScreen.CityHistory.route -> {
                     val cityName = arguments?.getString("cityName") ?: "Unknown city history"
                     cityName + " history"
                 }
+
                 NavScreen.CityPlaces.route -> {
                     val cityName = arguments?.getString("cityName") ?: "Unknown city places"
                     cityName + " places"
                 }
+
                 NavScreen.Event.route -> {
-                    val cityName = arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) } ?: "Unknown city event"
+                    val cityName =
+                        arguments?.getString("cityId")?.let { CityIdMapper.getNameById(it) }
+                            ?: "Unknown city event"
                     cityName + " event"
                 }
+
                 else -> "Unknown screen" // fallback
             }
 
@@ -80,14 +89,25 @@ fun AppNavigation(
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
             navController = navHostController,
-            startDestination = NavScreen.Home.route
+            startDestination = NavScreen.Onboarding.route
         ) {
+            composable(
+                route = NavScreen.Onboarding.route,
+                exitTransition = {
+                    fadeOut(
+                        animationSpec = tween(durationMillis = 1250)
+                    )
+                }
+            ) {
+                OnboardingScreen()
+            }
+
             composable(
                 route = NavScreen.Home.route,
                 enterTransition = {
                     scaleIn(initialScale = 0.8f) + fadeIn() + slideIntoContainer(
                         towards = AnimatedContentTransitionScope.SlideDirection.Right,
-                        animationSpec = tween(500)
+                        animationSpec = tween(750)
                     )
                 },
                 exitTransition = {

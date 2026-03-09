@@ -14,10 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen(onFinished: () -> Unit) {
+fun OnboardingScreen() {
+    val navHostController = LocalNavController.current
+
     val pages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
@@ -50,7 +53,9 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 } else {
-                    onFinished()
+                    navHostController.navigate("home_screen") {
+                        launchSingleTop = true
+                    }
                 }
             }
         )

@@ -1,6 +1,8 @@
 package denys.diomaxius.newzealandguide.navigation
 
 sealed class NavScreen(val route: String) {
+    object Onboarding : NavScreen("onboarding_screen")
+
     object Home : NavScreen("home_screen")
 
     object AllCities : NavScreen("all_cities_screen")
