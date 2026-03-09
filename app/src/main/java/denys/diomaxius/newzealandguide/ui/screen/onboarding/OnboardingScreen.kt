@@ -14,12 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    viewModel: OnboardingScreenViewModel = hiltViewModel()
+) {
     val navHostController = LocalNavController.current
 
     val pages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
@@ -54,6 +57,7 @@ fun OnboardingScreen() {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 } else {
+                    viewModel.saveOnboardingStatus()
                     navHostController.navigate(NavScreen.Home.route) {
                         popUpTo(NavScreen.Onboarding.route) {
                             inclusive = true
