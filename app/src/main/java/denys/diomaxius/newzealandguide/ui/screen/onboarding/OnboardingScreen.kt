@@ -33,7 +33,6 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             .safeDrawingPadding()
             .padding(horizontal = 16.dp),
     ) {
-        // Карусель экранов
         HorizontalPager(
             modifier = Modifier.weight(1f),
             state = pagerState,
@@ -42,7 +41,6 @@ fun OnboardingScreen(onFinished: () -> Unit) {
             PagerContent(page = pages[position])
         }
 
-        // Нижняя часть: индикаторы и кнопки
         BottomSection(
             pageSize = pages.size,
             currentPage = pagerState.currentPage,
@@ -52,7 +50,7 @@ fun OnboardingScreen(onFinished: () -> Unit) {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 } else {
-                    onFinished() // Переход в основное приложение
+                    onFinished()
                 }
             }
         )
