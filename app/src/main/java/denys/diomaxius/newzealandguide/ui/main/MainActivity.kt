@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,9 +15,11 @@ import denys.diomaxius.newzealandguide.ui.theme.NewZealandGuideTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity() : ComponentActivity() {
     @Inject
     lateinit var analyticsHelper: AnalyticsHelper
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +29,15 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
+            val startRoute = viewModel.startDestination.value
+
             NewZealandGuideTheme {
-                AppNavigation(analyticsHelper = analyticsHelper)
+                if (startRoute != null) {
+                    AppNavigation(
+                        analyticsHelper = analyticsHelper,
+                        startDestination = startRoute
+                    )
+                }
             }
         }
     }

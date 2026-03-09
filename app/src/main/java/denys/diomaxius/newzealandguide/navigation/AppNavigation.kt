@@ -39,6 +39,7 @@ val LocalNavController = compositionLocalOf<NavHostController> {
 fun AppNavigation(
     navHostController: NavHostController = rememberNavController(),
     analyticsHelper: AnalyticsHelper,
+    startDestination: String
 ) {
     DisposableEffect(navHostController) {
         val listener = NavController.OnDestinationChangedListener { _, destination, arguments ->
@@ -89,7 +90,7 @@ fun AppNavigation(
     CompositionLocalProvider(LocalNavController provides navHostController) {
         NavHost(
             navController = navHostController,
-            startDestination = NavScreen.Onboarding.route
+            startDestination = startDestination
         ) {
             composable(
                 route = NavScreen.Onboarding.route,
