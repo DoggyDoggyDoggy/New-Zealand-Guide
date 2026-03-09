@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.navigation.NavScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,7 +54,10 @@ fun OnboardingScreen() {
                         pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 } else {
-                    navHostController.navigate("home_screen") {
+                    navHostController.navigate(NavScreen.Home.route) {
+                        popUpTo(NavScreen.Onboarding.route) {
+                            inclusive = true
+                        }
                         launchSingleTop = true
                     }
                 }
