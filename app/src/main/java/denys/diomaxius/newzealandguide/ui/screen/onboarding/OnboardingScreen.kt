@@ -7,6 +7,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -74,6 +75,7 @@ fun OnboardingScreen(
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
+            contentPadding = PaddingValues(bottom = 100.dp),
             verticalAlignment = Alignment.CenterVertically
         ) { position ->
             val pageOffset =
