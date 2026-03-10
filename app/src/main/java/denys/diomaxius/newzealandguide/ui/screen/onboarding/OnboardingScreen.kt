@@ -1,5 +1,7 @@
 package denys.diomaxius.newzealandguide.ui.screen.onboarding
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +33,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun OnboardingScreen(
-    viewModel: OnboardingScreenViewModel = hiltViewModel()
+    viewModel: OnboardingScreenViewModel = hiltViewModel(),
 ) {
     val navHostController = LocalNavController.current
     val pages = viewModel.pages
@@ -62,7 +64,8 @@ fun OnboardingScreen(
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { position ->
-            val pageOffset = ((pagerState.currentPage - position) + pagerState.currentPageOffsetFraction)
+            val pageOffset =
+                ((pagerState.currentPage - position) + pagerState.currentPageOffsetFraction)
             val uiPage = pages[position]
 
             Box(
@@ -88,6 +91,7 @@ fun OnboardingScreen(
                             offset = pageOffset
                         )
                     }
+
                     is OnboardingUiPage.Weather -> {
                         WeatherPage(
                             page = uiPage,
@@ -95,6 +99,7 @@ fun OnboardingScreen(
                             offset = pageOffset
                         )
                     }
+
                     is OnboardingUiPage.Last -> {
                         FourthPage(
                             page = uiPage.content,
@@ -112,13 +117,27 @@ fun OnboardingScreen(
                 scope.launch {
                     when {
                         pagerState.currentPage == 0 -> {
-                            pagerState.animateScrollToPage(1)
+                            pagerState.animateScrollToPage(
+                                1,
+                                animationSpec = tween(
+                                    durationMillis = 750,
+                                    easing = FastOutSlowInEasing
+                                )
+                            )
                         }
+
                         pagerState.currentPage == 1 && !isRainy -> {
                             viewModel.setRainyState(true)
                         }
+
                         pagerState.currentPage == 1 && isRainy -> {
-                            pagerState.animateScrollToPage(2)
+                            pagerState.animateScrollToPage(
+                                2,
+                                animationSpec = tween(
+                                    durationMillis = 750,
+                                    easing = FastOutSlowInEasing
+                                )
+                            )
                         }
                         else -> {
                             viewModel.saveOnboardingStatus()
