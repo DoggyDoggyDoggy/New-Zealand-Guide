@@ -24,6 +24,7 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.BottomSection
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.FirstPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.FourthPage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.SecondPage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.ThirdPage
 import kotlinx.coroutines.launch
@@ -35,7 +36,10 @@ fun OnboardingScreen(
 ) {
     val navHostController = LocalNavController.current
 
-    val pages = listOf(OnboardingPage.First, OnboardingPage.Second, OnboardingPage.Third)
+    val pages = listOf(
+        OnboardingPage.First, OnboardingPage.Second,
+        OnboardingPage.Third, OnboardingPage.Fourth
+    )
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
 
@@ -114,5 +118,6 @@ fun OnboardingPage.ScreenContent(offset: Float) {
         is OnboardingPage.First -> FirstPage(this, offset)
         is OnboardingPage.Second -> SecondPage(this, offset)
         is OnboardingPage.Third -> ThirdPage(this, offset)
+        is OnboardingPage.Fourth -> FourthPage(this, offset)
     }
 }
