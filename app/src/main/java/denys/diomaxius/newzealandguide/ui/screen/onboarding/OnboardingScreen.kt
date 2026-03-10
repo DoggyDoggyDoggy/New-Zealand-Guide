@@ -16,12 +16,17 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -48,6 +53,20 @@ fun OnboardingScreen(
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
 
+    val disableForwardScroll = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                val isUserInput = source == NestedScrollSource.UserInput
+
+                return if (available.x < 0 && isUserInput) {
+                    Offset(x = available.x, y = 0f)
+                } else {
+                    Offset.Zero
+                }
+            }
+        }
+    }
+
     LaunchedEffect(pagerState.currentPage) {
         if (pagerState.currentPage == 0 && isRainy) {
             viewModel.setRainyState(false)
@@ -73,7 +92,9 @@ fun OnboardingScreen(
         }
 
         HorizontalPager(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(disableForwardScroll),
             state = pagerState,
             contentPadding = PaddingValues(bottom = 100.dp),
             verticalAlignment = Alignment.CenterVertically
