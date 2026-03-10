@@ -67,7 +67,6 @@ fun OnboardingScreen(
 
             Box(
                 modifier = Modifier.graphicsLayer {
-                    // Твоя дефолтная анимация масштаба и прозрачности
                     alpha = lerp(
                         start = 0.5f,
                         stop = 1f,
@@ -91,7 +90,8 @@ fun OnboardingScreen(
                     }
                     is OnboardingUiPage.Weather -> {
                         WeatherPage(
-                            page = if (isRainy) uiPage.second else uiPage.first,
+                            page = uiPage,
+                            isRainy = isRainy,
                             offset = pageOffset
                         )
                     }
