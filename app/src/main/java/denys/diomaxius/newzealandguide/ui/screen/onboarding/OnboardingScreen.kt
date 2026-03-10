@@ -33,14 +33,13 @@ import kotlin.math.absoluteValue
 fun OnboardingScreen(
     viewModel: OnboardingScreenViewModel = hiltViewModel()
 ) {
-    val navHostController = LocalNavController.current // Убедись, что используешь свой актуальный способ навигации
+    val navHostController = LocalNavController.current
     val pages = viewModel.pages
     val isRainy = viewModel.isRainy
 
     val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
 
-    // Если пользователь вручную свайпнул назад на первый экран, сбрасываем погоду на солнце
     LaunchedEffect(pagerState.currentPage) {
         if (pagerState.currentPage == 0 && isRainy) {
             viewModel.setRainyState(false)
