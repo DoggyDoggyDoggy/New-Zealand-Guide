@@ -17,7 +17,6 @@ fun WeatherPage(
     AnimatedContent(
         targetState = isRainy,
         transitionSpec = {
-            // Настраиваем плавное перекрестное растворение (Crossfade)
             fadeIn(animationSpec = tween(1200)) togetherWith fadeOut(animationSpec = tween(700))
         },
         label = "WeatherFadeTransition"

@@ -28,6 +28,7 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.BottomSection
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.RealisticRainAnimation
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.SunAnimation
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.OnboardingUiPage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.WelcomePage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.LastPage
@@ -62,6 +63,14 @@ fun OnboardingScreen(
             )
             .safeDrawingPadding()
     ) {
+        AnimatedVisibility(
+            visible = !isRainy && pagerState.currentPage == 1,
+            enter = fadeIn(animationSpec = tween(700)),
+            exit = fadeOut(animationSpec = tween(350))
+        ) {
+            SunAnimation()
+        }
+
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
@@ -115,8 +124,7 @@ fun OnboardingScreen(
 
         AnimatedVisibility(
             visible = isRainy,
-            enter = fadeIn(animationSpec = tween(700)),
-            exit = fadeOut(animationSpec = tween(700))
+            enter = fadeIn(animationSpec = tween(700))
         ) {
             RealisticRainAnimation()
         }
@@ -147,7 +155,6 @@ fun OnboardingScreen(
                         }
 
                         pagerState.currentPage == 1 && isRainy -> {
-                            viewModel.setRainyState(false)
                             pagerState.animateScrollToPage(
                                 2,
                                 animationSpec = tween(
@@ -155,6 +162,7 @@ fun OnboardingScreen(
                                     easing = FastOutSlowInEasing
                                 )
                             )
+                            viewModel.setRainyState(false)
                         }
 
                         else -> {
