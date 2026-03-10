@@ -1,11 +1,14 @@
 package denys.diomaxius.newzealandguide.ui.screen.onboarding
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -24,6 +27,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.BottomSection
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.RealisticRainAnimation
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.OnboardingUiPage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.WelcomePage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.LastPage
@@ -48,7 +52,7 @@ fun OnboardingScreen(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
@@ -57,10 +61,9 @@ fun OnboardingScreen(
                 )
             )
             .safeDrawingPadding()
-            .padding(horizontal = 16.dp),
     ) {
         HorizontalPager(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxSize(),
             state = pagerState,
             verticalAlignment = Alignment.CenterVertically
         ) { position ->
@@ -110,7 +113,20 @@ fun OnboardingScreen(
             }
         }
 
+        AnimatedVisibility(
+            visible = isRainy,
+            enter = fadeIn(animationSpec = tween(700)),
+            exit = fadeOut(animationSpec = tween(700))
+        ) {
+            RealisticRainAnimation()
+        }
+
         BottomSection(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp),
             pageSize = pages.size,
             currentPage = pagerState.currentPage,
             onNextClick = {
@@ -131,6 +147,7 @@ fun OnboardingScreen(
                         }
 
                         pagerState.currentPage == 1 && isRainy -> {
+                            viewModel.setRainyState(false)
                             pagerState.animateScrollToPage(
                                 2,
                                 animationSpec = tween(
@@ -139,6 +156,7 @@ fun OnboardingScreen(
                                 )
                             )
                         }
+
                         else -> {
                             viewModel.saveOnboardingStatus()
                             navHostController.navigate(NavScreen.Home.route) {

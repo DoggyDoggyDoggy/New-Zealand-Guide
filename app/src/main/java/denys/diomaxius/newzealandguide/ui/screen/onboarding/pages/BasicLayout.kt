@@ -3,7 +3,6 @@ package denys.diomaxius.newzealandguide.ui.screen.onboarding.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,8 +27,6 @@ fun BasicLayout(page: PageContent, offset: Float) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-
         Image(
             modifier = Modifier
                 .height(320.dp)
@@ -62,7 +59,5 @@ fun BasicLayout(page: PageContent, offset: Float) {
             fontSize = 16.sp,
             color = Color(0xFF334B47)
         )
-
-        Spacer(modifier = Modifier.weight(1f))
     }
 }

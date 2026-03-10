@@ -33,8 +33,8 @@ class OnboardingScreenViewModel @Inject constructor(
             ),
             second = PageContent(
                 image = R.drawable.kea_rainy_weather,
-                title = "3 PM: Rain or Shine?",
-                description = "Get a daily weather update for the most active hour of the day. It’s a great starting point for your plans, but in Aotearoa, it’s always wise to be ready for a sudden afternoon shower!"
+                title = "3 PM: Rain\nor Shine?",
+                description = "Get weather updates for the most active hour of the day. Perfect for planning ahead, but always keep a raincoat handy for those sudden Kiwi showers!"
             )
         ),
         OnboardingUiPage.Last(
