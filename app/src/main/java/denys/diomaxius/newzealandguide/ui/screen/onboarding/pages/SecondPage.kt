@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingPage
 
 @Composable
-fun SecondPage(page: OnboardingPage) {
-    BasicLayout(page)
+fun SecondPage(page: OnboardingPage, offset: Float) {
+    BasicLayout(page, offset)
 }

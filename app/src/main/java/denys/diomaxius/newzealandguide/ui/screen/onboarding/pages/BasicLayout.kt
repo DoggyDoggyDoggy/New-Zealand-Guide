@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingPage
 
 @Composable
-fun BasicLayout(page: OnboardingPage) {
+fun BasicLayout(page: OnboardingPage, offset: Float) {
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -32,7 +33,10 @@ fun BasicLayout(page: OnboardingPage) {
         Image(
             modifier = Modifier
                 .height(320.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .graphicsLayer {
+                    translationX = offset * -350f
+                },
             painter = painterResource(id = page.image),
             contentDescription = "Kea",
             contentScale = ContentScale.Fit
