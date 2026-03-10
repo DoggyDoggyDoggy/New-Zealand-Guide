@@ -1,9 +1,9 @@
 package denys.diomaxius.newzealandguide.ui.screen.onboarding.pages
 
 import androidx.compose.runtime.Composable
-import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.PageContent
 
 @Composable
-fun FirstPage(page: OnboardingPage, offset: Float) {
+fun FirstPage(page: PageContent, offset: Float) {
     BasicLayout(page, offset)
 }

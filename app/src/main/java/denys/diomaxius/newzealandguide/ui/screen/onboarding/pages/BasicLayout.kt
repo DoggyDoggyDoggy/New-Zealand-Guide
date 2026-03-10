@@ -19,10 +19,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.PageContent
 
 @Composable
-fun BasicLayout(page: OnboardingPage, offset: Float) {
+fun BasicLayout(page: PageContent, offset: Float) {
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
