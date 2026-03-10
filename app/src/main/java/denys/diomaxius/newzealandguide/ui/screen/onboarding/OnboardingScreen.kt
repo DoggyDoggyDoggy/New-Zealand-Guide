@@ -17,6 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.BottomSection
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.FirstPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.SecondPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.ThirdPage
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,5 +71,14 @@ fun OnboardingScreen(
                 }
             }
         )
+    }
+}
+
+@Composable
+fun PagerContent(page: OnboardingPage) {
+    when (page) {
+        is OnboardingPage.First ->FirstPage(page)
+        is OnboardingPage.Second -> SecondPage(page)
+        is OnboardingPage.Third -> ThirdPage(page)
     }
 }

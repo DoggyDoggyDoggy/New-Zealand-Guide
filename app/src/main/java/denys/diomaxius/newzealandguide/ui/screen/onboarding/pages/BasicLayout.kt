@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.onboarding
+package denys.diomaxius.newzealandguide.ui.screen.onboarding.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,9 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.OnboardingPage
 
 @Composable
-fun PagerContent(page: OnboardingPage) {
+fun BasicLayout(page: OnboardingPage) {
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

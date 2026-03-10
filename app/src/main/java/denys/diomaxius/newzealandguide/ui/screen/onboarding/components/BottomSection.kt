@@ -1,4 +1,4 @@
-package denys.diomaxius.newzealandguide.ui.screen.onboarding
+package denys.diomaxius.newzealandguide.ui.screen.onboarding.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
