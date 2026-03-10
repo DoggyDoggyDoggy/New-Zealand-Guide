@@ -13,7 +13,7 @@ sealed class OnboardingPage(
         description = "Your journey through the Land of the Long White Cloud starts here. Let Kea guide you to the heart of New Zealand’s most iconic cities."
     )
     object Second : OnboardingPage(
-        image = R.drawable.kea_weather_event,
+        image = R.drawable.kea_sunny_weather,
         title = "Stay ahead of the weather",
         description = "Get curated city guides, daily weather forecasts, and the latest events every week. Curate your favorites, share them with friends, and never miss a beat!"
     )
