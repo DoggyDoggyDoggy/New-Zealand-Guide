@@ -25,8 +25,8 @@ import denys.diomaxius.newzealandguide.navigation.LocalNavController
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.components.BottomSection
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.OnboardingUiPage
-import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.FirstPage
-import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.FourthPage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.WelcomePage
+import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.LastPage
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.pages.WeatherPage
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -86,7 +86,7 @@ fun OnboardingScreen(
             ) {
                 when (uiPage) {
                     is OnboardingUiPage.Welcome -> {
-                        FirstPage(
+                        WelcomePage(
                             page = uiPage.content,
                             offset = pageOffset
                         )
@@ -101,7 +101,7 @@ fun OnboardingScreen(
                     }
 
                     is OnboardingUiPage.Last -> {
-                        FourthPage(
+                        LastPage(
                             page = uiPage.content,
                             offset = pageOffset
                         )

@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.PageContent
 
 @Composable
-fun FirstPage(page: PageContent, offset: Float) {
+fun LastPage(page: PageContent, offset: Float) {
     BasicLayout(page, offset)
 }
