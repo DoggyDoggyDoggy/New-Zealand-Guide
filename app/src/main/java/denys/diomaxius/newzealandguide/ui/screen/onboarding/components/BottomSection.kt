@@ -66,7 +66,7 @@ fun BottomSection(
                         modifier = Modifier
                             .size(dotSize)
                             .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.4f))
+                            .background(Color.White.copy(alpha = 0.7f))
                     )
                 }
             }
