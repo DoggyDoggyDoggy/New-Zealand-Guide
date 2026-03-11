@@ -23,7 +23,7 @@ import denys.diomaxius.newzealandguide.ui.screen.onboarding.data.PageContent
 @Composable
 fun BasicLayout(page: PageContent, offset: Float) {
     Column(
-        modifier = Modifier,
+        modifier = Modifier.padding(horizontal = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -52,7 +52,7 @@ fun BasicLayout(page: PageContent, offset: Float) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+                .padding(horizontal = 16.dp),
             text = page.description,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
