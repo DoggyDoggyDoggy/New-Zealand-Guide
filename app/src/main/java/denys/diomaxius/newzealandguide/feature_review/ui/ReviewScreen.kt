@@ -32,8 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.android.play.core.review.testing.FakeReviewManager
-import denys.diomaxius.newzealandguide.feature_review.ui.models.ReviewAction
-import denys.diomaxius.newzealandguide.feature_review.ui.models.ReviewEvent
 
 @Composable
 fun ReviewScreen(

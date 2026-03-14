@@ -3,9 +3,6 @@ package denys.diomaxius.newzealandguide.feature_review.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import denys.diomaxius.newzealandguide.feature_review.data.FeedbackRepository
-import denys.diomaxius.newzealandguide.feature_review.ui.models.ReviewAction
-import denys.diomaxius.newzealandguide.feature_review.ui.models.ReviewEvent
-import denys.diomaxius.newzealandguide.feature_review.ui.models.ReviewUiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
