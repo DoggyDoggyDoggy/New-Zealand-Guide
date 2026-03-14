@@ -31,12 +31,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.google.android.play.core.review.testing.FakeReviewManager
 
 @Composable
 fun ReviewScreen(
-    viewModel: ReviewViewModel,
-    onDismiss: () -> Unit
+    viewModel: ReviewViewModel = hiltViewModel(),
+    onDismiss: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
