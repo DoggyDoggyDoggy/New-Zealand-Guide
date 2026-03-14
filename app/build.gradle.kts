@@ -91,6 +91,9 @@ dependencies {
     //DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    //Review
+    implementation(libs.review.ktx)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
