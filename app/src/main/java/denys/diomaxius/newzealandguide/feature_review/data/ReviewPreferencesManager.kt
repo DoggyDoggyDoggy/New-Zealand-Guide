@@ -37,8 +37,28 @@ class ReviewPreferencesManager(private val context: Context) {
         context.dataStore.edit { prefs ->
             prefs[ACTION_COUNT_KEY] = 0
             prefs[LAST_PROMPT_TIME_KEY] = System.currentTimeMillis()
+            prefs[SHOW_REVIEW_DIALOG_AGAIN_KEY] = true
+            prefs[SHOW_REVIEW_DIALOG_LATER_KEY] = true
+        }
+    }
+
+    suspend fun dontShowAgain() {
+        context.dataStore.edit { prefs ->
+            prefs[SHOW_REVIEW_DIALOG_AGAIN_KEY] = false
+            prefs[SHOW_REVIEW_DIALOG_LATER_KEY] = false
+        }
+    }
+
+    suspend fun setShowDialogLater() {
+        context.dataStore.edit { prefs ->
+            prefs[SHOW_REVIEW_DIALOG_LATER_KEY] = true
         }
     }
 }
 
-data class ReviewPrefs(val count: Int, val lastPromptTime: Long, val showAgain: Boolean, val showLater: Boolean)
+data class ReviewPrefs(
+    val count: Int,
+    val lastPromptTime: Long,
+    val showAgain: Boolean,
+    val showLater: Boolean,
+)
