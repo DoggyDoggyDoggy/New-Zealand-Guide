@@ -1,10 +1,11 @@
 package denys.diomaxius.newzealandguide.feature_review.data
 
+import android.content.Context
 import android.os.Build
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FeedbackRepository() {
+class FeedbackRepository(context: Context) {
     private val db = FirebaseFirestore.getInstance()
 
     suspend fun sendComplaint(rating: Int, feedback: String): Result<Unit> {

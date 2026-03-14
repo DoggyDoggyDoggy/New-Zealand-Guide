@@ -2,6 +2,7 @@ package denys.diomaxius.newzealandguide.feature_review.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.feature_review.data.FeedbackRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,9 +10,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ReviewViewModel(
-    private val repository: FeedbackRepository = FeedbackRepository()
+@HiltViewModel
+class ReviewViewModel @Inject constructor(
+    private val repository: FeedbackRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ReviewUiState())
