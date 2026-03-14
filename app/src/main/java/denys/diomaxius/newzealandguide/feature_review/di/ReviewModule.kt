@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import denys.diomaxius.newzealandguide.feature_review.data.FeedbackRepository
+import denys.diomaxius.newzealandguide.feature_review.data.ReviewPreferencesManager
 import javax.inject.Singleton
 
 @Module
@@ -19,5 +20,13 @@ object ReviewModule {
         @ApplicationContext context: Context
     ): FeedbackRepository {
         return FeedbackRepository(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewPreferencesManager(
+        @ApplicationContext context: Context
+    ): ReviewPreferencesManager {
+        return ReviewPreferencesManager(context)
     }
 }
