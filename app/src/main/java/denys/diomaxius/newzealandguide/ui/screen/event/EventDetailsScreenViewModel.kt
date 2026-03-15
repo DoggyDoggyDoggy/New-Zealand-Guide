@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.usecase.city.GetCityEventUseCase
 import denys.diomaxius.newzealandguide.domain.usecase.city.ToggleEventFavoriteUseCase
+import denys.diomaxius.newzealandguide.feature_review.usecase.IncrementReviewActionUseCase
 import denys.diomaxius.newzealandguide.ui.components.uistate.UiState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class EventDetailsScreenViewModel @Inject constructor(
     getCityEventUseCase: GetCityEventUseCase,
     private val toggleEventFavoriteUseCase: ToggleEventFavoriteUseCase,
+    private val incrementReviewActionUseCase: IncrementReviewActionUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val eventId: String = checkNotNull(savedStateHandle["eventId"])
@@ -38,7 +40,16 @@ class EventDetailsScreenViewModel @Inject constructor(
             initialValue = UiState.Loading
         )
 
+    init {
+        increaseReviewAction()
+    }
+
     fun toggleFavorite() = viewModelScope.launch {
+        incrementReviewActionUseCase()
         toggleEventFavoriteUseCase(cityId, eventId)
+    }
+
+    private fun increaseReviewAction() = viewModelScope.launch {
+        incrementReviewActionUseCase()
     }
 }

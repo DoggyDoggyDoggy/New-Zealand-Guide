@@ -17,6 +17,7 @@ coilCompose = "3.2.0"
 ksp = "2.2.20-2.0.3"
 pagingCompose = "3.3.0"
 pagingRuntime = "3.3.0"
+reviewKtx = "2.0.1"
 roomKtx = "2.8.1"
 hiltAndroidCompiler = "2.57.1"
 firebaseAppCheck = "19.0.0"
@@ -66,6 +67,9 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 
 #DataStore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+
+#Review
+review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 
 #ksp
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
