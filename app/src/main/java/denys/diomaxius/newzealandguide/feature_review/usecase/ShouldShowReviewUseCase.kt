@@ -1,5 +1,6 @@
 package denys.diomaxius.newzealandguide.feature_review.usecase
 
+import android.util.Log
 import denys.diomaxius.newzealandguide.feature_review.data.ReviewPreferencesManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,9 +15,8 @@ class ShouldShowReviewUseCase @Inject constructor(
 
         val canShow = data.showAgain && data.showLater
 
-        val monthInMillis = 30 * 24 * 60 * 60 * 1000L
-        val isTimePassed = (System.currentTimeMillis() - data.lastPromptTime) > monthInMillis
+        Log.d("ShouldShowReviewUseCase", "isEnoughActions: $isEnoughActions, isEnoughLaunches: $isEnoughLaunches, canShow: $canShow")
 
-        canShow && isEnoughActions && isEnoughLaunches && isTimePassed
+        canShow && isEnoughActions && isEnoughLaunches
     }
 }
