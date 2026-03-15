@@ -16,13 +16,15 @@ class ReviewPreferencesManager(private val context: Context) {
     private val LAST_PROMPT_TIME_KEY = longPreferencesKey("last_prompt_time")
     private val SHOW_REVIEW_DIALOG_AGAIN_KEY = booleanPreferencesKey("show_review_dialog_again")
     private val SHOW_REVIEW_DIALOG_LATER_KEY = booleanPreferencesKey("show_review_dialog_later")
+    private val LAUNCH_COUNT_KEY = intPreferencesKey("launch_count")
 
     val reviewDataFlow: Flow<ReviewPrefs> = context.dataStore.data.map { prefs ->
         ReviewPrefs(
             count = prefs[ACTION_COUNT_KEY] ?: 0,
             lastPromptTime = prefs[LAST_PROMPT_TIME_KEY] ?: 0L,
             showAgain = prefs[SHOW_REVIEW_DIALOG_AGAIN_KEY] ?: true,
-            showLater = prefs[SHOW_REVIEW_DIALOG_LATER_KEY] ?: true
+            showLater = prefs[SHOW_REVIEW_DIALOG_LATER_KEY] ?: true,
+            launchCount = prefs[LAUNCH_COUNT_KEY] ?: 0
         )
     }
 
@@ -30,6 +32,13 @@ class ReviewPreferencesManager(private val context: Context) {
         context.dataStore.edit { prefs ->
             val current = prefs[ACTION_COUNT_KEY] ?: 0
             prefs[ACTION_COUNT_KEY] = current + 1
+        }
+    }
+
+    suspend fun incrementLaunchCount() {
+        context.dataStore.edit { prefs ->
+            val current = prefs[LAUNCH_COUNT_KEY] ?: 0
+            prefs[LAUNCH_COUNT_KEY] = current + 1
         }
     }
 
@@ -61,4 +70,5 @@ data class ReviewPrefs(
     val lastPromptTime: Long,
     val showAgain: Boolean,
     val showLater: Boolean,
+    val launchCount: Int
 )

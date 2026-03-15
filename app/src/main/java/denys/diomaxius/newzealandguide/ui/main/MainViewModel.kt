@@ -5,13 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import denys.diomaxius.newzealandguide.domain.usecase.onboarding.GetOnboardingStatusUseCase
+import denys.diomaxius.newzealandguide.feature_review.usecase.IncrementAppLaunchUseCase
 import denys.diomaxius.newzealandguide.navigation.NavScreen
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getOnboardingStatusUseCase: GetOnboardingStatusUseCase
+    private val getOnboardingStatusUseCase: GetOnboardingStatusUseCase,
+    private val incrementAppLaunchUseCase: IncrementAppLaunchUseCase
 ) : ViewModel() {
 
     var startDestination = mutableStateOf<String?>(null)
@@ -25,6 +27,7 @@ class MainViewModel @Inject constructor(
                     NavScreen.Onboarding.route
                 }
             }
+            incrementAppLaunchUseCase()
         }
     }
 }
