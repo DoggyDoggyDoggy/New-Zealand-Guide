@@ -138,12 +138,16 @@ fun ReviewScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     TextButton(
-                        onClick = { },
+                        onClick = {
+                            viewModel::dontShowDialogAgain
+                        },
                     ) {
                         Text("Don't show again")
                     }
                     TextButton(
-                        onClick = { },
+                        onClick = {
+                            viewModel::setShowDialogLater
+                        },
                     ) {
                         Text("Remind later")
                     }

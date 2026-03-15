@@ -60,9 +60,6 @@ class ReviewPreferencesManager(private val context: Context) {
     }
 
     suspend fun setShowDialogLater() {
-        context.dataStore.edit { prefs ->
-            prefs[SHOW_REVIEW_DIALOG_LATER_KEY] = true
-        }
         resetCounterAndSetTimestamp()
     }
 }
