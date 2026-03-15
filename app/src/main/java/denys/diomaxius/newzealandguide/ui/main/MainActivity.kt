@@ -45,7 +45,7 @@ class MainActivity() : ComponentActivity() {
 
                     if (showDialog) {
                         Dialog(
-                            onDismissRequest = { viewModel.onReviewDismissed() }
+                            onDismissRequest = {}
                         ) {
                             ReviewScreen(
                                 onDismiss = {
