@@ -38,7 +38,8 @@ class ReviewPreferencesManager(private val context: Context) {
     suspend fun incrementLaunchCount() {
         context.dataStore.edit { prefs ->
             val current = prefs[LAUNCH_COUNT_KEY] ?: 0
-            prefs[LAUNCH_COUNT_KEY] = current + 1
+            val showAgain = prefs[SHOW_REVIEW_DIALOG_AGAIN_KEY] ?: true
+            if (showAgain) { prefs[LAUNCH_COUNT_KEY] = current + 1 }
         }
     }
 
