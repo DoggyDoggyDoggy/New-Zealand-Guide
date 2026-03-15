@@ -79,8 +79,11 @@ fun ReviewScreen(
                         "Thank you for your feedback! We will fix everything.",
                         style = MaterialTheme.typography.titleMedium
                     )
+
                     Spacer(modifier = Modifier.height(8.dp))
+
                     Button(onClick = onDismiss) { Text("Close") }
+
                     Spacer(modifier = Modifier.height(8.dp))
                 } else {
                     Text("How do you like our app?", style = MaterialTheme.typography.titleMedium)
