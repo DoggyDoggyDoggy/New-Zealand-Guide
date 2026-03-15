@@ -3,6 +3,7 @@ package denys.diomaxius.newzealandguide.feature_review.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
 import denys.diomaxius.newzealandguide.feature_review.data.FeedbackRepository
 import denys.diomaxius.newzealandguide.feature_review.usecase.DontShowDialogAgainUseCase
 import denys.diomaxius.newzealandguide.feature_review.usecase.SetShowDialogLaterUseCase
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class ReviewViewModel @Inject constructor(
     private val repository: FeedbackRepository,
     private val dontShowDialogAgainUseCase: DontShowDialogAgainUseCase,
-    private val setShowDialogLaterUseCase: SetShowDialogLaterUseCase
+    private val setShowDialogLaterUseCase: SetShowDialogLaterUseCase,
+    private val analyticsHelper: AnalyticsHelper
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ReviewUiState())
@@ -38,11 +40,15 @@ class ReviewViewModel @Inject constructor(
     private fun handleRating(rating: Int) {
         _state.update { it.copy(selectedRating = rating) }
 
+        analyticsHelper.logEvent("review_rating_selected", mapOf("rating" to rating))
+
         if (rating >= 4) {
+            analyticsHelper.logEvent("review_positive_intent")
             viewModelScope.launch {
                 _events.send(ReviewEvent.LaunchGooglePlayReview)
             }
         } else {
+            analyticsHelper.logEvent("review_negative_intent")
             _state.update { it.copy(showFeedbackForm = true) }
         }
     }
