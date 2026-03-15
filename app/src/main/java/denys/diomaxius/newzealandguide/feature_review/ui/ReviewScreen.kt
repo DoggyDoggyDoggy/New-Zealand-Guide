@@ -3,7 +3,6 @@ package denys.diomaxius.newzealandguide.feature_review.ui
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.google.android.play.core.review.testing.FakeReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 
 @Composable
 fun ReviewScreen(
@@ -50,12 +49,13 @@ fun ReviewScreen(
             when (event) {
                 is ReviewEvent.LaunchGooglePlayReview -> {
                     if (activity != null) {
-                        launchInAppReview(activity)
-                        onDismiss()
+                        launchInAppReview(activity) {viewModel.dontShowDialogAgain()}
                     }
+                    onDismiss()
                 }
 
                 is ReviewEvent.ShowError -> {
+                    onDismiss()
                 }
             }
         }
@@ -139,14 +139,16 @@ fun ReviewScreen(
                 ) {
                     TextButton(
                         onClick = {
-                            viewModel::dontShowDialogAgain
+                            viewModel.dontShowDialogAgain()
+                            onDismiss()
                         },
                     ) {
                         Text("Don't show again")
                     }
                     TextButton(
                         onClick = {
-                            viewModel::setShowDialogLater
+                            viewModel.setShowDialogLater()
+                            onDismiss()
                         },
                     ) {
                         Text("Remind later")
@@ -157,8 +159,8 @@ fun ReviewScreen(
     }
 }
 
-private fun launchInAppReview(activity: Activity) {
-    val reviewManager = FakeReviewManager(activity)
+private fun launchInAppReview(activity: Activity, onComplete: () -> Unit) {
+    val reviewManager = ReviewManagerFactory.create(activity)
 
     val request = reviewManager.requestReviewFlow()
     request.addOnCompleteListener { task ->
@@ -166,8 +168,7 @@ private fun launchInAppReview(activity: Activity) {
             val reviewInfo = task.result
             val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
             flow.addOnCompleteListener { _ ->
-                Toast.makeText(activity, "Fake Review API worked successfully!", Toast.LENGTH_SHORT)
-                    .show()
+                onComplete()
             }
         }
     }
