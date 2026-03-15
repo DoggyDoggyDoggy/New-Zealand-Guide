@@ -63,7 +63,7 @@ class ReviewViewModel @Inject constructor(
                 _state.update { it.copy(isSubmitting = false, isSuccess = true, showFeedbackForm = false) }
             }.onFailure { error ->
                 _state.update { it.copy(isSubmitting = false) }
-                _events.send(ReviewEvent.ShowError(error.message ?: "Ошибка отправки"))
+                _events.send(ReviewEvent.ShowError(error.message ?: "Sending error"))
             }
         }
     }
