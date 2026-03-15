@@ -1,6 +1,7 @@
 package denys.diomaxius.newzealandguide.feature_review.data
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
@@ -65,6 +66,7 @@ class ReviewPreferencesManager(private val context: Context) {
     }
 }
 
+@Keep
 data class ReviewPrefs(
     val count: Int,
     val lastPromptTime: Long,
