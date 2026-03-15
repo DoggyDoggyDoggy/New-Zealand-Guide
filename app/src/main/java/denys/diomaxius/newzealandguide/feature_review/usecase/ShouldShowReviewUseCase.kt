@@ -13,10 +13,8 @@ class ShouldShowReviewUseCase @Inject constructor(
         val isEnoughActions = data.count >= 12
         val isEnoughLaunches = data.launchCount >= 3
 
-        val canShow = data.showAgain && data.showLater
+        Log.d("ShouldShowReviewUseCase", "isEnoughActions: $isEnoughActions, isEnoughLaunches: $isEnoughLaunches")
 
-        Log.d("ShouldShowReviewUseCase", "isEnoughActions: $isEnoughActions, isEnoughLaunches: $isEnoughLaunches, canShow: $canShow")
-
-        canShow && isEnoughActions && isEnoughLaunches
+        isEnoughActions && isEnoughLaunches
     }
 }

@@ -79,8 +79,9 @@ fun ReviewScreen(
                         "Thank you for your feedback! We will fix everything.",
                         style = MaterialTheme.typography.titleMedium
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = onDismiss) { Text("Закрыть") }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = onDismiss) { Text("Close") }
+                    Spacer(modifier = Modifier.height(8.dp))
                 } else {
                     Text("How do you like our app?", style = MaterialTheme.typography.titleMedium)
                     Spacer(modifier = Modifier.height(16.dp))
@@ -126,7 +127,7 @@ fun ReviewScreen(
                     }
                 }
             }
-            if (!state.showFeedbackForm) {
+            if (!state.showFeedbackForm && !state.isSuccess) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
