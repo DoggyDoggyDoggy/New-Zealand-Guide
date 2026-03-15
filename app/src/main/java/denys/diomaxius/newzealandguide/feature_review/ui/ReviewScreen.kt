@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,7 +39,7 @@ import com.google.android.play.core.review.testing.FakeReviewManager
 @Composable
 fun ReviewScreen(
     viewModel: ReviewViewModel = hiltViewModel(),
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -52,6 +54,7 @@ fun ReviewScreen(
                         onDismiss()
                     }
                 }
+
                 is ReviewEvent.ShowError -> {
                 }
             }
@@ -64,52 +67,81 @@ fun ReviewScreen(
             .padding(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (state.isSuccess) {
-                Text("Thank you for your feedback! We will fix everything.", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = onDismiss) { Text("Закрыть") }
-            } else {
-                Text("How do you like our app?", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row {
-                    for (i in 1..5) {
-                        val isSelected = i <= state.selectedRating
-                        Icon(
-                            imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.Star,
-                            contentDescription = "Star $i",
-                            tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clickable { viewModel.onAction(ReviewAction.SelectRating(i)) }
-                        )
-                    }
-                }
-
-                if (state.showFeedbackForm) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedTextField(
-                        value = state.feedbackText,
-                        onValueChange = { viewModel.onAction(ReviewAction.UpdateFeedback(it)) },
-                        label = { Text("What went wrong?") },
-                        modifier = Modifier.fillMaxWidth(),
-                        minLines = 3
+        Column {
+            Column(
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (state.isSuccess) {
+                    Text(
+                        "Thank you for your feedback! We will fix everything.",
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = { viewModel.onAction(ReviewAction.SubmitFeedback) },
-                        enabled = !state.isSubmitting && state.feedbackText.isNotBlank(),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        if (state.isSubmitting) {
-                            CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary)
-                        } else {
-                            Text("Send to developer")
+                    Button(onClick = onDismiss) { Text("Закрыть") }
+                } else {
+                    Text("How do you like our app?", style = MaterialTheme.typography.titleMedium)
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row {
+                        for (i in 1..5) {
+                            val isSelected = i <= state.selectedRating
+                            Icon(
+                                imageVector = if (isSelected) Icons.Filled.Star else Icons.Outlined.Star,
+                                contentDescription = "Star $i",
+                                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .size(48.dp)
+                                    .clickable { viewModel.onAction(ReviewAction.SelectRating(i)) }
+                            )
                         }
+                    }
+
+                    if (state.showFeedbackForm) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        OutlinedTextField(
+                            value = state.feedbackText,
+                            onValueChange = { viewModel.onAction(ReviewAction.UpdateFeedback(it)) },
+                            label = { Text("What went wrong?") },
+                            modifier = Modifier.fillMaxWidth(),
+                            minLines = 3
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(
+                            onClick = { viewModel.onAction(ReviewAction.SubmitFeedback) },
+                            enabled = !state.isSubmitting && state.feedbackText.isNotBlank(),
+                            modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+                        ) {
+                            if (state.isSubmitting) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(24.dp),
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            } else {
+                                Text("Send to developer")
+                            }
+                        }
+                    }
+                }
+            }
+            if (!state.showFeedbackForm) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 6.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                ) {
+                    TextButton(
+                        onClick = { },
+                    ) {
+                        Text("Don't show again")
+                    }
+                    TextButton(
+                        onClick = { },
+                    ) {
+                        Text("Remind later")
                     }
                 }
             }
@@ -126,7 +158,8 @@ private fun launchInAppReview(activity: Activity) {
             val reviewInfo = task.result
             val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
             flow.addOnCompleteListener { _ ->
-                Toast.makeText(activity, "Fake Review API worked successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Fake Review API worked successfully!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
