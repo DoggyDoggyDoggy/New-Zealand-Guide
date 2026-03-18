@@ -25,6 +25,11 @@ firebaseCrashlytics = "20.0.4"
 googleFirebaseCrashlytics = "3.0.6"
 firebaseAnalytics = "23.0.0"
 browser = "1.9.0"
+junit-jupiter = "5.10.2"
+mockk = "1.13.10"
+kotlinx-coroutines-test = "1.8.1"
+turbine = "1.1.0"
+truth = "1.4.2"
 
 [libraries]
 #Browser
@@ -73,6 +78,15 @@ review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "rev
 
 #ksp
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+
+# UNIT TESTING
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-jupiter" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit-jupiter" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
