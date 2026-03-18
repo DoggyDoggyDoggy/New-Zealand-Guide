@@ -18,9 +18,9 @@ class CityMapperTest {
 
         val domain = entity.toDomain()
 
-        assertThat(domain.id).isEqualTo(entity.id)
-        assertThat(domain.name).isEqualTo(entity.name)
-        assertThat(domain.favorite).isEqualTo(entity.favorite)
+        assertThat(domain.id).isEqualTo("auckland_01")
+        assertThat(domain.name).isEqualTo("Auckland")
+        assertThat(domain.favorite).isTrue()
 
         assertThat(domain.photos)
             .containsExactlyElementsIn(expectedPhotos)

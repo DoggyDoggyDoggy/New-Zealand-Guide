@@ -22,15 +22,15 @@ class CityEventMapperTest {
 
         val domain = entity.toDomain()
 
-        assertThat(domain.cityId).isEqualTo(entity.cityId)
-        assertThat(domain.eventId).isEqualTo(entity.eventId)
-        assertThat(domain.url).isEqualTo(entity.url)
-        assertThat(domain.name).isEqualTo(entity.name)
-        assertThat(domain.description).isEqualTo(entity.description)
-        assertThat(domain.address).isEqualTo(entity.address)
-        assertThat(domain.imageUrl).isEqualTo(entity.imageUrl)
-        assertThat(domain.sessions).isEqualTo(entity.sessions)
-        assertThat(domain.positionInList).isEqualTo(entity.positionInList)
+        assertThat(domain.cityId).isEqualTo("1")
+        assertThat(domain.eventId).isEqualTo("event_123")
+        assertThat(domain.url).isEqualTo("https://nz.com")
+        assertThat(domain.name).isEqualTo("Rugby Match")
+        assertThat(domain.description).isEqualTo("Big game in Auckland")
+        assertThat(domain.address).isEqualTo("Eden Park")
+        assertThat(domain.imageUrl).isEqualTo("https://image.com")
+        assertThat(domain.sessions).containsExactly("19:00", "21:00").inOrder()
+        assertThat(domain.positionInList).isEqualTo(5)
         assertThat(domain.favorite).isTrue()
     }
 
