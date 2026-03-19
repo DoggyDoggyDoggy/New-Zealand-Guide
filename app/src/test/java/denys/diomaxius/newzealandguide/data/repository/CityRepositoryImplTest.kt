@@ -46,4 +46,14 @@ class CityRepositoryImplTest {
 
         coVerify(exactly = 1) { cityDao.toggleFavorite(cityId) }
     }
+
+    @Test
+    fun `toggleEventFavorite should delegate call to cityDao`() = runTest {
+        val cityId = "city_1"
+        val eventId = "event_123"
+
+        repository.toggleEventFavorite(cityId, eventId)
+
+        coVerify(exactly = 1) { cityDao.toggleEventFavorite(cityId, eventId) }
+    }
 }
