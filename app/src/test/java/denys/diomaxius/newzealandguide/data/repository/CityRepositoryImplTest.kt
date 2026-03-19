@@ -21,10 +21,14 @@ import android.content.Context
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
+import denys.diomaxius.newzealandguide.domain.model.city.City
+import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 
 class CityRepositoryImplTest {
@@ -92,5 +96,48 @@ class CityRepositoryImplTest {
         assertThat(result.paragraphs)
             .containsExactly("Long ago...", "History Title")
             .inOrder()
+    }
+
+    @Test
+    fun `getAllCitiesFlow should emit mapped cities`() = runTest {
+        val entities = listOf(
+            CityEntity("1", "Auckland", listOf("url", "url2"), true)
+        )
+
+        every { cityDao.getAllCitiesFlow(any()) } returns flowOf(entities)
+
+        repository.getAllCitiesFlow(onlyFavorites = false).test {
+            val cities = awaitItem()
+            assertThat(cities[0].name).isEqualTo("Auckland")
+            assertThat(cities[0]).isInstanceOf(City::class.java)
+            awaitComplete()
+        }
+    }
+
+    @Test
+    fun `getFavoriteCityEventsFlow should emit mapped favorite events`() = runTest {
+        val cityId = "c1"
+        val entities = listOf(
+            CityEventEntity(
+                cityId,
+                "e1",
+                "url",
+                "Match",
+                "desc",
+                "addr",
+                "img",
+                listOf(),
+                1,
+                true)
+        )
+        every { cityDao.getFavoriteCityEventsFlow(cityId) } returns flowOf(entities)
+
+        repository.getFavoriteCityEventsFlow(cityId).test {
+            val events = awaitItem()
+            assertThat(events).hasSize(1)
+            assertThat(events[0]).isInstanceOf(CityEvent::class.java)
+            assertThat(events[0].name).isEqualTo("Match")
+            awaitComplete()
+        }
     }
 }
