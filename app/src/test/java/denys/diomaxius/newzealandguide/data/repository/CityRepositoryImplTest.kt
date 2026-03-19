@@ -70,6 +70,29 @@ class CityRepositoryImplTest {
     }
 
     @Test
+    fun `getCityById should return mapped domain city`() = runTest {
+        val cityId = "hamilton_01"
+        val mockEntity = CityEntity(
+            id = cityId,
+            name = "Hamilton",
+            photos = listOf("url1", "url2"),
+            favorite = true
+        )
+
+        coEvery { cityDao.getCityById(cityId) } returns mockEntity
+
+        val result = repository.getCityById(cityId)
+
+        assertThat(result).isInstanceOf(City::class.java)
+
+        assertThat(result.id).isEqualTo(cityId)
+        assertThat(result.name).isEqualTo("Hamilton")
+        assertThat(result.favorite).isTrue()
+
+        coVerify(exactly = 1) { cityDao.getCityById(cityId) }
+    }
+
+    @Test
     fun `getPlacesForCityById should return mapped places`() = runTest {
         val cityId = "c1"
         val entities = listOf(
