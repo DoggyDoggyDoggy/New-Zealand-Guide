@@ -163,4 +163,37 @@ class CityRepositoryImplTest {
             awaitComplete()
         }
     }
+
+    @Test
+    fun `getCityEvent should emit mapped domain event from flow`() = runTest {
+        val cityId = "auckland_01"
+        val eventId = "rugby_match_1"
+
+        val mockEntity = CityEventEntity(
+            cityId = cityId,
+            eventId = eventId,
+            url = "https://stadium.nz",
+            name = "All Blacks vs Springboks",
+            description = "Epic match",
+            address = "Eden Park",
+            imageUrl = "https://image.com/match.jpg",
+            sessions = listOf("19:00"),
+            positionInList = 1,
+            favorite = false
+        )
+
+        every { cityDao.getCityEvent(cityId, eventId) } returns flowOf(mockEntity)
+
+        repository.getCityEvent(cityId, eventId).test {
+            val result = awaitItem()
+
+            assertThat(result).isInstanceOf(CityEvent::class.java)
+
+            assertThat(result.eventId).isEqualTo(eventId)
+            assertThat(result.name).isEqualTo("All Blacks vs Springboks")
+            awaitComplete()
+        }
+
+        verify(exactly = 1) { cityDao.getCityEvent(cityId, eventId) }
+    }
 }
