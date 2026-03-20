@@ -21,14 +21,18 @@ import android.content.Context
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
+import denys.diomaxius.newzealandguide.data.local.room.model.cache.WeatherCacheInfo
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityEventEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityHistoryEntity
 import denys.diomaxius.newzealandguide.data.local.room.model.city.CityPlaceEntity
+import denys.diomaxius.newzealandguide.data.local.room.model.city.CityWeatherEntity
 import denys.diomaxius.newzealandguide.data.remote.api.CityEventsDataSource
 import denys.diomaxius.newzealandguide.data.remote.api.CityWeatherDataSource
+import denys.diomaxius.newzealandguide.data.remote.model.CityWeatherDto
 import denys.diomaxius.newzealandguide.domain.model.city.City
 import denys.diomaxius.newzealandguide.domain.model.city.CityEvent
+import denys.diomaxius.newzealandguide.domain.model.city.WeatherResult
 import denys.diomaxius.newzealandguide.domain.repository.ErrorLogger
 
 class CityRepositoryImplTest {
@@ -195,5 +199,43 @@ class CityRepositoryImplTest {
         }
 
         verify(exactly = 1) { cityDao.getCityEvent(cityId, eventId) }
+    }
+
+    @Test
+    fun `getCityWeather should fetch from network and save to dao when cache is old`() = runTest {
+        val cityId = "auckland_01"
+        val now = Instant.now()
+        val oldTime = now.minusSeconds(3600 * 5)
+        val newTime = now.minusSeconds(60)
+
+        coEvery { cityDao.getWeatherCacheInfo(cityId) } returns WeatherCacheInfo(cityId, oldTime)
+        coEvery { weatherDataSource.fetchLastUpdatedAt(cityId) } returns newTime
+
+        val weatherDtoList = listOf(CityWeatherDto(temp = 20.0, descr = "Sunny"))
+        coEvery { weatherDataSource.fetchForecast(cityId) } returns weatherDtoList
+
+        val weatherEntities = listOf(
+            CityWeatherEntity(
+                cityId,
+                "2026-03-20 12:00:00",
+                20.0,
+                "Sunny",
+                "01d"
+            )
+        )
+        coEvery { cityDao.getCityWeatherForecast(cityId) } returns weatherEntities
+
+        val result = repository.getCityWeatherByCityId(cityId)
+
+        assertThat(result).isInstanceOf(WeatherResult.Success::class.java)
+        val successResult = result as WeatherResult.Success
+        assertThat(successResult.data[0].temp).isEqualTo(20.0)
+
+
+        coVerify(exactly = 1) {
+            cityDao.replaceWeatherForecast(cityId, any(), any())
+        }
+
+        verify(exactly = 0) { logger.logException(any(), any()) }
     }
 }
