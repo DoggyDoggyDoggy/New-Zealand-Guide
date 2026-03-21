@@ -18,6 +18,7 @@ import app.cash.turbine.test
 
 import java.time.Instant
 import android.content.Context
+import com.google.firebase.firestore.FirebaseFirestoreException
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
@@ -265,6 +266,39 @@ class CityRepositoryImplTest {
         assertThat(result).isInstanceOf(WeatherResult.Success::class.java)
 
         coVerify(exactly = 0) { weatherDataSource.fetchForecast(any()) }
+
+        coVerify(exactly = 0) { cityDao.replaceWeatherForecast(any(), any(), any()) }
+    }
+
+    @Test
+    fun `getCityWeather should log error and fallback to cache when network fails`() = runTest {
+        val cityId = "rotorua_01"
+        val oldTime = Instant.now().minusSeconds(3600 * 10)
+
+        coEvery { cityDao.getWeatherCacheInfo(cityId) } returns WeatherCacheInfo(cityId, oldTime)
+        coEvery { weatherDataSource.fetchLastUpdatedAt(cityId) } returns Instant.now()
+
+        val networkError = RuntimeException("Network failed")
+        coEvery { weatherDataSource.fetchForecast(cityId) } throws networkError
+
+        val cachedWeather = listOf(
+            CityWeatherEntity(
+                cityId,
+                "2026-03-21 10:00:00",
+                18.0,
+                "Rain",
+                "10d"
+            )
+        )
+        coEvery { cityDao.getCityWeatherForecast(cityId) } returns cachedWeather
+
+        val result = repository.getCityWeatherByCityId(cityId)
+
+        assertThat(result).isInstanceOf(WeatherResult.Success::class.java)
+        val successResult = result as WeatherResult.Success
+        assertThat(successResult.data[0].description).isEqualTo("Rain")
+
+        coVerify(exactly = 1) { logger.logException(networkError, any()) }
 
         coVerify(exactly = 0) { cityDao.replaceWeatherForecast(any(), any(), any()) }
     }
