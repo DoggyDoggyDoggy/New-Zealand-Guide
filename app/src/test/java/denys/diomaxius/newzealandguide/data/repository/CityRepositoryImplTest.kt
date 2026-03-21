@@ -18,7 +18,6 @@ import app.cash.turbine.test
 
 import java.time.Instant
 import android.content.Context
-import com.google.firebase.firestore.FirebaseFirestoreException
 import denys.diomaxius.newzealandguide.data.local.room.dao.CityDao
 import denys.diomaxius.newzealandguide.data.local.room.dao.RemoteCityEventsKeysDao
 import denys.diomaxius.newzealandguide.data.local.room.database.CityDatabase
