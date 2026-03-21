@@ -155,7 +155,8 @@ class CityRepositoryImplTest {
                 "img",
                 listOf(),
                 1,
-                true)
+                true
+            )
         )
         every { cityDao.getFavoriteCityEventsFlow(cityId) } returns flowOf(entities)
 
@@ -237,5 +238,34 @@ class CityRepositoryImplTest {
         }
 
         verify(exactly = 0) { logger.logException(any(), any()) }
+    }
+
+    @Test
+    fun `getCityWeather should NOT fetch from network when cache is fresh`() = runTest {
+        val cityId = "wellington_01"
+        val now = Instant.now()
+
+        coEvery { cityDao.getWeatherCacheInfo(cityId) } returns WeatherCacheInfo(cityId, now)
+        coEvery { weatherDataSource.fetchLastUpdatedAt(cityId) } returns now
+
+        val cachedWeather =
+            listOf(
+                CityWeatherEntity(
+                    cityId,
+                    "2026-03-20 12:00:00",
+                    15.0,
+                    "Cloudy",
+                    "03d"
+                )
+            )
+        coEvery { cityDao.getCityWeatherForecast(cityId) } returns cachedWeather
+
+        val result = repository.getCityWeatherByCityId(cityId)
+
+        assertThat(result).isInstanceOf(WeatherResult.Success::class.java)
+
+        coVerify(exactly = 0) { weatherDataSource.fetchForecast(any()) }
+
+        coVerify(exactly = 0) { cityDao.replaceWeatherForecast(any(), any(), any()) }
     }
 }
