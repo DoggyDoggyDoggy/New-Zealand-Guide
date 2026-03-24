@@ -28,11 +28,11 @@ class EventDetailsScreenViewModel @Inject constructor(
     private val cityId: String = checkNotNull(savedStateHandle["cityId"])
 
     val uiState: StateFlow<UiState<CityEvent>> = getCityEventUseCase(cityId, eventId)
-        .map { event ->
+        .map<CityEvent, UiState<CityEvent>> { event ->
             UiState.Success(event)
         }
         .catch { e ->
-            UiState.Error(e)
+            emit(UiState.Error(e))
         }
         .stateIn(
             scope = viewModelScope,
