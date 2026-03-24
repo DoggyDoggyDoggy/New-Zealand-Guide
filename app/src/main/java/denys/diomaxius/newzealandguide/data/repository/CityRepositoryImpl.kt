@@ -1,7 +1,6 @@
 package denys.diomaxius.newzealandguide.data.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -57,11 +56,8 @@ class CityRepositoryImpl(
             weatherDataSource.fetchLastUpdatedAt(cityId)
         } catch (e: Exception) {
             if (e is CancellationException) throw e
-            Log.d("CityRepositoryImpl", "Network offline, can't check remote update time.")
             return false
         }
-
-        Log.d("CityRepositoryImpl", "Local: $localUpdatedAt, Remote: $remoteUpdateAt")
 
         if (remoteUpdateAt == null) return false
 
@@ -124,11 +120,6 @@ class CityRepositoryImpl(
 
                 if (e !is FirebaseFirestoreException || e.code != FirebaseFirestoreException.Code.UNAVAILABLE) {
                     logger.logException(e, mapOf("cityId" to cityId))
-                } else {
-                    Log.d(
-                        "CityRepositoryImpl",
-                        "No internet for city $cityId, falling back to cache."
-                    )
                 }
             }
 

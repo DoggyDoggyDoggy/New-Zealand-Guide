@@ -12,6 +12,10 @@ android {
     namespace = "denys.diomaxius.newzealandguide"
     compileSdk = 36
 
+    tasks.withType<Test> {
+        useJUnitPlatform() //JUnit 5
+    }
+
     defaultConfig {
         applicationId = "denys.diomaxius.newzealandguide"
         minSdk = 26
@@ -93,6 +97,29 @@ dependencies {
 
     //Review
     implementation(libs.review.ktx)
+
+    //########################################
+
+    // UNIT TESTING
+
+    // JUnit 5
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.params)
+
+    // MockK
+    testImplementation(libs.mockk)
+
+    // Coroutines
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    // Flow (Turbine)
+    testImplementation(libs.turbine)
+
+    // Truth
+    testImplementation(libs.truth)
+
+    //#######################################
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
