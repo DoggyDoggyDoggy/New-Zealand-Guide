@@ -2,7 +2,6 @@ package denys.diomaxius.newzealandguide.ui.screen.event
 
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.extension.ExtendWith
 
 import io.mockk.coEvery
@@ -15,7 +14,6 @@ import io.mockk.Runs
 import com.google.common.truth.Truth.assertThat
 
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.test.runTest
 
