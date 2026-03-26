@@ -24,7 +24,7 @@ import denys.diomaxius.newzealandguide.data.local.room.model.remotekeys.RemoteCi
         CityEventEntity::class,
         RemoteCityEventsKeysEntity::class
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class CityDatabase : RoomDatabase() {
