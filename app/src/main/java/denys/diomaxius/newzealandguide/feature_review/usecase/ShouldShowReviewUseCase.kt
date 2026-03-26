@@ -1,6 +1,5 @@
 package denys.diomaxius.newzealandguide.feature_review.usecase
 
-import android.util.Log
 import denys.diomaxius.newzealandguide.feature_review.data.ReviewPreferencesManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,8 +21,6 @@ class ShouldShowReviewUseCase @Inject constructor(
         } else {
             true
         }
-
-        Log.d("ReviewDebug", "Actions: $isEnoughActions, Launches: $isEnoughLaunches, Time: $isTimePassed")
 
         isEnoughActions && isEnoughLaunches && isTimePassed
     }
