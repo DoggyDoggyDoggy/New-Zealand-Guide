@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,12 +18,29 @@ import androidx.compose.ui.res.imageResource
 import denys.diomaxius.newzealandguide.R
 import denys.diomaxius.newzealandguide.feature_trafficone.components.PhraseMessage
 import denys.diomaxius.newzealandguide.feature_trafficone.components.TrafficConeImage
+import denys.diomaxius.newzealandguide.navigation.LocalNavController
+import denys.diomaxius.newzealandguide.ui.components.topbar.PopBackArrowButton
+import denys.diomaxius.newzealandguide.ui.components.topbar.TopBar
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrafficConeScreen() {
-    Scaffold {
-       Content(modifier = Modifier.padding(it))
+    val navHostController = LocalNavController.current
+
+    Scaffold(
+        topBar = {
+            TopBar(
+                text = "Another Traffic Cone",
+                navigationButton = {
+                    PopBackArrowButton {
+                        navHostController.navigateUp()
+                    }
+                }
+            )
+        }
+    ) {innerPadding ->
+       Content(modifier = Modifier.padding(innerPadding))
     }
 }
 

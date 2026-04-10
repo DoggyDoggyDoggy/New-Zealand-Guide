@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import denys.diomaxius.newzealandguide.data.utils.CityIdMapper
 import denys.diomaxius.newzealandguide.domain.repository.AnalyticsHelper
+import denys.diomaxius.newzealandguide.feature_trafficone.TrafficConeScreen
 import denys.diomaxius.newzealandguide.ui.screen.allcities.AllCitiesScreen
 import denys.diomaxius.newzealandguide.ui.screen.city.CityScreen
 import denys.diomaxius.newzealandguide.ui.screen.cityhistory.CityHistoryScreen
@@ -185,6 +186,14 @@ fun AppNavigation(
                 exitTransition = { fadeOut(animationSpec = tween(500)) }
             ) {
                 CityScreen()
+            }
+
+            composable(
+                route = NavScreen.TrafficCone.route,
+                enterTransition = { fadeIn(animationSpec = tween(500)) },
+                exitTransition = { fadeOut(animationSpec = tween(500)) }
+            ) {
+                TrafficConeScreen()
             }
 
             composable(
