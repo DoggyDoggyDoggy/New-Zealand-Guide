@@ -6,15 +6,20 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -48,6 +53,24 @@ fun AllCitiesScreen(
                 navigationButton = {
                     PopBackArrowButton {
                         navHostController.navigateUp()
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navHostController.navigate(
+                                NavScreen.TrafficCone.route
+                            ) {
+                                launchSingleTop = true
+                            }
+                        }
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(28.dp),
+                            painter = painterResource(R.drawable.conesvg),
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
                     }
                 }
             )
