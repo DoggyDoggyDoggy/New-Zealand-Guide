@@ -69,7 +69,7 @@ fun AllCitiesScreen(
                             modifier = Modifier.size(28.dp),
                             painter = painterResource(R.drawable.conesvg),
                             contentDescription = "Back",
-                            tint = Color.White
+                            tint = Color.White.copy(alpha = 0f)
                         )
                     }
                 }
