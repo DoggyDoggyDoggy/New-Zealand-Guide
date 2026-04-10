@@ -36,9 +36,9 @@ class FirebaseAnalyticsHelper(private val context: Context? = null) : AnalyticsH
     }
 
     override fun logScreenView(screenName: String) {
-        if (screenName.isBlank()) return
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
-            param(FirebaseAnalytics.Param.SCREEN_NAME, screenName.take(100))
-        }
+        //if (screenName.isBlank()) return
+        //firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+        //    param(FirebaseAnalytics.Param.SCREEN_NAME, screenName.take(100))
+        //}
     }
 }
