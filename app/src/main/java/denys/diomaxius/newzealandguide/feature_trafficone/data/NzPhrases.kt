@@ -10,5 +10,8 @@ val nzPhrases = listOf(
     "Beached as, bro!",
     "Chur, mate!",
     "Another detour... classic.",
-    "Wait, is that a sheep on the road?"
+    "Wait, is that a sheep on the road?",
+    "Another one-lane bridge... Choice!",
+    "Taking the piss, are ya?",
+    "Stop mucking around!",
 )
