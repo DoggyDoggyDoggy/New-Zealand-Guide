@@ -52,7 +52,6 @@ It provides users with information about cities, events, and weather, featuring 
 ---
 
 ## Note
-* New-Zealand-Guide is currently under active development. Features and UI may change as the app evolves.
 * Simply copying this repository will **not** grant access to backend data.
 
 ## License
